@@ -34,10 +34,9 @@ jobs:
 
       - name: Commit status
         run: |
-          git config user.name "echo-earning-agent"
-          # GitHub noreply address — keeps commits attributed to the account
-          # without publishing the operator's personal email in every commit.
-          git config user.email "273862755+Echolonius@users.noreply.github.com"
+          git config user.name "shxmi03-earning-agent"
+          # GitHub noreply adresa — commitovi se pripisuju accountu bez objavljivanja privatnog emaila.
+          git config user.email "248965754+shxmi03@users.noreply.github.com"
           git add -A
           git diff --staged --quiet || git commit -m "status @ $(date -u +%FT%TZ)"
           git push
