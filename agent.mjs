@@ -14,7 +14,7 @@ import { writeFileSync, appendFileSync, readFileSync, unlinkSync } from 'node:fs
 // ── Konfiguracija ────────────────────────────────────────────────────────────
 // Samo JAVNE adrese. Prazno = ta provjera se preskače.
 const SOL_WALLET = '35QuHq2nMFKZDtjndReQdA42XwR9UJ2fHEqwUDqDSv9G'
-const EVM_WALLET = '' // npr. '0x...' za Base USDC; prazno dok nema Base novčanika
+const EVM_WALLET = '0xfAf81D2ed2bE8cDC21973b28873E1C87AE6a1fA4' // JAVNA Base adresa (receive-only); privatni ključ NIKAD ovdje
 const GITHUB_LOGIN = 'shxmi03'
 const SUPERTEAM_USERNAME = 'shxmi-apricot-62'
 const BASE_USDC = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
