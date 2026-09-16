@@ -161,6 +161,7 @@ try { seen = JSON.parse(readFileSync(new URL('./seen-listings.json', import.meta
 const openSlugs = (superteam.open || []).map((o) => o.slug)
 const fresh = openSlugs.filter((s) => !seen.includes(s))
 const freshDetail = (superteam.open || []).filter((o) => fresh.includes(o.slug))
+const freshAgentOnly = freshDetail.filter((o) => o.access === 'AGENT_ONLY')
 writeFileSync(new URL('./seen-listings.json', import.meta.url), JSON.stringify([...new Set([...seen, ...openSlugs])], null, 0))
 
 const snapshot = { ts: now, baseUsdc: usdc, solUsdc: solUsdcBal, solNative: solNativeBal, delta, solDelta, solNativeDelta, openTask, github, superteam, newListings: fresh }
@@ -204,10 +205,12 @@ writeFileSync(new URL('./status.md', import.meta.url), md)
 // Prisutan SAMO na tranzicijskom runu. Zadnji korak workflowa ruši run kad postoji (→ GitHub
 // maila vlasniku repoa), pa se obriše na sljedećem runu: jedan događaj = jedna obavijest.
 const NOTIFY = new URL('./NOTIFY.txt', import.meta.url)
-const notify = delta > 0 || solDelta > 0 || solNativeDelta > 0 || newMerge
+const notify = delta > 0 || solDelta > 0 || solNativeDelta > 0 || newMerge || freshAgentOnly.length > 0
 if (notify) {
   const msg = (delta > 0 || solDelta > 0 || solNativeDelta > 0)
     ? `💰 UPLATA PRIMLJENA (${now}) — ${delta > 0 ? `+${delta.toFixed(6)} USDC na Base (ukupno ${usdc})` : ''}${solDelta > 0 ? `+${solDelta.toFixed(6)} USDC na Solani (ukupno ${solUsdcBal})` : ''}${solNativeDelta > 0 ? ` +${solNativeDelta.toFixed(9)} nativnog SOL-a (ukupno ${solNativeBal})` : ''}`
+    : freshAgentOnly.length > 0
+    ? `🔒 NOVI AGENT_ONLY OGLAS (${now}) — ${freshAgentOnly.map((o) => `${o.slug} (${o.reward} ${o.token}, rok ${o.deadline})`).join(' | ')} — najmanja konkurencija, provjeri odmah: superteam.fun/earn`
     : `💵 PR SPOJEN (${now}) — pošalji invoice da bi bio plaćen`
   writeFileSync(NOTIFY, msg + '\n')
 } else {
