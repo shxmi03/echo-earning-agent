@@ -1,0 +1,48 @@
+feature,area,priority,original,clone,notes
+Onboarding questions (instrument type experience goal),onboarding,must,yes,no,S02 S03
+Microphone permission and sound check,onboarding,must,yes,no,S04
+Email sign-in with a one-time code (no password),account,must,yes,no,4-digit code per help center
+Free starter course without a subscription,monetisation,must,yes,no,Piano Basics is free in the original
+Subscription paywall with a free trial,monetisation,must,yes,no,original: trial only on yearly; fix candidate
+Restore purchases on a new device,monetisation,must,yes,no,
+Course map with progress per course,courses,must,yes,no,S07
+Lesson path with lessons songs and gates in order,courses,must,yes,no,S09
+Concept lesson intro (explain a new note or chord),courses,must,yes,no,S10 own text and visuals
+Static exercise: read a note and play it,player,must,yes,no,S11
+Moving stage: play in time with a scrolling staff and cursor,player,must,yes,no,S12
+Live note recognition from the microphone (single notes),player,must,yes,no,hardest part
+Instant right/wrong feedback with a key hint,player,must,yes,no,grey heard / yellow target in original; pick your own colours
+Pause menu: resume restart listen exit,player,must,yes,no,S13
+Result screen with 0-3 stars,player,must,yes,no,S14
+Save progress to the account and sync across devices,account,must,yes,no,
+Account deletion in the app,account,must,yes,no,Apple requirement
+MIDI keyboard input (USB and Bluetooth),player,should,yes,no,S24
+Chord recognition from the microphone,player,should,yes,no,original is weak here
+Song library browse by level and genre,songs,should,yes,no,S15 own catalogue
+Song sections (intro verse chorus whole song),songs,should,yes,no,S16
+Slow down / speed up tempo,songs,should,yes,no,
+Practise left hand right hand or both,songs,should,yes,no,
+Practice (wait) mode: song waits for the right note,songs,should,yes,no,
+Metronome instead of backing track,songs,should,yes,no,
+Finger numbers on or off,songs,should,yes,no,
+Scrub back and forth in a song,songs,should,yes,no,
+Backing tracks under moving stages,player,should,yes,no,needs own recordings
+Star-level gates (earn N stars to continue),courses,should,yes,no,S09 gate fraction
+Two learning paths (melody and chords),courses,should,yes,no,S08
+Weekly streak with freezes,engagement,should,yes,no,S19
+Practice reminders (push),engagement,should,yes,no,
+On-screen touch keyboard course for users without a piano,player,could,yes,no,S25
+Interactive sheet music library with auto scroll,songs,could,yes,no,S17 PLAY
+Favourites (My Library),songs,could,yes,no,
+5-minute daily practice session,engagement,could,yes,no,S18 being replaced in the original
+Multiple profiles on one account (family),account,could,yes,no,S22 up to 5
+Kids profile with XP levels and rewards,kids,could,yes,no,S21 under-13 privacy rules apply
+Timed song challenges with badges,engagement,could,yes,no,S20
+Printable sheet music,songs,could,yes,no,review 2020; may be gone
+In-app support chat,support,could,yes,no,use an existing helpdesk SDK
+Licensed pop song catalogue,songs,skip,yes,skip,licensed content; build your own or license separately
+Their curriculum texts videos and arrangements,courses,skip,yes,skip,owned content; write your own
+Bundle with guitar / sing / draw apps,monetisation,skip,yes,skip,their other products
+Trinity College certificates,partners,skip,yes,skip,partner deal
+Reseller and gift codes (Sweetwater),partners,skip,yes,skip,partner deal; plain gift codes could come later
+XR / Vision Pro version,platform,skip,yes,skip,out of scope for the MVP
