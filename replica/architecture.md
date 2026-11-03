@@ -6,7 +6,7 @@ Reads: `replica/recon.md`, `replica/features.csv`. Confirmed scope: iOS (iPhone 
 
 | layer | choice | why |
 | --- | --- | --- |
-| app | **SwiftUI, iOS 17+, Swift 6** | iOS only, and the product is low-latency audio. AVAudioEngine and CoreMIDI are first-class in Swift; in Expo they would need a custom native module anyway. |
+| app | **SwiftUI, iOS 26+, Swift 6** | iOS only, and the product is low-latency audio. AVAudioEngine and CoreMIDI are first-class in Swift; in Expo they would need a custom native module anyway. iOS 26 is the minimum because the design uses Liquid Glass (`.glassEffect`, `GlassEffectContainer`) with no fallback (see `replica/design/`). |
 | audio in | **AVAudioEngine input tap + on-device pitch detection** (YIN or MPM, written in Swift with Accelerate/vDSP) | No audio leaves the device: lower latency, works offline, simpler privacy story than the original (which lists "Audio Data" as collected). |
 | MIDI in | **CoreMIDI** (USB and Bluetooth LE MIDI via `CABTMIDICentralViewController`) | Exact notes, no recognition errors. The honest answer to "the mic gets octaves wrong". |
 | notation | **own JSON note format + SwiftUI `Canvas` staff renderer**; MusicXML only as an authoring import | A full notation engine is a project of its own. The lessons need one or two staves, a cursor and colours. |
