@@ -1,0 +1,460 @@
+{
+ "_about": "Themes for the piano-learning app recon. Generic themes from the replica pack, tuned (performance no longer matches 'slow', which here means lesson pace), plus piano-specific ones at the top. Patterns are case-insensitive Python regexes.",
+ "request_patterns": [
+  "\\bi wish\\b",
+  "\\bplease add\\b",
+  "\\bwould be (nice|great|good|helpful)\\b",
+  "\\bwould love\\b",
+  "\\bneeds? (a|an|the|to|more)\\b",
+  "\\bno way to\\b",
+  "\\bthere'?s no (way|option)\\b",
+  "\\b(can'?t|cannot|unable to) (even )?(add|change|edit|set|choose|export|import|customi[sz]e|connect|undo|delete|turn off)\\b",
+  "\\b(missing|lacks|lacking)\\b",
+  "\\bdoesn'?t (have|support|let|allow)\\b",
+  "\\bif only\\b",
+  "\\bfeature request\\b",
+  "\\bwhy (can'?t|isn'?t|doesn'?t)\\b"
+ ],
+ "themes": [
+  {
+   "id": "recognition",
+   "label": "Note recognition misses or rejects correct notes",
+   "kind": "complaint",
+   "patterns": [
+    "\\bdoesn'?t hear\\b",
+    "\\bcan'?t hear\\b",
+    "\\bhearing\\b",
+    "\\bdeaf\\b",
+    "\\brecogni[sz]",
+    "\\bdetect",
+    "\\bnote pickup\\b",
+    "\\bpick(s|ing)? up\\b",
+    "\\bmiss(es|ed)? (most of )?(the |my )?notes\\b",
+    "\\bmissing my notes\\b",
+    "\\bpressing the right\\b",
+    "\\bsays? (i'?m|it'?s|that i'?m) (not|wrong)",
+    "\\bnot playing the keys\\b",
+    "\\bwon'?t read\\b",
+    "\\bdoesn'?t (read|register|work)\\b.*\\b(key|note)",
+    "\\bmicrophone\\b",
+    "\\bwrong octave\\b",
+    "\\bmax volume\\b",
+    "\\bwhen i do the keys\\b"
+   ]
+  },
+  {
+   "id": "early-paywall",
+   "label": "Paywall hits after a few notes or lessons",
+   "kind": "complaint",
+   "patterns": [
+    "\\bhave to pay\\b",
+    "\\bneed to pay\\b",
+    "\\bmakes? (you|me|u|us) pay\\b",
+    "\\bmade (you|me) pay\\b",
+    "\\bnot free\\b",
+    "\\bisn'?t free\\b",
+    "\\bcosts? money\\b",
+    "\\bmake it free\\b",
+    "\\bjust wants? (my )?money\\b",
+    "\\bafter (a few|a couple|the first|three|two|2|3) (notes|lessons|songs)",
+    "\\bfree lessons?\\b",
+    "\\bwithout (me )?(having to )?pay",
+    "\\bpremium (access)?\\b",
+    "\\bblocked me out\\b",
+    "\\bcan'?t (even )?(play|continue|learn)\\b"
+   ]
+  },
+  {
+   "id": "harsh-restart",
+   "label": "Too strict: restarts and slows down after a few mistakes",
+   "kind": "complaint",
+   "patterns": [
+    "\\bstarts? (me |you )?(all )?over\\b",
+    "\\bstarted over\\b",
+    "\\bmakes? (me|you) (restart|start)",
+    "\\brestarts?\\b",
+    "\\bfrom the top\\b",
+    "\\b(3|three|5|five|few|couple of) (missed notes|mistakes)\\b",
+    "\\btoo strict\\b",
+    "\\bto strict\\b",
+    "\\bpractice mode\\b",
+    "\\bslows? down the tempo\\b",
+    "\\bcondescending\\b",
+    "\\bpushing you\\b",
+    "\\bzero stars\\b",
+    "\\bmade me cry\\b",
+    "\\bplay perfectly\\b"
+   ]
+  },
+  {
+   "id": "pace-and-level",
+   "label": "Pace and level: too basic, too slow, can't skip ahead",
+   "kind": "complaint",
+   "patterns": [
+    "\\btoo slow\\b",
+    "\\bto slow\\b",
+    "\\bmoves too slow\\b",
+    "\\brepetitive\\b",
+    "\\balready know\\b",
+    "\\bfrom the very beginning\\b",
+    "\\bskip\\b",
+    "\\bfast forward\\b",
+    "\\bchild'?s play\\b",
+    "\\bsimple songs\\b",
+    "\\blinear\\b",
+    "\\btaking forever to get to\\b",
+    "\\bi'?m not a baby\\b",
+    "\\bonly teaches you the very basics\\b",
+    "\\bmore advanced\\b"
+   ]
+  },
+  {
+   "id": "too-hard-fast",
+   "label": "Too hard or too fast for beginners",
+   "kind": "complaint",
+   "patterns": [
+    "\\btoo (hard|fast)\\b",
+    "\\bto (hard|fast)\\b",
+    "\\bso hard\\b",
+    "\\bsooo+ hard",
+    "\\bgoes (way )?to+ fast\\b",
+    "\\bmake it easi?y?er\\b",
+    "\\bhardest songs\\b",
+    "\\ba little too hard\\b"
+   ]
+  },
+  {
+   "id": "teaching-depth",
+   "label": "Doesn't really teach: theory, rhythm, technique, independence",
+   "kind": "complaint",
+   "patterns": [
+    "\\btheory\\b",
+    "\\bposture\\b",
+    "\\btechnique\\b",
+    "\\brhythm\\b",
+    "\\btiming\\b",
+    "\\bfingering\\b",
+    "\\bdynamics\\b",
+    "\\bstopped explaining\\b",
+    "\\bdoesn'?t (really )?teach\\b",
+    "\\bnot (really )?teach",
+    "\\bsight.?read",
+    "\\bplay (the piano )?independently\\b",
+    "\\bby heart\\b",
+    "\\bnot a teacher\\b",
+    "\\bvideo games?\\b",
+    "\\bguitar hero\\b",
+    "\\bgame interface\\b"
+   ]
+  },
+  {
+   "id": "section-practice",
+   "label": "Can't drill the hard part of a song",
+   "kind": "request",
+   "patterns": [
+    "\\bparts? of a song\\b",
+    "\\bharder\\b.*\\bparts?\\b",
+    "\\bdifficult passage\\b",
+    "\\btricky\\b",
+    "\\bspend more time on\\b",
+    "\\bloop\\b",
+    "\\bstarting from the beginning each time\\b",
+    "\\bnot all the parts\\b",
+    "\\bdo not have all the parts\\b"
+   ]
+  },
+  {
+   "id": "hardware",
+   "label": "MIDI, lit keys and keyboard connection",
+   "kind": "request",
+   "patterns": [
+    "\\bmidi\\b",
+    "\\billuminated keys\\b",
+    "\\blight.?up keys\\b",
+    "\\bbluetooth\\b",
+    "\\busb\\b",
+    "\\bno connection with the keyboard\\b",
+    "\\bcamera connection kit\\b"
+   ]
+  },
+  {
+   "id": "no-piano",
+   "label": "No piano at home: on-screen keyboard",
+   "kind": "request",
+   "patterns": [
+    "\\bwithout a piano\\b",
+    "\\bno piano\\b",
+    "\\bdon'?t have a piano\\b",
+    "\\btouch ?screen\\b",
+    "\\bon.?screen (keyboard|piano)\\b"
+   ]
+  },
+  {
+   "id": "songs",
+   "label": "Song choice and the song library",
+   "kind": "request",
+   "patterns": [
+    "\\bnot enough (practice )?songs\\b",
+    "\\bmore songs\\b",
+    "\\bsongs aren'?t\\b",
+    "\\bsong (library|choice)\\b",
+    "\\bhow do they not have\\b",
+    "\\bsongs you don'?t wanna play\\b",
+    "\\bcustom lesson plan\\b",
+    "\\bmidi files\\b"
+   ]
+  },
+  {
+   "id": "accessibility",
+   "label": "Left-handed, visual and other access needs",
+   "kind": "request",
+   "patterns": [
+    "\\bleft.?handed\\b",
+    "\\bcan'?t see the chords\\b",
+    "\\bautis",
+    "\\bcolou?r ?blind\\b",
+    "\\bdyslex"
+   ]
+  },
+  {
+   "id": "pricing",
+   "label": "Price and paywalls",
+   "kind": "complaint",
+   "patterns": [
+    "\\bexpensive\\b",
+    "\\boverpriced\\b",
+    "\\bpric(e|es|ey|ing)\\b",
+    "\\bpaywall",
+    "\\bsubscription\\b",
+    "\\bper (month|seat|user)\\b",
+    "\\bfree (plan|tier|version)\\b",
+    "\\bupgrade to\\b",
+    "\\bpremium\\b",
+    "\\bnot worth\\b",
+    "\\bcost(s|ly)?\\b",
+    "\\$\\s?\\d+",
+    "£\\s?\\d+",
+    "€\\s?\\d+",
+    "\\b\\d+ ?(bucks|dollars)\\b",
+    "\\ba (month|year)\\b",
+    "\\bper year\\b",
+    "\\bprice went\\b"
+   ]
+  },
+  {
+   "id": "billing",
+   "label": "Billing, cancelling and refunds",
+   "kind": "complaint",
+   "patterns": [
+    "\\bcharged\\b",
+    "\\brefund",
+    "\\bcancel(l?ing|l?ed|lation)?\\b",
+    "\\bauto.?renew",
+    "\\bhidden (fee|charge)",
+    "\\bbilling\\b",
+    "\\bscam\\b",
+    "\\bcredit card\\b",
+    "\\btrial\\b",
+    "\\bunsubscribe\\b",
+    "\\btaking money\\b",
+    "\\bmoney (was )?taken\\b",
+    "\\byearly membership\\b"
+   ]
+  },
+  {
+   "id": "bugs",
+   "label": "Bugs and crashes",
+   "kind": "complaint",
+   "patterns": [
+    "\\bcrash(es|ed|ing)?\\b",
+    "\\bbugs?\\b",
+    "\\bbuggy\\b",
+    "\\bglitch",
+    "\\bfreez(e|es|ing)\\b",
+    "\\bbroken\\b",
+    "\\b(doesn'?t|does not|stopped) work",
+    "\\bnot working\\b",
+    "\\berror\\b"
+   ]
+  },
+  {
+   "id": "performance",
+   "label": "Slow, laggy, heavy",
+   "kind": "complaint",
+   "patterns": [
+    "\\blag(gy|s)?\\b",
+    "\\bloading\\b",
+    "\\btakes forever\\b",
+    "\\bbattery\\b",
+    "\\bsluggish\\b",
+    "\\bheavy\\b"
+   ]
+  },
+  {
+   "id": "data",
+   "label": "Sync and lost data",
+   "kind": "complaint",
+   "patterns": [
+    "\\bsync(ing|s|ed)?\\b",
+    "\\blost (my|all)\\b",
+    "\\bdisappear",
+    "\\bdata loss\\b",
+    "\\bwiped\\b",
+    "\\bbackup\\b",
+    "\\bduplicat"
+   ]
+  },
+  {
+   "id": "ux",
+   "label": "Confusing or clunky to use",
+   "kind": "complaint",
+   "patterns": [
+    "\\bconfus",
+    "\\bhard to (use|find|navigate|understand)\\b",
+    "\\bcomplicated\\b",
+    "\\bcluttered\\b",
+    "\\bunintuitive\\b",
+    "\\bnot intuitive\\b",
+    "\\bclunky\\b",
+    "\\btoo many (steps|clicks|taps)\\b",
+    "\\blearning curve\\b",
+    "\\bcan'?t find\\b"
+   ]
+  },
+  {
+   "id": "support",
+   "label": "Support that does not answer",
+   "kind": "complaint",
+   "patterns": [
+    "\\bcustomer (service|support)\\b",
+    "\\bsupport (team|is|was)\\b",
+    "\\bno (response|reply)\\b",
+    "\\bnever (replied|responded|heard back)\\b",
+    "\\bticket\\b",
+    "\\bchat ?bot\\b"
+   ]
+  },
+  {
+   "id": "account",
+   "label": "Login and account problems",
+   "kind": "complaint",
+   "patterns": [
+    "\\blog ?in\\b",
+    "\\bsign ?in\\b",
+    "\\bpassword\\b",
+    "\\blocked out\\b",
+    "\\bverification\\b",
+    "\\b2fa\\b",
+    "\\bdelete (my )?account\\b"
+   ]
+  },
+  {
+   "id": "notifications",
+   "label": "Notifications and spam",
+   "kind": "complaint",
+   "patterns": [
+    "\\bnotification",
+    "\\bspam",
+    "\\btoo many emails\\b",
+    "\\bpush\\b",
+    "\\breminders?\\b"
+   ]
+  },
+  {
+   "id": "ads",
+   "label": "Ads",
+   "kind": "complaint",
+   "patterns": [
+    "\\bads\\b",
+    "\\badvert",
+    "\\bad.?supported\\b",
+    "\\bpop.?ups?\\b"
+   ]
+  },
+  {
+   "id": "updates",
+   "label": "A redesign or update made it worse",
+   "kind": "complaint",
+   "patterns": [
+    "\\b(new|latest|recent) (update|version|design)\\b",
+    "\\bredesign",
+    "\\bused to be\\b",
+    "\\bbring back\\b",
+    "\\bsince the update\\b"
+   ]
+  },
+  {
+   "id": "privacy",
+   "label": "Privacy and permissions",
+   "kind": "complaint",
+   "patterns": [
+    "\\bprivacy\\b",
+    "\\btracking\\b",
+    "\\bsell(s|ing)? (my )?data\\b",
+    "\\bpermissions?\\b",
+    "\\bcreepy\\b"
+   ]
+  },
+  {
+   "id": "integrations",
+   "label": "Integrations, import and export",
+   "kind": "request",
+   "patterns": [
+    "\\bintegrat",
+    "\\bzapier\\b",
+    "\\bgoogle (calendar|sheets|drive)\\b",
+    "\\boutlook\\b",
+    "\\bslack\\b",
+    "\\bapi\\b",
+    "\\bexport\\b",
+    "\\bimport\\b",
+    "\\bcsv\\b",
+    "\\bwebhook"
+   ]
+  },
+  {
+   "id": "platforms",
+   "label": "Platforms, offline and mobile",
+   "kind": "request",
+   "patterns": [
+    "\\boffline\\b",
+    "\\bandroid\\b",
+    "\\bipad\\b",
+    "\\btablet\\b",
+    "\\bdesktop app\\b",
+    "\\bmac app\\b",
+    "\\bwindows\\b",
+    "\\bmobile (app|version)\\b",
+    "\\bweb version\\b"
+   ]
+  },
+  {
+   "id": "customisation",
+   "label": "Customisation and control",
+   "kind": "request",
+   "patterns": [
+    "\\bcustomi[sz]",
+    "\\bdark mode\\b",
+    "\\btheme\\b",
+    "\\bbranding\\b",
+    "\\bwhite.?label\\b",
+    "\\btemplates?\\b",
+    "\\bsettings?\\b",
+    "\\boption to\\b"
+   ]
+  },
+  {
+   "id": "collaboration",
+   "label": "Teams and sharing",
+   "kind": "request",
+   "patterns": [
+    "\\bteam(s|mates?)?\\b",
+    "\\bshar(e|ing)\\b",
+    "\\bcollaborat",
+    "\\bmultiple (users|accounts|people)\\b",
+    "\\broles?\\b",
+    "\\bpermissions for\\b"
+   ]
+  }
+ ]
+}
