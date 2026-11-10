@@ -1,0 +1,32 @@
+{
+  "_about": "Brand file for the piano app. sweep.py, listing.py and replica-deploy read avoid, domains and colors: these belong to the original and must never ship. The name is a working name until the trademark checks in brand.md are run.",
+  "name": "Handspan",
+  "name_status": "working name: screening checks only, trademark searches still to run",
+  "tagline": "Learn piano for real.",
+  "avoid": [
+    "Simply Piano",
+    "Simply Ltd",
+    "Simply Guitar",
+    "Simply Sing",
+    "Simply Draw",
+    "Simply Tune",
+    "JoyTunes",
+    "hellosimply",
+    "Piano Maestro",
+    "Piano Dust Buster",
+    "Byrdsimply"
+  ],
+  "avoid_in_copy": ["simply"],
+  "_avoid_in_copy": "Checked by hand or grep in app strings and the store listing. Not in avoid, because the bare word also appears in unrelated docs in this repo and would fail every sweep.",
+  "domains": ["hellosimply.com", "joytunes.com", "simplypiano.com"],
+  "colors": ["#8217FF", "#F3F0DF", "#200854", "#6c5ce7", "#330D81", "#4f21b3"],
+  "_colors": "The original's public brand colours, read from its website on 2026-11-10: violet primary, cream, dark violet text, theme colour, and two violets from its home page artwork.",
+  "palette": {
+    "tide": {"light": "#0b62a4", "dark": "#6cc0f2", "role": "tint, note-target"},
+    "ink": {"light": "#0e0f12", "dark": "#f2f5f8", "role": "accent (primary button)"},
+    "sky": {"light": "#557f97", "dark": "#10314d", "role": "sky-top (light), sky-mid (dark)"},
+    "brass": {"light": "#9a5700", "dark": "#f0b04a", "role": "warning, stars"},
+    "fern": {"light": "#1b7443", "dark": "#4cc38a", "role": "success, note-correct"},
+    "clay": {"light": "#c2352a", "dark": "#ff7a6e", "role": "danger, note-wrong"}
+  }
+}
