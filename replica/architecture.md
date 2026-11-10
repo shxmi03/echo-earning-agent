@@ -1,4 +1,4 @@
-# Architecture: piano-learning app (working name until `/replica-brand`), a rebuild of Simply Piano's core features
+# Architecture: Handspan (working name, see `brand.md`), a rebuild of Simply Piano's core features
 
 Reads: `replica/recon.md`, `replica/features.csv`. Confirmed scope: iOS (iPhone + iPad), a product to sell, an MVP with one free course and single-note recognition.
 

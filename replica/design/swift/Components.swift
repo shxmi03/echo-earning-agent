@@ -1,5 +1,5 @@
 // Components.swift
-// Primitives for the piano app. iOS 26+. Uses only tokens from Tokens.swift.
+// Primitives for Handspan (working name). iOS 26+. Uses only tokens from Tokens.swift.
 // Liquid Glass on the control layer (buttons, HUD, tab bar); frosted, non-glass
 // surfaces for content (cards, the staff). See components.md for the full specs.
 

@@ -13,8 +13,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 FILLS = {
     "light": {"card": "rgba(255,255,255,.85)", "sunken": "rgba(255,255,255,.55)",
               "glass": "rgba(255,255,255,.28)", "edge": "rgba(255,255,255,.65)"},
-    "dark": {"card": "rgba(34,38,58,.80)", "sunken": "rgba(18,21,30,.70)",
-             "glass": "rgba(40,46,70,.35)", "edge": "rgba(255,255,255,.18)"},
+    "dark": {"card": "rgba(30,38,48,.80)", "sunken": "rgba(16,21,27,.70)",
+             "glass": "rgba(38,50,64,.35)", "edge": "rgba(255,255,255,.18)"},
 }
 
 
