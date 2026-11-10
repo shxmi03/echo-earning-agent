@@ -1,0 +1,169 @@
+/* Generated from tokens.json by gen_tokens_css.py. Do not edit by hand.
+   Used by the design preview now and by the landing page in /replica-launch.
+   Themes: follows the system; data-theme="light" or "dark" on any element forces one. */
+:root {
+  --color-sky-top: #557f97;
+  --color-sky-mid: #c7d8e6;
+  --color-bg: #f2f3f6;
+  --color-surface: #f4f6f8;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #e2e7ee;
+  --color-border: #d9dee5;
+  --color-border-input: #7a828d;
+  --color-text: #111318;
+  --color-text-muted: #59606b;
+  --color-on-sky: #ffffff;
+  --color-on-sky-muted: #e4edf2;
+  --color-accent: #0e0f12;
+  --color-on-accent: #ffffff;
+  --color-tint: #2f56d6;
+  --color-on-tint: #ffffff;
+  --color-success: #1b7443;
+  --color-danger: #c2352a;
+  --color-warning: #9a5700;
+  --color-note-target: #2f56d6;
+  --color-note-correct: #1b7443;
+  --color-note-wrong: #c2352a;
+  --color-note-heard: #59606b;
+  --color-paper: #fbfbfc;
+  --color-ink: #111318;
+  --shadow-card: 0 12px 32px rgba(20, 32, 64, 0.12);
+  --card-fill: rgba(255,255,255,.85);
+  --sunken-fill: rgba(255,255,255,.55);
+  --glass-fill: rgba(255,255,255,.28);
+  --glass-edge: rgba(255,255,255,.65);
+  --sky: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-mid) 45%, var(--color-bg) 78%);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif;
+  --font-rounded: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --radius-card: 32px;
+  --radius-inner: 20px;
+  --radius-chip: 16px;
+  --radius-control: 14px;
+  --radius-pill: 999px;
+  --ease-smooth: cubic-bezier(.32,.72,0,1);
+  --dur-tap: 250ms;
+  --dur-default: 350ms;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-sky-top: #05070b;
+    --color-sky-mid: #1b2552;
+    --color-bg: #0b0d14;
+    --color-surface: #1a1d27;
+    --color-surface-raised: #262b3a;
+    --color-surface-sunken: #12151e;
+    --color-border: #2c3242;
+    --color-border-input: #717a8c;
+    --color-text: #f3f5f9;
+    --color-text-muted: #a4abb9;
+    --color-on-sky: #ffffff;
+    --color-on-sky-muted: #b9c4f2;
+    --color-accent: #f3f5f9;
+    --color-on-accent: #0e0f12;
+    --color-tint: #93a7ff;
+    --color-on-tint: #0b0d14;
+    --color-success: #4cc38a;
+    --color-danger: #ff7a6e;
+    --color-warning: #f0b04a;
+    --color-note-target: #93a7ff;
+    --color-note-correct: #4cc38a;
+    --color-note-wrong: #ff7a6e;
+    --color-note-heard: #a4abb9;
+    --color-paper: #161924;
+    --color-ink: #eef1f7;
+    --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.45);
+    --card-fill: rgba(34,38,58,.80);
+    --sunken-fill: rgba(18,21,30,.70);
+    --glass-fill: rgba(40,46,70,.35);
+    --glass-edge: rgba(255,255,255,.18);
+    --sky: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-mid) 45%, var(--color-bg) 78%);
+  }
+}
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  --color-sky-top: #05070b;
+  --color-sky-mid: #1b2552;
+  --color-bg: #0b0d14;
+  --color-surface: #1a1d27;
+  --color-surface-raised: #262b3a;
+  --color-surface-sunken: #12151e;
+  --color-border: #2c3242;
+  --color-border-input: #717a8c;
+  --color-text: #f3f5f9;
+  --color-text-muted: #a4abb9;
+  --color-on-sky: #ffffff;
+  --color-on-sky-muted: #b9c4f2;
+  --color-accent: #f3f5f9;
+  --color-on-accent: #0e0f12;
+  --color-tint: #93a7ff;
+  --color-on-tint: #0b0d14;
+  --color-success: #4cc38a;
+  --color-danger: #ff7a6e;
+  --color-warning: #f0b04a;
+  --color-note-target: #93a7ff;
+  --color-note-correct: #4cc38a;
+  --color-note-wrong: #ff7a6e;
+  --color-note-heard: #a4abb9;
+  --color-paper: #161924;
+  --color-ink: #eef1f7;
+  --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --card-fill: rgba(34,38,58,.80);
+  --sunken-fill: rgba(18,21,30,.70);
+  --glass-fill: rgba(40,46,70,.35);
+  --glass-edge: rgba(255,255,255,.18);
+  --sky: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-mid) 45%, var(--color-bg) 78%);
+}
+[data-theme="light"] {
+  --color-sky-top: #557f97;
+  --color-sky-mid: #c7d8e6;
+  --color-bg: #f2f3f6;
+  --color-surface: #f4f6f8;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #e2e7ee;
+  --color-border: #d9dee5;
+  --color-border-input: #7a828d;
+  --color-text: #111318;
+  --color-text-muted: #59606b;
+  --color-on-sky: #ffffff;
+  --color-on-sky-muted: #e4edf2;
+  --color-accent: #0e0f12;
+  --color-on-accent: #ffffff;
+  --color-tint: #2f56d6;
+  --color-on-tint: #ffffff;
+  --color-success: #1b7443;
+  --color-danger: #c2352a;
+  --color-warning: #9a5700;
+  --color-note-target: #2f56d6;
+  --color-note-correct: #1b7443;
+  --color-note-wrong: #c2352a;
+  --color-note-heard: #59606b;
+  --color-paper: #fbfbfc;
+  --color-ink: #111318;
+  --shadow-card: 0 12px 32px rgba(20, 32, 64, 0.12);
+  --card-fill: rgba(255,255,255,.85);
+  --sunken-fill: rgba(255,255,255,.55);
+  --glass-fill: rgba(255,255,255,.28);
+  --glass-edge: rgba(255,255,255,.65);
+  --sky: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-mid) 45%, var(--color-bg) 78%);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-tap: 0ms; --dur-default: 200ms; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --card-fill: var(--color-surface);
+    --sunken-fill: var(--color-surface-sunken);
+    --glass-fill: var(--color-surface-raised);
+  }
+}
