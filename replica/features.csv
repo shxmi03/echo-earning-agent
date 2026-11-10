@@ -46,3 +46,16 @@ Bundle with guitar / sing / draw apps,monetisation,skip,yes,skip,their other pro
 Trinity College certificates,partners,skip,yes,skip,partner deal
 Reseller and gift codes (Sweetwater),partners,skip,yes,skip,partner deal; plain gift codes could come later
 XR / Vision Pro version,platform,skip,yes,skip,out of scope for the MVP
+Whole first course free to a finished song; paywall never interrupts a lesson,monetisation,must,no,no,fix 1: early paywall 44 reviews
+Price and trial terms shown before onboarding questions,monetisation,must,no,no,fix 1: 'set up everything before asking you to pay'
+Monthly plan with the same free trial as yearly,monetisation,should,no,no,fix 2: billing 31 reviews / 3 sources
+Push reminder 2 days before a trial converts,monetisation,must,no,no,fix 2
+No ads or cross-promotion for anyone,monetisation,must,no,no,fix 2
+Per-piano mic calibration and octave-correct detection tested on real pianos,player,must,no,no,fix 3: recognition 21 reviews / 3 sources
+A wrong note never counts even if the right one is also played,player,must,no,no,fix 3: random-notes false pass
+One-tap 'I played that right' report,player,could,no,no,fix 3: logged for tuning the detector
+Loop only the bar that went wrong instead of restarting the section,player,must,no,no,fix 4: harsh restarts 12 (thin) + drill-the-hard-part 3
+No zero-star or shaming result screens; restart always visible,player,must,no,no,fix 4
+Placement test and test-out of any course,courses,should,no,no,fix 5: pace and level 10 reviews / 3 sources
+Timing score (early/late per note) shown apart from accuracy,player,should,no,no,fix 6: teaching depth 11 reviews / 2 sources
+30-second theory card before each new concept,courses,should,no,no,fix 6
