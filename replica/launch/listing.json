@@ -1,0 +1,29 @@
+{
+  "_about": "App Store listing for Handspan (working name). iOS only at launch, so no google_play block. Prices must match pricing.md and App Store Connect. URLs are placeholders until the domain is chosen.",
+  "avoid": [
+    "Simply Piano",
+    "Simply Ltd",
+    "Simply Guitar",
+    "Simply Sing",
+    "Simply Draw",
+    "Simply Tune",
+    "JoyTunes",
+    "hellosimply",
+    "Piano Maestro",
+    "Piano Dust Buster",
+    "Byrdsimply",
+    "Flowkey",
+    "Skoove",
+    "Yousician",
+    "Pianote",
+    "Playground Sessions"
+  ],
+  "app_store": {
+    "name": "Handspan: Piano Lessons",
+    "subtitle": "Read, count and play for real",
+    "promotional_text": "The whole first course is free, start to finish. Then one clear price, a reminder 2 days before any charge, and cancel in one tap.",
+    "description": "Handspan teaches you to play piano for real: to read the notes, keep time and play on your own. Put your iPhone or iPad on the music stand of any acoustic or digital piano and start.\n\nRECOGNITION YOU CAN TRUST\nHandspan tunes itself to your piano, hears the right octave, and never counts a wrong note, even inside a chord. With a USB or Bluetooth MIDI keyboard it reads the keys directly. If it ever marks a right note wrong, tap \"I played that right\".\n\nFIX THE BAR, NOT THE SONG\nA few mistakes never send you back to the top. Handspan loops just the bar that went wrong, at the tempo you choose, then puts it back into the piece.\n\nTIMING, NOT ONLY NOTES\nEvery note gets a timing mark: early, on time or late. You see your rhythm, not just your accuracy.\n\nTHE WHY, IN 30 SECONDS\nA short card before each new idea: rests, time signatures, key signatures. Real musical terms, explained once.\n\nSTART WHERE YOU ARE\nTake a 2-minute placement when you begin, or test out of any course by playing its final piece.\n\nYOUR SOUND STAYS ON YOUR DEVICE\nNote detection runs on your iPhone or iPad. No recording of your playing is uploaded.\n\nALSO\n- Songs in three levels, at any tempo, one hand at a time\n- A metronome and finger numbers\n- A weekly streak with freezes\n- Up to 5 learners on one Household plan\n\nPRICES, UP FRONT\nThe whole first course is free, start to finish, with no time limit.\nSolo: $9.99 a month or $99.99 a year.\nHousehold (up to 5 learners): $14.99 a month or $149.99 a year.\nMonthly and yearly both come with a 7-day free trial. We send a reminder 2 days before any charge. Cancel any time in Settings › Subscription, or in your Apple account settings. Payment is charged to your Apple account at confirmation of purchase. Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current period.\n\nNo ads, for anyone.\n\nPrivacy policy: https://handspan.example/privacy\nTerms of use: https://handspan.example/terms",
+    "keywords": "learn,keyboard,sheet,music,notes,reading,rhythm,beginner,adult,practice,metronome,midi,chords",
+    "whats_new": "First release. Start with the free course and tell us what you think from Settings › Send feedback."
+  }
+}
