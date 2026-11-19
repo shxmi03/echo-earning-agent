@@ -122,7 +122,8 @@ final class AudioInput {
         }
         do {
             try pipeline.start { [weak self] frame in
-                Task { @MainActor in self?.receive(frame) }
+                guard let self else { return }
+                Task { @MainActor in self.receive(frame) }
             }
             status = .running
             observeSession()

@@ -125,7 +125,7 @@ struct InstrumentView: View {
             model.setInputMode(choice == Choice.noPiano ? .touch : .mic)
             next()
         }) {
-            VStack(spacing: Space.stackGap) {
+            VStack(spacing: Layout.stackGap) {
                 OptionCard(systemImage: "pianokeys", title: "An acoustic piano",
                            detail: "Upright or grand. Handspan listens through the microphone.",
                            isSelected: choice == .acoustic) { choice = .acoustic }
@@ -154,7 +154,7 @@ struct ExperienceView: View {
             if let choice { model.draftExperience = choice }
             next()
         }) {
-            VStack(spacing: Space.stackGap) {
+            VStack(spacing: Layout.stackGap) {
                 OptionCard(systemImage: nil, title: "I'm new to the piano",
                            isSelected: choice == .beginner) { choice = .beginner }
                 OptionCard(systemImage: nil, title: "I can play a little",
@@ -178,7 +178,7 @@ struct GoalView: View {
             model.draftGoal = choice
             next()
         }) {
-            VStack(spacing: Space.stackGap) {
+            VStack(spacing: Layout.stackGap) {
                 OptionCard(systemImage: "music.note.list", title: "Classical pieces",
                            isSelected: choice == .classical) { choice = .classical }
                 OptionCard(systemImage: "music.mic", title: "Songs I know",
