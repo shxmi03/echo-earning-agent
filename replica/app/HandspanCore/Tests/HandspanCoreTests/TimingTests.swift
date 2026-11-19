@@ -102,6 +102,7 @@ private func timed(_ notes: [(Int, Double)] = [(60, 1), (62, 1), (64, 1), (60, 2
             #expect(ex.notes.allSatisfy { [1, 2, 3, 4].contains($0.duration) })
         }
         // The first lesson stays without a clock.
-        #expect(!course.lessons[0].exercises.contains(where: \.isTimed))
+        let firstHasTimed = course.lessons[0].exercises.contains { $0.isTimed }
+        #expect(!firstHasTimed)
     }
 }
