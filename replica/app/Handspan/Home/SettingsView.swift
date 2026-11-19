@@ -9,6 +9,9 @@ struct SettingsView: View {
     @Environment(StoreModel.self) private var store
     @State private var showPlans = false
     @State private var checkTiming = false
+    @State private var remind = PracticeReminder.isOn
+    @State private var remindAt = PracticeReminder.time
+    @State private var remindNote: String?
     @State private var manage = false
     @State private var refundFor: UInt64?
     @Environment(\.dismiss) private var dismiss
@@ -32,6 +35,18 @@ struct SettingsView: View {
                     if model.inputMode == .mic {
                         Button("Check timing") { checkTiming = true }
                     }
+                }
+
+                Section {
+                    Toggle("Daily reminder", isOn: Binding(get: { remind }, set: { setReminder($0) }))
+                    if remind {
+                        DatePicker("Time", selection: $remindAt, displayedComponents: .hourAndMinute)
+                            .onChange(of: remindAt) { _, time in Task { await PracticeReminder.turnOn(at: time) } }
+                    }
+                } header: {
+                    Text("Practice")
+                } footer: {
+                    Text(remindNote ?? "One quiet nudge a day, at the time you pick. Off by default.")
                 }
 
                 Section {
@@ -91,6 +106,22 @@ struct SettingsView: View {
                                 titleVisibility: .visible) {
                 Button("Delete account", role: .destructive) { delete() }
                 Button("Keep my account", role: .cancel) {}
+            }
+        }
+    }
+
+    private func setReminder(_ on: Bool) {
+        remindNote = nil
+        guard on else {
+            remind = false
+            PracticeReminder.turnOff()
+            return
+        }
+        remind = true
+        Task {
+            if await !PracticeReminder.turnOn(at: remindAt) {
+                remind = false
+                remindNote = "Notifications are off for Handspan. Turn them on in Settings › Notifications › Handspan."
             }
         }
     }
