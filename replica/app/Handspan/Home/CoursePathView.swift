@@ -36,7 +36,9 @@ struct CoursePathView: View {
                 LessonNode(number: number, state: state)
                 VStack(alignment: .leading, spacing: Space.xxs) {
                     Text(lesson.title).font(TextStyle.headline).foregroundStyle(Palette.text)
-                    Text("\(lesson.minutes) min · \(lesson.exercises.count) exercises")
+                    Text(lesson.kind == .song
+                         ? "Song · \(lesson.minutes) min · \(lesson.exercises.count - 1) lines, then the whole song"
+                         : "\(lesson.minutes) min · \(lesson.exercises.count) exercises")
                         .font(TextStyle.footnote).foregroundStyle(Palette.textMuted)
                 }
                 Spacer()
