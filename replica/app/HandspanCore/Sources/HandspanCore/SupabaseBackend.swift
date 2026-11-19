@@ -205,6 +205,17 @@ public actor SupabaseBackend: Backend {
         return inserted
     }
 
+    public func streak(profileId: UUID, session: Session) async throws -> Streak? {
+        let data = try await authed(get: "rest/v1/streaks",
+                                    query: [("select", "current_weeks,best_weeks,freezes_left,practised_this_week"),
+                                            ("profile_id", "eq.\(profileId.uuidString.lowercased())")],
+                                    session: session)
+        return try JSONDecoder().decode([StreakRow].self, from: data).first.map {
+            Streak(currentWeeks: $0.current_weeks, bestWeeks: $0.best_weeks,
+                   freezesLeft: $0.freezes_left, practisedThisWeek: $0.practised_this_week)
+        }
+    }
+
     public func syncSubscription(signedTransaction: String, session: Session) async throws {
         _ = try await authed(post: "functions/v1/appstore/sync",
                              body: ["signedTransaction": signedTransaction], session: session)
@@ -344,6 +355,13 @@ public actor SupabaseBackend: Backend {
         let input_mode: InputMode
         let experience: Experience
         var profile: Profile { Profile(id: id, name: name, kind: kind, inputMode: input_mode, experience: experience) }
+    }
+
+    private struct StreakRow: Decodable {
+        let current_weeks: Int
+        let best_weeks: Int
+        let freezes_left: Int
+        let practised_this_week: Bool
     }
 
     private struct ProgressRow: Decodable {

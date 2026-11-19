@@ -82,6 +82,32 @@ public enum AuthError: Error, Equatable, Sendable {
     case invalidEmail, wrongCode, expiredCode, tooManyTries, offline
 }
 
+/// The weekly streak (S19), as the `streaks` table keeps it. Written only by the server
+/// (record_attempts and the hourly roll_streaks job); the app reads it.
+public struct Streak: Codable, Sendable, Equatable {
+    public var currentWeeks: Int
+    public var bestWeeks: Int
+    public var freezesLeft: Int
+    public var practisedThisWeek: Bool
+
+    public init(currentWeeks: Int, bestWeeks: Int, freezesLeft: Int, practisedThisWeek: Bool) {
+        self.currentWeeks = currentWeeks
+        self.bestWeeks = bestWeeks
+        self.freezesLeft = freezesLeft
+        self.practisedThisWeek = practisedThisWeek
+    }
+
+    /// The line over the week strip. Nil before the first week, and never a scolding:
+    /// a week not yet practised says what keeps the streak, not what's at risk.
+    public var line: String? {
+        guard currentWeeks > 0 else { return nil }
+        let weeks = currentWeeks == 1 ? "1-week streak" : "\(currentWeeks)-week streak"
+        let freezes = freezesLeft == 1 ? "1 freeze" : "\(freezesLeft) freezes"
+        if practisedThisWeek { return freezesLeft > 0 ? "\(weeks) · \(freezes)" : weeks }
+        return "\(weeks) · one lesson this week keeps it going"
+    }
+}
+
 public protocol Backend: Sendable {
     /// auth.signInWithOtp: sends a 6-digit code.
     func sendCode(to email: String) async throws
@@ -101,6 +127,8 @@ public protocol Backend: Sendable {
     /// functions/v1/appstore/sync: hands a StoreKit 2 signed transaction to the server,
     /// which verifies Apple's signature itself before writing `subscriptions`.
     func syncSubscription(signedTransaction: String, session: Session) async throws
+    /// streaks for one profile; nil before its first finished lesson.
+    func streak(profileId: UUID, session: Session) async throws -> Streak?
 }
 
 public enum EmailRule {
@@ -189,6 +217,18 @@ public actor FakeBackend: Backend {
     }
 
     public private(set) var syncedTransactions: [String] = []
+    private var streaks: [UUID: Streak] = [:]
+
+    public func setStreak(_ streak: Streak?, for profileId: UUID) { streaks[profileId] = streak }
+
+    /// A stored streak if a test set one, else one practised week once there is an attempt.
+    public func streak(profileId: UUID, session: Session) async throws -> Streak? {
+        guard !isOffline else { throw AuthError.offline }
+        guard profileOwners[profileId] == session.accountId else { return nil }
+        if let s = streaks[profileId] { return s }
+        guard attempts.values.contains(where: { $0.profileId == profileId }) else { return nil }
+        return Streak(currentWeeks: 1, bestWeeks: 1, freezesLeft: 2, practisedThisWeek: true)
+    }
 
     public func syncSubscription(signedTransaction: String, session: Session) async throws {
         guard !isOffline else { throw AuthError.offline }
