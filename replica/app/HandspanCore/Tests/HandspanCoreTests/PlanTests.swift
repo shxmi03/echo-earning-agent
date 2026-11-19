@@ -32,3 +32,36 @@ import Testing
         #expect(noTrial == "$99.99 a year from today. Cancel any time in Settings.")
     }
 }
+
+@Suite struct TrialReminderTests {
+    var utc: Calendar {
+        var c = Calendar(identifier: .gregorian)
+        c.timeZone = TimeZone(identifier: "UTC")!
+        return c
+    }
+
+    @Test func remindsTwoDaysBeforeAtTenInTheMorning() {
+        let now = Date(timeIntervalSince1970: 1_795_132_800)            // 2026-11-20 00:00 UTC
+        let ends = now.addingTimeInterval(7 * 86_400 + 15 * 3_600)      // 2026-11-27 15:00
+        let fire = TrialReminder.fireDate(trialEnds: ends, now: now, calendar: utc)
+        #expect(fire == Date(timeIntervalSince1970: 1_795_132_800 + 5 * 86_400 + 10 * 3_600))
+    }
+
+    @Test func neverAfterTheTrialEnds() {
+        let now = Date(timeIntervalSince1970: 1_795_132_800)
+        let ends = now.addingTimeInterval(7 * 86_400 + 8 * 3_600)       // ends 08:00, 10:00 two days before is fine
+        let fire = TrialReminder.fireDate(trialEnds: ends, now: now, calendar: utc)!
+        #expect(fire < ends)
+    }
+
+    @Test func nothingWhenItIsAlreadyTooLate() {
+        let now = Date(timeIntervalSince1970: 1_795_132_800)
+        #expect(TrialReminder.fireDate(trialEnds: now.addingTimeInterval(86_400), now: now, calendar: utc) == nil)
+    }
+
+    @Test func bodyNamesPriceAndHowToCancel() {
+        let body = TrialReminder.body(price: "$9.99", period: .monthly)
+        #expect(body.contains("$9.99 a month"))
+        #expect(body.contains("cancel"))
+    }
+}

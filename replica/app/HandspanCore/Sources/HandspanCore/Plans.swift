@@ -83,3 +83,25 @@ public enum PaywallCopy {
         return months == 1 ? "Saves 1 month" : "Saves \(Int(months)) months"
     }
 }
+
+/// Fix 2 (features.csv): a reminder two days before a free trial turns into a charge.
+/// Scheduled on the device as a local notification; nothing goes through a server.
+public enum TrialReminder {
+    public static let identifier = "trial-reminder"
+    public static let daysBefore = 2
+
+    /// When to remind: two days before the trial ends, at 10:00 local time that day,
+    /// but never after the trial ends. Nil when that moment is already past.
+    public static func fireDate(trialEnds: Date, now: Date, calendar: Calendar = .current) -> Date? {
+        guard let dayBefore = calendar.date(byAdding: .day, value: -daysBefore, to: trialEnds) else { return nil }
+        var date = calendar.date(bySettingHour: 10, minute: 0, second: 0, of: dayBefore) ?? dayBefore
+        if date >= trialEnds { date = dayBefore }
+        return date > now ? date : nil
+    }
+
+    public static let title = "Your free week ends in 2 days"
+
+    public static func body(price: String, period: PlanPeriod) -> String {
+        "After that it's \(price) a \(period.unit). To stop, cancel in Settings › Apple Account › Subscriptions before then."
+    }
+}

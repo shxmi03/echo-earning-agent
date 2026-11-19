@@ -2,6 +2,7 @@ import Foundation
 import HandspanCore
 import Observation
 import StoreKit
+import UserNotifications
 
 /// StoreKit 2: loads the four plans, buys, restores, and keeps the entitlement current.
 /// Every verified transaction is also sent to the backend (`appstore/sync`), which
@@ -112,8 +113,33 @@ final class StoreModel {
     private func handle(_ result: VerificationResult<Transaction>) async {
         guard case .verified(let transaction) = result else { return }   // never unlock on a bad signature
         latestTransactionId = transaction.id
+        await scheduleTrialReminder(for: transaction)
         await syncToServer(result.jwsRepresentation)
         await transaction.finish()
         await refreshEntitlement()
+    }
+
+    /// The paywall promises "We'll remind you 2 days before": a local notification at the
+    /// start of a free trial, removed again if the transaction is refunded or revoked.
+    private func scheduleTrialReminder(for transaction: Transaction) async {
+        let center = UNUserNotificationCenter.current()
+        guard transaction.revocationDate == nil else {
+            center.removePendingNotificationRequests(withIdentifiers: [TrialReminder.identifier])
+            return
+        }
+        guard transaction.offer?.paymentMode == .freeTrial,
+              let ends = transaction.expirationDate,
+              let plan = Plan.from(productId: transaction.productID),
+              let fire = TrialReminder.fireDate(trialEnds: ends, now: .now) else { return }
+        let granted = (try? await center.requestAuthorization(options: [.alert, .sound])) ?? false
+        guard granted else { return }
+        let content = UNMutableNotificationContent()
+        content.title = TrialReminder.title
+        content.body = TrialReminder.body(price: price(of: plan), period: plan.period)
+        content.sound = .default
+        let parts = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fire)
+        let request = UNNotificationRequest(identifier: TrialReminder.identifier, content: content,
+                                            trigger: UNCalendarNotificationTrigger(dateMatching: parts, repeats: false))
+        try? await center.add(request)
     }
 }
