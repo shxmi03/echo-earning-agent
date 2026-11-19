@@ -36,7 +36,7 @@ No Mac that runs Xcode 26? `.github/workflows/ios.yml` builds the app for the iO
 
 ## Where things stand
 
-- **Not compiled yet.** This was written in a Linux container with no Swift toolchain. Expect a few compile errors on the first build; they are small and get fixed on the Mac. The pitch detector's algorithm was checked separately against synthetic piano tones (C2 to C7, weak fundamentals, 44.1 and 48 kHz): no octave errors.
+- **Builds and tests pass on CI** (GitHub `macos-26`, Xcode 26.6). Not yet tried on a device or a real piano. The pitch detector passes on synthetic piano tones (C2 to C7, weak fundamentals, 44.1 and 48 kHz) with no octave errors.
 - **The backend is fake** (`FakeBackend` in HandspanCore). `/replica-backend` swaps in Supabase behind the same `Backend` protocol, so no screen changes.
 - **Design files.** `Handspan/Design/` started as a copy of `replica/design/swift/`. Edit the app copy from now on and keep `tokens.json` in step.
 

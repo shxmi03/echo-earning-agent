@@ -2,7 +2,7 @@
 
 The iOS app lives in `replica/app/` (see its README). Built from `recon.md`, `architecture.md`, `design/` and `brand.md`. Every string, lesson and line of code is written fresh.
 
-**Nothing here has been compiled yet.** The container has no Swift toolchain and can't download one. The first build and the test run happen on a Mac. Screenshots for `/replica-diff` (`replica/clone-screens/`) come from that run too.
+**Builds and tests run on GitHub's `macos-26` runner** (Xcode 26.6), through `.github/workflows/ios.yml`. The container has no Swift toolchain and the local Mac is Intel. The first green build was on 2026-11-19 after three small compile fixes. It has not yet run on a device or a real piano, and screenshots for `/replica-diff` (`replica/clone-screens/`) are still to take.
 
 | screen | date | status | missing | harder than expected |
 | --- | --- | --- | --- | --- |
@@ -33,7 +33,7 @@ Done when (from `architecture.md`): a real piano in a normal room passes the fiv
 
 ## Tests (HandspanCore)
 
-Written, not yet run: about 50 cases across pitch names and staff positions, the detector on synthetic piano tones (C2 to C7, including a fundamental 20 times weaker than the second harmonic), silence and noise, the note tracker (confirmation, held notes, re-strikes), scoring and stars, the lesson flow, the seed course (unique UUIDs, notes on the staff, no banned words), the fake backend's sign-in states and idempotency, the local store and the course path unlocking.
+Pass on the CI Mac (2026-11-19): about 50 cases across pitch names and staff positions, the detector on synthetic piano tones (C2 to C7, including a fundamental 20 times weaker than the second harmonic), silence and noise, the note tracker (confirmation, held notes, re-strikes), scoring and stars, the lesson flow, the seed course (unique UUIDs, notes on the staff, no banned words), the fake backend's sign-in states and idempotency, the local store and the course path unlocking.
 
 ## Content
 
@@ -41,6 +41,6 @@ Written, not yet run: about 50 cases across pitch names and staff positions, the
 
 ## Next
 
-1. On the Mac: build, fix compile errors, run the tests, play the first lesson on a real piano, save screenshots to `replica/clone-screens/`.
+1. Install on an iPhone (TestFlight once there is an Apple Developer account), play the first lesson on a real piano, save screenshots to `replica/clone-screens/`.
 2. `/replica-backend`: Supabase from `schema.sql`, the real OTP sign-in, `record_attempts`, `delete-account`.
 3. S12 moving stage and S13 pause menu, then S05 paywall with StoreKit 2.
