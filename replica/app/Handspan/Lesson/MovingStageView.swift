@@ -34,7 +34,7 @@ struct MovingStageView: View {
 
         // Where we are, in beats from the first note. Before the clock starts, the first
         // note waits a little to the right of the cursor.
-        let timed = session.run.timed
+        let timed = session.run.stageRun
         let nowBeats: Double = timed.map { (t - $0.firstOnset) / $0.beat } ?? -1.5
         var startBeat = 0.0
         let noteBeats: [Double] = exercise.notes.map { note in

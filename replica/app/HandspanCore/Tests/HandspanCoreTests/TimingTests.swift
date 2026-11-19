@@ -106,3 +106,62 @@ private func timed(_ notes: [(Int, Double)] = [(60, 1), (62, 1), (64, 1), (60, 2
         #expect(!firstHasTimed)
     }
 }
+
+@Suite struct BarDrillTests {
+    @Test func barsFollowTheBeats() {
+        let e = timed([(60, 1), (62, 1), (64, 2), (65, 4), (67, 2), (65, 2)])
+        let bars = e.bars()
+        let numbers = bars.map { $0.number }
+        let ranges = bars.map { $0.notes }
+        #expect(numbers == [1, 2, 3])
+        #expect(ranges == [0..<3, 3..<4, 4..<6])
+        let slice = e.bar(3, notes: 4..<6)
+        let pitches = slice.notes.map { $0.pitch }
+        #expect(pitches == [Pitch(67), Pitch(65)])
+        #expect(slice.tempo == 60)
+        #expect(slice.prompt == "Bar 3")
+    }
+
+    @Test func drillTheTrickyBarWithoutChangingTheResult() {
+        let e = timed([(60, 1), (62, 1), (64, 1), (65, 1), (67, 1), (65, 1), (64, 1), (62, 1)])
+        let lesson = Lesson(id: UUID().uuidString, title: "t", summary: "s", kind: .exerciseSet, minutes: 5,
+                            concept: nil, exercises: [e])
+        var run = LessonRun(lesson)
+        run.startTimed(at: 0)
+        // Bar 1 clean; in bar 2 the F (index 5) and the last D (index 7) are missed.
+        for (p, t) in [(60, 4.0), (62, 5.0), (64, 6.0), (65, 7.0), (67, 8.0), (64, 10.0)] {
+            _ = run.playTimed(Pitch(p), at: t)
+        }
+        _ = run.tick(at: 12.5)
+        #expect(run.stageRun?.isOver(at: 12.5) == true)
+        #expect(run.trickyBar?.number == 2)
+        #expect(run.trickyBar?.notes == 4..<8)
+
+        run.beginDrill()
+        #expect(run.drill?.number == 2)
+        #expect(run.stageExercise?.notes.count == 4)
+        run.startTimed(at: 100, tempoPct: 100)
+        let pass = run.stageRun!
+        #expect(pass.tempoPct == 85)                        // drills start a little slower
+        let wrong = run.playTimed(Pitch(60), at: pass.onsets[0])
+        #expect(wrong != .ignored)                          // a wrong key, judged on the drill
+        #expect(run.finishDrillPass() == false)
+
+        run.startTimed(at: 200)
+        let again = run.stageRun!
+        for (i, p) in [67, 65, 64, 62].enumerated() { _ = run.playTimed(Pitch(p), at: again.onsets[i]) }
+        #expect(run.finishDrillPass() == true)
+        #expect(run.drill?.cleanPasses == 1)
+
+        run.endDrill()
+        #expect(run.advanceIfExerciseDone() == true)
+        #expect(run.result.firstTryHits == 6)               // practice never rewrites the first pass
+        #expect(run.drill == nil)
+    }
+
+    @Test func noBarToDrillWhenClean() {
+        var run = TimedExerciseRun(timed(), start: 0)
+        for (p, t) in [(60, 4.0), (62, 5.0), (64, 6.0), (60, 7.0)] { _ = run.play(Pitch(p), at: t) }
+        #expect(run.trickyBar() == nil)
+    }
+}

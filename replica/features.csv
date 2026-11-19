@@ -54,7 +54,7 @@ No ads or cross-promotion for anyone,monetisation,must,no,yes,fix 2; none in the
 Per-piano mic calibration and octave-correct detection tested on real pianos,player,must,no,no,fix 3: recognition 21 reviews / 3 sources
 A wrong note never counts even if the right one is also played,player,must,no,partial,fix 3: random-notes false pass; single notes: a wrong note never advances; chords not yet
 One-tap 'I played that right' report,player,could,no,partial,fix 3: logged for tuning the detector; button counts the note and is counted locally; not uploaded yet
-Loop only the bar that went wrong instead of restarting the section,player,must,no,no,fix 4: harsh restarts 12 (thin) + drill-the-hard-part 3
+Loop only the bar that went wrong instead of restarting the section,player,must,no,yes,fix 4: harsh restarts 12 (thin) + drill-the-hard-part 3; after a timed exercise with misses: Practise bar N loops just that bar at 85% tempo; the first pass keeps its result
 No zero-star or shaming result screens; restart always visible,player,must,no,yes,fix 4; 0 stars reads 'Almost' and names the tricky note
 Placement test and test-out of any course,courses,should,no,no,fix 5: pace and level 10 reviews / 3 sources
 Timing score (early/late per note) shown apart from accuracy,player,should,no,no,fix 6: teaching depth 11 reviews / 2 sources

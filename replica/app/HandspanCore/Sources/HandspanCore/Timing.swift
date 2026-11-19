@@ -127,3 +127,75 @@ public struct TimedExerciseRun: Sendable {
 
     private func isHit(_ i: Int) -> Bool { if case .hit = states[i] { true } else { false } }
 }
+
+// MARK: Loop the bar that went wrong (fix 4)
+
+extension Exercise {
+    /// Note indexes per bar, from where each note starts. Bars without a note start are skipped.
+    public func bars(beatsPerBar: Double = 4) -> [(number: Int, notes: Range<Int>)] {
+        var out: [(Int, Range<Int>)] = []
+        var beat = 0.0
+        var currentBar = -1
+        var first = 0
+        for (i, note) in notes.enumerated() {
+            let bar = Int((beat / beatsPerBar).rounded(.down))
+            if bar != currentBar {
+                if currentBar >= 0 { out.append((currentBar + 1, first..<i)) }
+                currentBar = bar
+                first = i
+            }
+            beat += note.duration
+        }
+        if currentBar >= 0 { out.append((currentBar + 1, first..<notes.count)) }
+        return out.map { (number: $0.0, notes: $0.1) }
+    }
+
+    /// Just these notes, as an exercise of their own at the same tempo.
+    public func bar(_ number: Int, notes range: Range<Int>) -> Exercise {
+        Exercise(id: "\(id)-bar\(number)", prompt: "Bar \(number)", clef: clef,
+                 notes: Array(notes[range]), tempo: tempo)
+    }
+}
+
+extension TimedExerciseRun {
+    /// The bar with the most notes not played in time; the earliest on a tie. Nil when clean.
+    public func trickyBar(beatsPerBar: Double = 4) -> (number: Int, notes: Range<Int>)? {
+        var best: (number: Int, notes: Range<Int>, misses: Int)?
+        for bar in exercise.bars(beatsPerBar: beatsPerBar) {
+            let misses = bar.notes.filter { if case .hit = states[$0] { false } else { true } }.count
+            if misses > 0, misses > (best?.misses ?? 0) { best = (bar.number, bar.notes, misses) }
+        }
+        return best.map { ($0.number, $0.notes) }
+    }
+}
+
+/// Practising one bar on a loop after a timed exercise. Practice never changes the
+/// exercise's result: that was recorded on the first pass.
+public struct BarDrill: Sendable {
+    public let number: Int
+    public let exercise: Exercise
+    public var run: TimedExerciseRun?
+    public private(set) var passes = 0
+    public private(set) var cleanPasses = 0
+    public private(set) var lastWasClean = false
+
+    /// Drills start a little slower, at most 85% of the learner's tempo.
+    public static func tempo(for learnerPct: Int) -> Int { min(learnerPct, 85) }
+
+    public init(number: Int, exercise: Exercise) {
+        self.number = number
+        self.exercise = exercise
+    }
+
+    /// Closes the current pass. Returns true when every note was in time.
+    @discardableResult
+    public mutating func finishPass() -> Bool {
+        guard var pass = run else { return false }
+        _ = pass.advance(to: .infinity)
+        run = nil
+        passes += 1
+        lastWasClean = pass.hits == exercise.notes.count && pass.wrongNotes == 0
+        if lastWasClean { cleanPasses += 1 }
+        return lastWasClean
+    }
+}

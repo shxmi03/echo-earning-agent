@@ -129,6 +129,8 @@ public struct LessonRun: Sendable {
     public private(set) var exerciseIndex = 0
     public private(set) var current: StaticExerciseRun?
     public private(set) var timed: TimedExerciseRun?
+    /// Practising the bar that went wrong, after a timed exercise ended (fix 4).
+    public private(set) var drill: BarDrill?
     public private(set) var results: [ExerciseResult] = []
     public let startedAt: Date
 
@@ -154,19 +156,35 @@ public struct LessonRun: Sendable {
 
     // MARK: Timed (S12)
 
-    /// Starts the current timed exercise: the count-in's first click is at `start`.
+    /// What the stage shows: the drilled bar while drilling, else the current exercise.
+    public var stageExercise: Exercise? { drill?.exercise ?? currentExercise }
+    /// The clock the stage runs on: the drill's pass while drilling, else the exercise's.
+    public var stageRun: TimedExerciseRun? { drill == nil ? timed : drill?.run }
+
+    /// Starts the current timed exercise (or the next drill pass): the count-in's first
+    /// click is at `start`.
     public mutating func startTimed(at start: TimeInterval, tempoPct: Int = 100) {
+        if let exercise = drill?.exercise {
+            drill?.run = TimedExerciseRun(exercise, start: start, tempoPct: BarDrill.tempo(for: tempoPct))
+            return
+        }
         guard let exercise = currentExercise, exercise.isTimed else { return }
         timed = TimedExerciseRun(exercise, start: start, tempoPct: tempoPct)
     }
 
     /// Drops the running clock (pause, restart): the exercise starts again from its count-in.
     public mutating func stopTimed() {
+        if drill != nil { drill?.run = nil; return }
         if currentExercise?.isTimed == true { timed = nil }
     }
 
     public mutating func playTimed(_ pitch: Pitch, at t: TimeInterval) -> TimedFeedback {
-        guard var run = timed else { return .ignored }
+        if var pass = drill?.run {
+            let feedback = pass.play(pitch, at: t)
+            drill?.run = pass
+            return feedback
+        }
+        guard drill == nil, var run = timed else { return .ignored }
         let feedback = run.play(pitch, at: t)
         timed = run
         return feedback
@@ -174,17 +192,43 @@ public struct LessonRun: Sendable {
 
     /// Moves the clock on. Returns the notes that were just missed.
     public mutating func tick(at t: TimeInterval) -> [Int] {
-        guard var run = timed else { return [] }
+        if var pass = drill?.run {
+            let missed = pass.advance(to: t)
+            drill?.run = pass
+            return missed
+        }
+        guard drill == nil, var run = timed else { return [] }
         let missed = run.advance(to: t)
         timed = run
         return missed
     }
+
+    /// The bar worth practising after the timed exercise ended, if any note was missed.
+    public var trickyBar: (number: Int, notes: Range<Int>)? {
+        guard drill == nil, var run = timed else { return nil }
+        _ = run.advance(to: .infinity)
+        return run.trickyBar()
+    }
+
+    /// Starts practising the tricky bar. The exercise's result is already fixed.
+    public mutating func beginDrill() {
+        guard let bar = trickyBar, let exercise = currentExercise else { return }
+        drill = BarDrill(number: bar.number, exercise: exercise.bar(bar.number, notes: bar.notes))
+    }
+
+    /// Ends a drill pass. Returns true when it was clean.
+    @discardableResult
+    public mutating func finishDrillPass() -> Bool { drill?.finishPass() ?? false }
+
+    /// Leaves the drill; the learner goes on with `advanceIfExerciseDone`.
+    public mutating func endDrill() { drill = nil }
 
     /// Call after showing the last note's feedback. Returns true when the lesson is done.
     /// A timed exercise ends when its clock passes the end (`at`), a static one when its
     /// last note is played.
     @discardableResult
     public mutating func advanceIfExerciseDone(at t: TimeInterval = .infinity) -> Bool {
+        drill = nil
         var r: ExerciseResult
         if let run = current, run.isFinished {
             r = run.result
@@ -207,6 +251,7 @@ public struct LessonRun: Sendable {
     public mutating func restartExercise() { load() }
 
     private mutating func load() {
+        drill = nil
         timed = nil
         current = nil
         guard let exercise = currentExercise, !exercise.isTimed else { return }
