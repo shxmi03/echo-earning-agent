@@ -11,7 +11,7 @@ struct PauseMenu: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Space.lg) {
             Text("Paused")
-                .font(TextStyle.title2)
+                .font(TextStyle.titleStrong)
                 .foregroundStyle(Palette.text)
                 .accessibilityAddTraits(.isHeader)
 
