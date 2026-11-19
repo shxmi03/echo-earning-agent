@@ -5,6 +5,7 @@ import HandspanCore
 struct LessonFlowView: View {
     @Environment(AppModel.self) private var model
     @Environment(AudioInput.self) private var audio
+    @Environment(MIDIInput.self) private var midi
     @Environment(\.dismiss) private var dismiss
     @State private var session: LessonSession
     @State private var recorded = false
@@ -53,10 +54,18 @@ struct LessonFlowView: View {
             session.stopAll()
             audio.onNote = nil
             audio.stop()
+            midi.onNote = nil
         }
     }
 
     private func startListeningIfNeeded() {
+        if model.inputMode == .midi {
+            audio.stop()
+            midi.onNote = { [session] pitch, playedAt in session.play(pitch, at: playedAt, exact: true) }
+            midi.start()
+            return
+        }
+        midi.onNote = nil
         guard model.inputMode == .mic else {
             audio.stop()
             return
@@ -137,4 +146,5 @@ struct ConceptView: View {
     LessonFlowView(lesson: try! SeedContent.firstCourse().lessons[0])
         .environment(AppModel.preview())
         .environment(AudioInput())
+        .environment(MIDIInput())
 }

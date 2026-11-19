@@ -9,6 +9,7 @@ struct ExerciseView: View {
     @AppStorage("showFingers") private var showFingers = true
     @Environment(AppModel.self) private var model
     @Environment(AudioInput.self) private var audio
+    @Environment(MIDIInput.self) private var midi
     let session: LessonSession
     var close: () -> Void
 
@@ -96,6 +97,7 @@ struct ExerciseView: View {
     /// Screen keys when the learner chose them, or when the mic can't be used.
     private var usesScreenKeys: Bool {
         if model.inputMode == .touch { return true }
+        if model.inputMode == .midi { return !midi.hasKeyboard }
         switch audio.status {
         case .denied, .failed: return true
         default: return false
@@ -124,9 +126,14 @@ struct ExerciseView: View {
             if usesScreenKeys {
                 if model.inputMode == .mic {
                     Label("The microphone is off. Tap the keys instead.", systemImage: "mic.slash")
+                } else if model.inputMode == .midi {
+                    Label("No MIDI keyboard found. Plug one in, or tap the keys.", systemImage: "pianokeys")
                 } else {
                     Label("Tap the key on the screen.", systemImage: "hand.tap")
                 }
+            } else if model.inputMode == .midi {
+                Label(midi.devices.first.map { "Playing on \($0)" } ?? "MIDI keyboard", systemImage: "pianokeys")
+                Spacer()
             } else {
                 switch audio.status {
                 case .running:
