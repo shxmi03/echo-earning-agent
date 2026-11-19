@@ -5,6 +5,7 @@ import HandspanCore
 struct HandspanApp: App {
     @State private var model = AppModel.live()
     @State private var audio = AudioInput()
+    @State private var midi = MIDIInput()
     @State private var store = StoreModel()
     @Environment(\.scenePhase) private var scenePhase
 
@@ -13,6 +14,7 @@ struct HandspanApp: App {
             RootView()
                 .environment(model)
                 .environment(audio)
+                .environment(midi)
                 .environment(store)
                 .task {
                     store.syncToServer = { [model] jws in await model.syncSubscription(jws) }

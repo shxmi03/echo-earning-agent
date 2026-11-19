@@ -16,7 +16,7 @@ Pause menu: resume restart listen exit,player,must,yes,yes,"S13: resume, restart
 Result screen with 0-3 stars,player,must,yes,yes,"S14; S14 with stars, accuracy, try again always visible"
 Save progress to the account and sync across devices,account,must,yes,yes,"local store + idempotent upload queue to Supabase (record_attempts), progress restored on sign-in"
 Account deletion in the app,account,must,yes,yes,Apple requirement; Settings > Delete account wipes the device and calls the delete-account edge function
-MIDI keyboard input (USB and Bluetooth),player,should,yes,no,S24
+MIDI keyboard input (USB and Bluetooth),player,should,yes,partial,"S24: CoreMIDI, every USB/Bluetooth source, exact note times (no latency allowance), Bluetooth pairing via Apple's screen; not tried with a real keyboard yet"
 Chord recognition from the microphone,player,should,yes,no,original is weak here
 Song library browse by level and genre,songs,should,yes,no,S15 own catalogue
 Song sections (intro verse chorus whole song),songs,should,yes,no,S16

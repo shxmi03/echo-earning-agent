@@ -1,6 +1,7 @@
 import SwiftUI
 import HandspanCore
 import StoreKit
+import CoreAudioKit
 
 /// S23, the part needed for App Review: input mode, the plan (manage in one tap, request
 /// a refund), the account, and account deletion (guideline 5.1.1(v)).
@@ -9,6 +10,8 @@ struct SettingsView: View {
     @Environment(StoreModel.self) private var store
     @State private var showPlans = false
     @State private var checkTiming = false
+    @State private var pairBluetooth = false
+    @Environment(MIDIInput.self) private var midi
     @AppStorage("showFingers") private var showFingers = true
     @State private var remind = PracticeReminder.isOn
     @State private var remindAt = PracticeReminder.time
@@ -29,12 +32,17 @@ struct SettingsView: View {
                         set: { model.setInputMode($0) }
                     )) {
                         Text("Piano, through the microphone").tag(InputMode.mic)
+                        Text("MIDI keyboard (USB or Bluetooth)").tag(InputMode.midi)
                         Text("Keys on the screen").tag(InputMode.touch)
                     }
                     .pickerStyle(.inline)
                     .labelsHidden()
                     if model.inputMode == .mic {
                         Button("Check timing") { checkTiming = true }
+                    }
+                    if model.inputMode == .midi {
+                        LabeledContent("Keyboard", value: midi.devices.first ?? "None found")
+                        Button("Pair a Bluetooth MIDI keyboard") { pairBluetooth = true }
                     }
                     Toggle("Finger numbers on the staff", isOn: $showFingers)
                 }
@@ -100,6 +108,19 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $showPlans) { PaywallView() }
             .sheet(isPresented: $checkTiming) { TimingCheckView() }
+            .sheet(isPresented: $pairBluetooth, onDismiss: { midi.refresh() }) {
+                NavigationStack {
+                    BluetoothMIDIPairing()
+                        .navigationTitle("Bluetooth MIDI")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) { Button("Done") { pairBluetooth = false } }
+                        }
+                }
+            }
+            .onChange(of: model.inputMode, initial: true) { _, mode in
+                if mode == .midi { midi.start() }
+            }
             .manageSubscriptionsSheet(isPresented: $manage)
             .refundRequestSheet(for: refundFor ?? 0, isPresented: Binding(
                 get: { refundFor != nil }, set: { if !$0 { refundFor = nil } }))
@@ -144,4 +165,10 @@ struct SettingsView: View {
     }
 }
 
-#Preview { SettingsView().environment(AppModel.preview()).environment(StoreModel()).environment(AudioInput()) }
+#Preview { SettingsView().environment(AppModel.preview()).environment(StoreModel()).environment(AudioInput()).environment(MIDIInput()) }
+
+/// Apple's own Bluetooth MIDI pairing screen (CoreAudioKit). USB keyboards need nothing.
+struct BluetoothMIDIPairing: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> CABTMIDICentralViewController { CABTMIDICentralViewController() }
+    func updateUIViewController(_ controller: CABTMIDICentralViewController, context: Context) {}
+}

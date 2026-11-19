@@ -69,11 +69,13 @@ final class LessonSession {
         refreshExercise()
     }
 
-    /// One note, from the mic (with the time it was heard) or the screen (now).
-    func play(_ pitch: Pitch, at heardAt: TimeInterval? = nil) {
+    /// One note, from the mic (with the time it was heard) or the screen (now). A MIDI
+    /// keyboard's time is exact: nothing is taken off it.
+    func play(_ pitch: Pitch, at heardAt: TimeInterval? = nil, exact: Bool = false) {
         guard phase == .exercise, !isPaused else { return }
         if isTimed {
-            playTimed(pitch, at: heardAt.map { $0 - (player?.inputLatency ?? 0) } ?? now())
+            let latency = exact ? 0 : (player?.inputLatency ?? 0)
+            playTimed(pitch, at: heardAt.map { $0 - latency } ?? now())
         } else {
             playStatic(pitch)
         }
