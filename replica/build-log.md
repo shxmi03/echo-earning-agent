@@ -18,7 +18,9 @@ The iOS app lives in `replica/app/` (see its README). Built from `recon.md`, `ar
 | S09 course path | 2026-11-19 | partial | song nodes and star gates | |
 | S10 concept card | 2026-11-19 | done | short animations | |
 | S11 static exercise | 2026-11-19 | done | MIDI input; the "I played it right" taps are counted but not uploaded | the staff is drawn by hand in Canvas; the treble clef is the Unicode glyph, check that it renders on device |
-| S14 result | 2026-11-19 | done | timing score (comes with S12); "new best" badge | |
+| S12 moving stage | 2026-11-20 | partial | a backing track (needs recorded audio), falling back a few bars after many mistakes, a piano sound for "Listen" (the sampler plays a plain tone) | one clock for everything: clicks are scheduled on the audio host clock, which is the clock behind `systemUptime`; output latency is taken off each click and a fixed input latency (about 65 ms plus the hardware's) off each heard note, until S04 calibration measures it per device |
+| S13 pause menu | 2026-11-20 | partial | the song variant (hands, wait mode, metronome, finger numbers) comes with songs | a running stage can't resume mid-bar: Resume starts the exercise again from the count-in |
+| S14 result | 2026-11-20 | done | "new best" badge | |
 | Settings (part of S23) | 2026-11-19 | partial | manage subscription, privacy and terms links | |
 
 ## The vertical slice
@@ -37,10 +39,10 @@ Pass on the CI Mac (2026-11-19): about 50 cases across pitch names and staff pos
 
 ## Content
 
-`HandspanCore/Sources/HandspanCore/Resources/first-steps.json`: 5 lessons, 19 exercises, right hand C4 to G4. Middle C, C D E, steps on the staff, F and G, five-note lines. Every concept lesson has a theory card and most have a posture or fingering tip (fix 6). Lesson and exercise ids are fixed UUIDs (v5), ready to seed the `lessons` table.
+`HandspanCore/Sources/HandspanCore/Resources/first-steps.json` (content version 2): 5 lessons, 23 exercises, right hand C4 to G4. Lessons 2 to 5 end with a timed exercise on the moving stage (60 to 76 bpm, quarter, half and whole notes). Middle C, C D E, steps on the staff, F and G, five-note lines. Every concept lesson has a theory card and most have a posture or fingering tip (fix 6). Lesson and exercise ids are fixed UUIDs (v5), ready to seed the `lessons` table.
 
 ## Next
 
 1. Install on an iPhone (TestFlight once there is an Apple Developer account), play the first lesson on a real piano, save screenshots to `replica/clone-screens/`.
 2. ~~`/replica-backend`~~ done 2026-11-19: see `backend.md`. Left for the dashboard: the code email template.
-3. S12 moving stage and S13 pause menu, then S05 paywall with StoreKit 2.
+3. ~~S12 moving stage and S13 pause menu~~ first pass 2026-11-20. Next: S05 paywall with StoreKit 2.

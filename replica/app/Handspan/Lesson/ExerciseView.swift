@@ -2,13 +2,14 @@ import SwiftUI
 import HandspanCore
 
 /// S11: read a note and play it. No clock; it waits for the right key.
-/// States: waiting (target), correct, wrong (with a hint), not heard, mic off.
+/// S12 when the exercise is timed: the staff moves under a cursor in time with a click.
+/// States: waiting (target), correct, wrong (with a hint), not heard, mic off; on the
+/// stage also ready, count-in, playing and paused (S13 menu).
 struct ExerciseView: View {
     @Environment(AppModel.self) private var model
     @Environment(AudioInput.self) private var audio
     let session: LessonSession
     var close: () -> Void
-    @State private var confirmExit = false
 
     var body: some View {
         VStack(spacing: Space.lg) {
@@ -21,7 +22,13 @@ struct ExerciseView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
 
-                StaffView(exercise: exercise, states: session.noteStates)
+                Group {
+                    if exercise.isTimed {
+                        MovingStageView(session: session)
+                    } else {
+                        StaffView(exercise: exercise, states: session.noteStates)
+                    }
+                }
                     .frame(minHeight: 180, maxHeight: 260)
                     .clipShape(RoundedRectangle(cornerRadius: Radius.inner, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: Radius.inner, style: .continuous)
@@ -36,6 +43,12 @@ struct ExerciseView: View {
                 .frame(maxWidth: .infinity, minHeight: Layout.minTarget, alignment: .leading)
                 .contentTransition(.opacity)
                 .accessibilityAddTraits(.updatesFrequently)
+
+            if session.isTimed, session.stage != .running {
+                Button(session.stage == .paused ? "Start again" : "Start") { session.startStage() }
+                    .buttonStyle(.primaryStyle(fullWidth: true))
+                    .accessibilityHint("Four clicks count you in, then the notes move to the line.")
+            }
 
             Spacer(minLength: 0)
 
@@ -56,11 +69,11 @@ struct ExerciseView: View {
         .onChange(of: session.message) { _, message in
             AccessibilityNotification.Announcement(message).post()
         }
-        .confirmationDialog("Leave this lesson?", isPresented: $confirmExit, titleVisibility: .visible) {
-            Button("Leave", role: .destructive, action: close)
-            Button("Keep playing", role: .cancel) {}
-        } message: {
-            Text("This lesson starts from the beginning next time.")
+        .sheet(isPresented: Binding(get: { session.isPaused }, set: { open in
+            // Swiping the menu away is the same as Resume.
+            if !open, session.isPaused { session.resume() }
+        })) {
+            PauseMenu(session: session, exit: close)
         }
     }
 
@@ -75,7 +88,7 @@ struct ExerciseView: View {
 
     private var header: some View {
         HStack(spacing: Space.md) {
-            GlassIconButton(systemImage: "xmark", label: "Leave lesson") { confirmExit = true }
+            GlassIconButton(systemImage: "pause.fill", label: "Pause") { session.pause() }
             VStack(alignment: .leading, spacing: Space.xxs) {
                 Text("Exercise \(session.exerciseNumber) of \(session.run.exerciseCount)")
                     .font(TextStyle.footnote.monospacedDigit())
@@ -109,9 +122,11 @@ struct ExerciseView: View {
                     Label("Starting the microphone", systemImage: "mic")
                 }
                 Spacer()
-                Button("I played it right") { session.overrideCorrect() }
-                    .buttonStyle(.glass)
-                    .accessibilityHint("Counts this note when Handspan didn't hear it correctly.")
+                if !session.isTimed {
+                    Button("I played it right") { session.overrideCorrect() }
+                        .buttonStyle(.glass)
+                        .accessibilityHint("Counts this note when Handspan didn't hear it correctly.")
+                }
             }
         }
         .font(TextStyle.footnote)

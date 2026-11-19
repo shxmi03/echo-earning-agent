@@ -2,7 +2,7 @@
   "id": "d4d397f6-e393-5d7e-a830-239b9a8c6949",
   "title": "First steps",
   "isFree": true,
-  "contentVersion": 1,
+  "contentVersion": 2,
   "summary": "Find your way around the keys, read your first notes and play five-note tunes with your right hand.",
   "lessons": [
     {
@@ -178,6 +178,40 @@
               "finger": 1
             }
           ]
+        },
+        {
+          "id": "818926b8-d3fe-55ba-ad6f-41ca38bb7cff",
+          "prompt": "In time now. Four clicks, then walk up and back down with the click.",
+          "clef": "treble",
+          "tempo": 60,
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1,
+              "beats": 2
+            }
+          ]
         }
       ]
     },
@@ -307,6 +341,50 @@
               "pitch": 64,
               "hand": "right",
               "finger": 3
+            }
+          ]
+        },
+        {
+          "id": "fe63c402-69f0-54ce-bfa8-52d528736bdc",
+          "prompt": "Keep the beat. Hold the last C for two clicks.",
+          "clef": "treble",
+          "tempo": 66,
+          "notes": [
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3,
+              "beats": 2
             }
           ]
         }
@@ -460,6 +538,61 @@
               "pitch": 64,
               "hand": "right",
               "finger": 3
+            }
+          ]
+        },
+        {
+          "id": "cf0edf1c-3423-54e2-9bd4-4568fc8bd8c7",
+          "prompt": "Up to G and back, one note per click.",
+          "clef": "treble",
+          "tempo": 72,
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1,
+              "beats": 2
             }
           ]
         }
@@ -700,6 +833,76 @@
               "pitch": 60,
               "hand": "right",
               "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "32070201-6831-5f9e-bb84-e0b7f7fd048a",
+          "prompt": "The whole tune, in time. If a note slips past, keep going: the next one still counts.",
+          "clef": "treble",
+          "tempo": 76,
+          "notes": [
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3,
+              "beats": 2
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1,
+              "beats": 4
             }
           ]
         }

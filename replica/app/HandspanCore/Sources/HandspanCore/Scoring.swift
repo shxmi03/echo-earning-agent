@@ -48,12 +48,15 @@ public struct ExerciseResult: Sendable, Equatable {
     public let total: Int
     public let firstTryHits: Int
     public let missedPitches: [Pitch]
+    /// Timed exercises only: average timing of the notes hit, 0...100.
+    public let timing: Int?
 
-    public init(exerciseIndex: Int, total: Int, firstTryHits: Int, missedPitches: [Pitch]) {
+    public init(exerciseIndex: Int, total: Int, firstTryHits: Int, missedPitches: [Pitch], timing: Int? = nil) {
         self.exerciseIndex = exerciseIndex
         self.total = total
         self.firstTryHits = firstTryHits
         self.missedPitches = missedPitches
+        self.timing = timing
     }
 }
 
@@ -64,13 +67,15 @@ public struct LessonResult: Sendable, Equatable {
     /// 0...100, as stored in attempts.accuracy.
     public let accuracy: Int
     public let stars: Int
+    /// 0...100 over the timed exercises, as in attempts.timing; nil when the lesson had none.
+    public let timing: Int?
     /// The note missed most often, and the exercise it was first missed in (1-based).
     public let trickiest: (pitch: Pitch, exercise: Int)?
 
     public var passed: Bool { stars > 0 }
 
     public static func == (a: LessonResult, b: LessonResult) -> Bool {
-        a.total == b.total && a.firstTryHits == b.firstTryHits && a.stars == b.stars
+        a.total == b.total && a.firstTryHits == b.firstTryHits && a.stars == b.stars && a.timing == b.timing
             && a.trickiest?.pitch == b.trickiest?.pitch && a.trickiest?.exercise == b.trickiest?.exercise
     }
 
@@ -89,6 +94,8 @@ public struct LessonResult: Sendable, Equatable {
         firstTryHits = results.reduce(0) { $0 + $1.firstTryHits }
         accuracy = total == 0 ? 0 : Int((Double(firstTryHits) * 100 / Double(total)).rounded())
         stars = Self.stars(forAccuracy: accuracy)
+        let timings = results.compactMap(\.timing)
+        timing = timings.isEmpty ? nil : Int((Double(timings.reduce(0, +)) / Double(timings.count)).rounded())
 
         var counts: [Pitch: Int] = [:]
         var firstSeen: [Pitch: Int] = [:]
@@ -115,24 +122,29 @@ public struct LessonResult: Sendable, Equatable {
     }
 }
 
-/// A whole lesson: its exercises in order.
+/// A whole lesson: its exercises in order. Static exercises run in `current`; a timed
+/// one waits in `pendingTimed` until the screen starts its clock, then runs in `timed`.
 public struct LessonRun: Sendable {
     public let lesson: Lesson
     public private(set) var exerciseIndex = 0
     public private(set) var current: StaticExerciseRun?
+    public private(set) var timed: TimedExerciseRun?
     public private(set) var results: [ExerciseResult] = []
     public let startedAt: Date
 
     public init(_ lesson: Lesson, startedAt: Date = Date()) {
         self.lesson = lesson
         self.startedAt = startedAt
-        current = lesson.exercises.first.map(StaticExerciseRun.init)
+        load()
     }
 
-    public var isFinished: Bool { current == nil }
+    public var isFinished: Bool { exerciseIndex >= lesson.exercises.count }
     public var exerciseCount: Int { lesson.exercises.count }
+    public var currentExercise: Exercise? { isFinished ? nil : lesson.exercises[exerciseIndex] }
+    /// The current exercise is timed and its clock hasn't started (or was stopped).
+    public var awaitsTimedStart: Bool { currentExercise?.isTimed == true && timed == nil }
 
-    /// Plays a note into the current exercise. Moves to the next exercise when this one ends.
+    /// Plays a note into the current static exercise.
     public mutating func play(_ pitch: Pitch) -> PlayFeedback {
         guard var run = current else { return .ignored }
         let feedback = run.play(pitch)
@@ -140,17 +152,64 @@ public struct LessonRun: Sendable {
         return feedback
     }
 
+    // MARK: Timed (S12)
+
+    /// Starts the current timed exercise: the count-in's first click is at `start`.
+    public mutating func startTimed(at start: TimeInterval, tempoPct: Int = 100) {
+        guard let exercise = currentExercise, exercise.isTimed else { return }
+        timed = TimedExerciseRun(exercise, start: start, tempoPct: tempoPct)
+    }
+
+    /// Drops the running clock (pause, restart): the exercise starts again from its count-in.
+    public mutating func stopTimed() {
+        if currentExercise?.isTimed == true { timed = nil }
+    }
+
+    public mutating func playTimed(_ pitch: Pitch, at t: TimeInterval) -> TimedFeedback {
+        guard var run = timed else { return .ignored }
+        let feedback = run.play(pitch, at: t)
+        timed = run
+        return feedback
+    }
+
+    /// Moves the clock on. Returns the notes that were just missed.
+    public mutating func tick(at t: TimeInterval) -> [Int] {
+        guard var run = timed else { return [] }
+        let missed = run.advance(to: t)
+        timed = run
+        return missed
+    }
+
     /// Call after showing the last note's feedback. Returns true when the lesson is done.
+    /// A timed exercise ends when its clock passes the end (`at`), a static one when its
+    /// last note is played.
     @discardableResult
-    public mutating func advanceIfExerciseDone() -> Bool {
-        guard let run = current, run.isFinished else { return isFinished }
-        var r = run.result
+    public mutating func advanceIfExerciseDone(at t: TimeInterval = .infinity) -> Bool {
+        var r: ExerciseResult
+        if let run = current, run.isFinished {
+            r = run.result
+        } else if var run = timed, run.isOver(at: t) {
+            _ = run.advance(to: .infinity)
+            r = run.result
+        } else {
+            return isFinished
+        }
         r.exerciseIndex = exerciseIndex
         results.append(r)
         exerciseIndex += 1
-        current = exerciseIndex < lesson.exercises.count ? StaticExerciseRun(lesson.exercises[exerciseIndex]) : nil
+        load()
         return isFinished
     }
 
     public var result: LessonResult { LessonResult(results: results) }
+
+    /// The current exercise from its first note again; earlier exercises keep their results.
+    public mutating func restartExercise() { load() }
+
+    private mutating func load() {
+        timed = nil
+        current = nil
+        guard let exercise = currentExercise, !exercise.isTimed else { return }
+        current = StaticExerciseRun(exercise)
+    }
 }

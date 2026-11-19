@@ -125,7 +125,7 @@ final class AppModel {
         guard let profile = state.profile else { return nil }
         let attempt = Attempt(profileId: profile.id, lessonId: lesson.id,
                               contentVersion: course.contentVersion, accuracy: result.accuracy,
-                              stars: result.stars, inputMode: profile.inputMode,
+                              timing: result.timing, stars: result.stars, inputMode: profile.inputMode,
                               startedAt: startedAt, finishedAt: .now)
         state.record(attempt)
         syncStatus = .pending

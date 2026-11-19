@@ -49,6 +49,8 @@ public struct Attempt: Codable, Sendable, Equatable, Identifiable {
     public let lessonId: String
     public let contentVersion: Int
     public let accuracy: Int
+    /// 0...100 when the lesson had timed exercises (attempts.timing).
+    public let timing: Int?
     public let stars: Int
     public let inputMode: InputMode
     public let tempoPct: Int
@@ -59,13 +61,14 @@ public struct Attempt: Codable, Sendable, Equatable, Identifiable {
     public var id: UUID { clientAttemptId }
 
     public init(clientAttemptId: UUID = UUID(), profileId: UUID, lessonId: String, contentVersion: Int,
-                accuracy: Int, stars: Int, inputMode: InputMode, tempoPct: Int = 100,
+                accuracy: Int, timing: Int? = nil, stars: Int, inputMode: InputMode, tempoPct: Int = 100,
                 hands: String = "right", startedAt: Date, finishedAt: Date) {
         self.clientAttemptId = clientAttemptId
         self.profileId = profileId
         self.lessonId = lessonId
         self.contentVersion = contentVersion
         self.accuracy = accuracy
+        self.timing = timing
         self.stars = stars
         self.inputMode = inputMode
         self.tempoPct = tempoPct
