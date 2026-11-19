@@ -152,6 +152,14 @@ final class AppModel {
 
     // MARK: Account
 
+    /// A verified StoreKit transaction, for the server's own check. Failing here is fine:
+    /// StoreKit keeps the entitlement on the device, and the next purchase, restore or
+    /// App Store notification brings the server up to date.
+    func syncSubscription(_ signedTransaction: String) async {
+        guard let session = state.session else { return }
+        try? await backend.syncSubscription(signedTransaction: signedTransaction, session: session)
+    }
+
     /// Deletes the account on the server, then everything on this device.
     func deleteAccount() async throws {
         if let session = state.session {

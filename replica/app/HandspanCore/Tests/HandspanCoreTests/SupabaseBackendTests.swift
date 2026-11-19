@@ -229,3 +229,15 @@ private let session = Session(accountId: userId, email: "ana@example.com")
         #expect(try await b.lessonProgress(profileId: p.id, session: s)["x"]?.bestStars == 3)
     }
 }
+
+@Suite struct SubscriptionSyncTests {
+    @Test func sendsTheSignedTransaction() async throws {
+        let clock = Clock()
+        let t = ScriptedTransport([.init(status: 200, body: #"{"plan":"individual","status":"trial"}"#)])
+        let (b, _) = backend(t, clock: clock, tokens: signedIn(clock))
+        try await b.syncSubscription(signedTransaction: "eyJ.jws.sig", session: session)
+        #expect(t.paths == ["/functions/v1/appstore/sync"])
+        #expect(try t.body(0)["signedTransaction"] as? String == "eyJ.jws.sig")
+        #expect(t.header(0, "Authorization") == "Bearer jwt-old")
+    }
+}

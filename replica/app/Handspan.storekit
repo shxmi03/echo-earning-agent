@@ -1,0 +1,125 @@
+{
+  "identifier": "9C1E5A2B",
+  "nonRenewingSubscriptions": [],
+  "products": [],
+  "settings": {
+    "_failTransactionsEnabled": false
+  },
+  "subscriptionGroups": [
+    {
+      "id": "21000001",
+      "localizations": [],
+      "name": "Handspan",
+      "subscriptions": [
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "149.99",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "6500000001",
+          "introductoryOffer": {
+            "internalID": "6500000101",
+            "paymentMode": "free",
+            "subscriptionPeriod": "P1W"
+          },
+          "localizations": [
+            {
+              "description": "Up to 5 learners, each with their own progress.",
+              "displayName": "Household yearly",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "app.handspan.household.yearly",
+          "recurringSubscriptionPeriod": "P1Y",
+          "referenceName": "Household yearly",
+          "subscriptionGroupID": "21000001",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "14.99",
+          "familyShareable": false,
+          "groupNumber": 2,
+          "internalID": "6500000002",
+          "introductoryOffer": {
+            "internalID": "6500000102",
+            "paymentMode": "free",
+            "subscriptionPeriod": "P1W"
+          },
+          "localizations": [
+            {
+              "description": "Up to 5 learners, each with their own progress.",
+              "displayName": "Household monthly",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "app.handspan.household.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Household monthly",
+          "subscriptionGroupID": "21000001",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "99.99",
+          "familyShareable": false,
+          "groupNumber": 3,
+          "internalID": "6500000003",
+          "introductoryOffer": {
+            "internalID": "6500000103",
+            "paymentMode": "free",
+            "subscriptionPeriod": "P1W"
+          },
+          "localizations": [
+            {
+              "description": "Every course and song, at your own pace.",
+              "displayName": "Solo yearly",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "app.handspan.solo.yearly",
+          "recurringSubscriptionPeriod": "P1Y",
+          "referenceName": "Solo yearly",
+          "subscriptionGroupID": "21000001",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "9.99",
+          "familyShareable": false,
+          "groupNumber": 4,
+          "internalID": "6500000004",
+          "introductoryOffer": {
+            "internalID": "6500000104",
+            "paymentMode": "free",
+            "subscriptionPeriod": "P1W"
+          },
+          "localizations": [
+            {
+              "description": "Every course and song, at your own pace.",
+              "displayName": "Solo monthly",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "app.handspan.solo.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Solo monthly",
+          "subscriptionGroupID": "21000001",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 4,
+    "minor": 0
+  }
+}
