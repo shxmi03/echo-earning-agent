@@ -241,3 +241,38 @@ private let session = Session(accountId: userId, email: "ana@example.com")
         #expect(t.header(0, "Authorization") == "Bearer jwt-old")
     }
 }
+
+@Suite struct StreakTests {
+    @Test func readsTheProfilesStreak() async throws {
+        let clock = Clock()
+        let t = ScriptedTransport([.init(status: 200, body: #"[{"current_weeks":3,"best_weeks":5,"freezes_left":1,"practised_this_week":true}]"#),
+                                   .init(status: 200, body: "[]")])
+        let (b, _) = backend(t, clock: clock, tokens: signedIn(clock))
+        let pid = UUID(uuidString: "aaaaaaaa-0000-0000-0000-000000000001")!
+        let s = try await b.streak(profileId: pid, session: session)
+        #expect(s == Streak(currentWeeks: 3, bestWeeks: 5, freezesLeft: 1, practisedThisWeek: true))
+        #expect(t.paths.first == "/rest/v1/streaks")
+        let query = try #require(t.requests[0].url?.query)
+        #expect(query.contains("profile_id=eq.aaaaaaaa-0000-0000-0000-000000000001"))
+        let none = try await b.streak(profileId: pid, session: session)
+        #expect(none == nil)                                   // no row before the first lesson
+    }
+
+    @Test func linesNeverScold() {
+        #expect(Streak(currentWeeks: 0, bestWeeks: 0, freezesLeft: 2, practisedThisWeek: false).line == nil)
+        #expect(Streak(currentWeeks: 1, bestWeeks: 1, freezesLeft: 2, practisedThisWeek: true).line == "1-week streak · 2 freezes")
+        #expect(Streak(currentWeeks: 4, bestWeeks: 4, freezesLeft: 0, practisedThisWeek: true).line == "4-week streak")
+        #expect(Streak(currentWeeks: 4, bestWeeks: 6, freezesLeft: 1, practisedThisWeek: false).line
+                == "4-week streak · one lesson this week keeps it going")
+    }
+
+    @Test func fakeBackendStartsAStreakWithTheFirstLesson() async throws {
+        let b = FakeBackend()
+        let s = try await b.verify(email: "ana@example.com", code: "123456")
+        let p = try await b.createProfile(Profile(name: "Ana", inputMode: .mic, experience: .beginner), session: s)
+        #expect(try await b.streak(profileId: p.id, session: s) == nil)
+        _ = try await b.recordAttempts([Attempt(profileId: p.id, lessonId: "x", contentVersion: 1, accuracy: 90, stars: 3,
+                                                inputMode: .mic, startedAt: .now, finishedAt: .now)], session: s)
+        #expect(try await b.streak(profileId: p.id, session: s)?.currentWeeks == 1)
+    }
+}

@@ -52,7 +52,15 @@ struct HomeView: View {
                     }
                     .buttonStyle(.plain)
 
-                    WeekStrip(label: "This week", range: weekRange, days: weekDays)
+                    VStack(alignment: .leading, spacing: Space.sm) {
+                        if let line = model.streak?.line {
+                            Label(line, systemImage: "flame")
+                                .font(TextStyle.subheadline.weight(.medium))
+                                .foregroundStyle(Palette.text)
+                                .accessibilityLabel(line)
+                        }
+                        WeekStrip(label: "This week", range: weekRange, days: weekDays)
+                    }
                 }
                 .padding(.horizontal, Layout.screenMargin)
                 .padding(.bottom, Space.xxl)

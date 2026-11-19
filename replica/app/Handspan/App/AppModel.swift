@@ -14,6 +14,9 @@ final class AppModel {
 
     private(set) var state: LocalState
     private(set) var syncStatus: SyncStatus = .synced
+    /// The weekly streak from the server (S19). Not stored on the device: it is the
+    /// server's to compute, and an old copy would show a wrong number.
+    private(set) var streak: Streak?
 
     /// Answers collected during onboarding, saved once the profile exists.
     var draftInputMode: InputMode = .mic
@@ -135,6 +138,7 @@ final class AppModel {
     }
 
     func sync() async {
+        defer { Task { await refreshStreak() } }
         guard let session = state.session, !state.pendingAttempts.isEmpty else {
             syncStatus = state.pendingAttempts.isEmpty ? .synced : syncStatus
             return
@@ -148,6 +152,11 @@ final class AppModel {
         } catch {
             syncStatus = .offline
         }
+    }
+
+    func refreshStreak() async {
+        guard let session = state.session, let profile = state.profile else { return }
+        if let s = try? await backend.streak(profileId: profile.id, session: session) { streak = s }
     }
 
     // MARK: Account
@@ -167,6 +176,7 @@ final class AppModel {
         }
         try? store?.erase()
         state = LocalState()
+        streak = nil
         draftInputMode = .mic
         draftExperience = .beginner
         draftGoal = nil

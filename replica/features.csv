@@ -29,7 +29,7 @@ Scrub back and forth in a song,songs,should,yes,no,
 Backing tracks under moving stages,player,should,yes,no,needs own recordings
 Star-level gates (earn N stars to continue),courses,should,yes,no,S09 gate fraction
 Two learning paths (melody and chords),courses,should,yes,no,S08
-Weekly streak with freezes,engagement,should,yes,no,S19
+Weekly streak with freezes,engagement,should,yes,yes,"S19: server keeps the streak (record_attempts + hourly roll_streaks, a freeze every 5 kept weeks); Home shows weeks and freezes over the week strip, no shaming copy"
 Practice reminders (push),engagement,should,yes,yes,"Settings › Practice: daily local notification at a chosen time, off by default, no guilt copy"
 On-screen touch keyboard course for users without a piano,player,could,yes,partial,S25; screen keys work as input in every lesson; no separate course
 Interactive sheet music library with auto scroll,songs,could,yes,no,S17 PLAY
