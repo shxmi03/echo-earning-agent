@@ -119,7 +119,8 @@ struct SettingsView: View {
         }
         remind = true
         Task {
-            if await !PracticeReminder.turnOn(at: remindAt) {
+            let granted = await PracticeReminder.turnOn(at: remindAt)
+            if !granted {
                 remind = false
                 remindNote = "Notifications are off for Handspan. Turn them on in Settings › Notifications › Handspan."
             }
