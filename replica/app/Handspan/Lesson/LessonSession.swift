@@ -11,6 +11,8 @@ final class LessonSession {
     enum Phase: Equatable { case concept, exercise, result }
     /// The moving stage: ready (waiting for "Start"), running, or paused (S13).
     enum StageState: Equatable { case ready, running, paused }
+    /// After a timed exercise with misses: offer to loop the tricky bar, or loop it (fix 4).
+    enum AfterStage: Equatable { case none, offer(bar: Int), drilling(bar: Int) }
 
     let lesson: Lesson
     private(set) var phase: Phase
@@ -26,6 +28,7 @@ final class LessonSession {
     /// Times the learner said "I played that right" (fix 3). Logged for tuning.
     private(set) var overrides = 0
     private(set) var stage: StageState = .ready
+    private(set) var afterStage: AfterStage = .none
     /// Tempo for timed exercises, 50...100%. Lowered from the pause menu.
     var tempoPct = 100
     /// The pause menu (S13) is open.
@@ -46,7 +49,8 @@ final class LessonSession {
         refreshExercise()
     }
 
-    var exercise: Exercise? { run.currentExercise }
+    /// What the screen shows: the current exercise, or the bar being drilled.
+    var exercise: Exercise? { run.stageExercise }
     var exerciseNumber: Int { run.exerciseIndex + 1 }
     var isTimed: Bool { exercise?.isTimed == true }
     var progress: Double {
@@ -54,7 +58,7 @@ final class LessonSession {
         var inExercise = 0.0
         if let current = run.current {
             inExercise = Double(current.index) / Double(max(1, current.exercise.notes.count))
-        } else if let timed = run.timed {
+        } else if let timed = run.timed, run.drill == nil {
             inExercise = min(1, max(0, (now() - timed.start) / max(0.001, timed.end - timed.start)))
         }
         return (Double(run.exerciseIndex) + inExercise) / Double(run.exerciseCount)
@@ -128,10 +132,12 @@ final class LessonSession {
         isPaused = false
         let start = now() + 0.6
         run.startTimed(at: start, tempoPct: tempoPct)
-        guard let timed = run.timed else { return }
+        guard let timed = run.stageRun else { return }
         noteStates = Array(repeating: .upcoming, count: timed.exercise.notes.count)
         keyStates = [:]
-        message = "Get ready: four clicks, then play on the beat."
+        message = run.drill == nil
+            ? "Get ready: four clicks, then play on the beat."
+            : "Bar \(run.drill!.number), a little slower. Four clicks, then play."
         try? player?.scheduleClicks(at: timed.clickTimes)
         stage = .running
         ticker?.cancel()
@@ -167,12 +173,12 @@ final class LessonSession {
     }
 
     private func tick() {
-        guard stage == .running, let timed = run.timed else { return }
+        guard stage == .running, let timed = run.stageRun else { return }
         let t = now()
         for i in run.tick(at: t) {
             noteStates[i] = .heard          // missed: information, not a failure
         }
-        if let next = run.timed?.upcoming(at: t), noteStates[next] == .upcoming {
+        if let next = run.stageRun?.upcoming(at: t), noteStates[next] == .upcoming {
             for i in noteStates.indices where noteStates[i] == .target { noteStates[i] = .upcoming }
             noteStates[next] = .target
             if keyStates.values.allSatisfy({ $0 != .wrong }) {
@@ -189,14 +195,47 @@ final class LessonSession {
         ticker = nil
         player?.stopClicks()
         stage = .ready
-        let hits = run.timed?.hits ?? 0
-        let total = run.timed?.exercise.notes.count ?? 0
+        let hits = run.stageRun?.hits ?? 0
+        let total = run.stageRun?.exercise.notes.count ?? 0
+        if let drill = run.drill {
+            let clean = run.finishDrillPass()
+            message = clean ? "Clean. Bar \(drill.number) is yours." : "\(hits) of \(total) in time. Once more?"
+            afterStage = .drilling(bar: drill.number)
+            return
+        }
+        if let bar = run.trickyBar {
+            message = "\(hits) of \(total) in time. Bar \(bar.number) was the tricky one."
+            afterStage = .offer(bar: bar.number)
+            return
+        }
         message = "\(hits) of \(total) in time."
         pendingAdvance = Task { [weak self] in
             try? await Task.sleep(for: .milliseconds(900))
             guard !Task.isCancelled else { return }
             self?.advance(at: t)
         }
+    }
+
+    // MARK: Loop the tricky bar (fix 4)
+
+    /// Practise only the bar that went wrong, on a loop, a little slower.
+    func practiseBar() {
+        guard case .offer = afterStage else { return }
+        run.beginDrill()
+        guard let drill = run.drill else { return }
+        afterStage = .drilling(bar: drill.number)
+        stage = .ready
+        refreshExercise()
+        startStage()
+    }
+
+    /// Leaves the drill (or skips it) and goes to the next exercise. The exercise keeps
+    /// the result of its first pass.
+    func goOn() {
+        guard afterStage != .none else { return }
+        afterStage = .none
+        run.endDrill()
+        advance()
     }
 
     // MARK: Pause menu (S13)
@@ -234,6 +273,7 @@ final class LessonSession {
         pendingAdvance = nil
         isPaused = false
         if isTimed {
+            if case .offer = afterStage { afterStage = .none }
             ticker?.cancel()
             ticker = nil
             player?.stopClicks()
@@ -261,11 +301,13 @@ final class LessonSession {
         ticker = nil
         player?.stop()
         stage = .ready
+        afterStage = .none
         isPaused = false
     }
 
     private func advance(at t: TimeInterval = .infinity) {
         pendingAdvance = nil
+        afterStage = .none
         if run.advanceIfExerciseDone(at: t) {
             stopAll()
             phase = .result
@@ -279,7 +321,7 @@ final class LessonSession {
             stage = .ready
             noteStates = current.exercise.notes.indices.map { $0 == current.index ? .target : .upcoming }
             showTarget()
-        } else if let exercise = run.currentExercise, exercise.isTimed {
+        } else if let exercise = run.stageExercise, exercise.isTimed {
             if stage != .paused { stage = .ready }
             noteStates = Array(repeating: .upcoming, count: exercise.notes.count)
             keyStates = [:]

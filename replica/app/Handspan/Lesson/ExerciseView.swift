@@ -45,9 +45,24 @@ struct ExerciseView: View {
                 .accessibilityAddTraits(.updatesFrequently)
 
             if session.isTimed, session.stage != .running {
-                Button(session.stage == .paused ? "Start again" : "Start") { session.startStage() }
-                    .buttonStyle(.primaryStyle(fullWidth: true))
-                    .accessibilityHint("Four clicks count you in, then the notes move to the line.")
+                switch session.afterStage {
+                case .offer(let bar):
+                    // Fix 4: loop only the bar that went wrong, never the whole thing.
+                    Button("Practise bar \(bar)") { session.practiseBar() }
+                        .buttonStyle(.primaryStyle(fullWidth: true))
+                        .accessibilityHint("Plays just that bar on a loop, a little slower.")
+                    Button("Go on") { session.goOn() }
+                        .frame(maxWidth: .infinity, minHeight: Layout.minTarget)
+                case .drilling:
+                    Button("Once more") { session.startStage() }
+                        .buttonStyle(.primaryStyle(fullWidth: true))
+                    Button("Go on") { session.goOn() }
+                        .frame(maxWidth: .infinity, minHeight: Layout.minTarget)
+                case .none:
+                    Button(session.stage == .paused ? "Start again" : "Start") { session.startStage() }
+                        .buttonStyle(.primaryStyle(fullWidth: true))
+                        .accessibilityHint("Four clicks count you in, then the notes move to the line.")
+                }
             }
 
             Spacer(minLength: 0)
