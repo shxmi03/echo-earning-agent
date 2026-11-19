@@ -9,6 +9,7 @@ struct SettingsView: View {
     @Environment(StoreModel.self) private var store
     @State private var showPlans = false
     @State private var checkTiming = false
+    @AppStorage("showFingers") private var showFingers = true
     @State private var remind = PracticeReminder.isOn
     @State private var remindAt = PracticeReminder.time
     @State private var remindNote: String?
@@ -35,6 +36,7 @@ struct SettingsView: View {
                     if model.inputMode == .mic {
                         Button("Check timing") { checkTiming = true }
                     }
+                    Toggle("Finger numbers on the staff", isOn: $showFingers)
                 }
 
                 Section {

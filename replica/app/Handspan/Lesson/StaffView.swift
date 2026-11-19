@@ -6,6 +6,8 @@ import HandspanCore
 struct StaffView: View {
     let exercise: Exercise
     let states: [NoteState]
+    /// Finger numbers (1 = thumb) over each note. On by default; off in Settings or the pause menu.
+    var showFingers = true
 
     /// Staff positions kept visible: two ledger lines below to two above.
     private let lowest = -6
@@ -75,6 +77,14 @@ struct StaffView: View {
                     stem.addLine(to: CGPoint(x: x - headWidth / 2 + 0.6, y: ny + gap * 3.5))
                 }
                 context.stroke(stem, with: .color(color), lineWidth: 1.4)
+
+                // Finger number over the note, in one row near the top (components.md).
+                if showFingers {
+                    let label = Text("\(note.finger)")
+                        .font(.system(size: gap * 0.95, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Palette.textMuted)
+                    context.draw(context.resolve(label), at: CGPoint(x: x, y: y(12)), anchor: .center)
+                }
 
                 // Shape as well as colour: ▼ over the target, ✓ or ✕ under played notes.
                 if let symbol = state.symbol {

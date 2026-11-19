@@ -7,6 +7,7 @@ struct PauseMenu: View {
     @Bindable var session: LessonSession
     var exit: () -> Void
     @Environment(\.dismiss) private var dismiss
+    @AppStorage("showFingers") private var showFingers = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: Space.lg) {
@@ -36,6 +37,9 @@ struct PauseMenu: View {
             }
             .buttonStyle(.glass)
             .controlSize(.large)
+
+            Toggle("Finger numbers", isOn: $showFingers)
+                .font(TextStyle.body)
 
             if session.isTimed {
                 VStack(alignment: .leading, spacing: Space.xs) {
