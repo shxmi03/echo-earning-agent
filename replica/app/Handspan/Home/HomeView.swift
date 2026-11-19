@@ -136,4 +136,4 @@ struct CourseDoneCard: View {
     }
 }
 
-#Preview { HomeView().environment(AppModel.preview()).environment(AudioInput()) }
+#Preview { HomeView().environment(AppModel.preview()).environment(AudioInput()).environment(StoreModel()) }

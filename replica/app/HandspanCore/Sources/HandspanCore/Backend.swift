@@ -98,6 +98,9 @@ public protocol Backend: Sendable {
     func recordAttempts(_ attempts: [Attempt], session: Session) async throws -> Int
     /// functions/v1/delete-account
     func deleteAccount(session: Session) async throws
+    /// functions/v1/appstore/sync: hands a StoreKit 2 signed transaction to the server,
+    /// which verifies Apple's signature itself before writing `subscriptions`.
+    func syncSubscription(signedTransaction: String, session: Session) async throws
 }
 
 public enum EmailRule {
@@ -183,6 +186,13 @@ public actor FakeBackend: Backend {
             inserted += 1
         }
         return inserted
+    }
+
+    public private(set) var syncedTransactions: [String] = []
+
+    public func syncSubscription(signedTransaction: String, session: Session) async throws {
+        guard !isOffline else { throw AuthError.offline }
+        syncedTransactions.append(signedTransaction)
     }
 
     public func deleteAccount(session: Session) async throws {

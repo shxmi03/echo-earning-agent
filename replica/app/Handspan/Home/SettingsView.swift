@@ -1,10 +1,15 @@
 import SwiftUI
 import HandspanCore
+import StoreKit
 
-/// S23, the part needed for App Review: input mode, the account, and account deletion
-/// (guideline 5.1.1(v)). Subscription management comes with the paywall (S05).
+/// S23, the part needed for App Review: input mode, the plan (manage in one tap, request
+/// a refund), the account, and account deletion (guideline 5.1.1(v)).
 struct SettingsView: View {
     @Environment(AppModel.self) private var model
+    @Environment(StoreModel.self) private var store
+    @State private var showPlans = false
+    @State private var manage = false
+    @State private var refundFor: UInt64?
     @Environment(\.dismiss) private var dismiss
     @State private var confirmDelete = false
     @State private var deleting = false
@@ -23,6 +28,23 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.inline)
                     .labelsHidden()
+                }
+
+                Section {
+                    if let plan = store.activePlan {
+                        LabeledContent("Plan", value: "\(plan.size.title), \(plan.period.title.lowercased())")
+                        Button("Manage or cancel subscription") { manage = true }
+                        if let id = store.latestTransactionId {
+                            Button("Request a refund") { refundFor = id }
+                        }
+                    } else {
+                        LabeledContent("Plan", value: "Free: the first course")
+                    }
+                    Button("See plans") { showPlans = true }
+                } header: {
+                    Text("Plan")
+                } footer: {
+                    Text("Cancelling takes one tap and keeps your plan until the end of the period you paid for.")
                 }
 
                 Section("Account") {
@@ -55,6 +77,11 @@ struct SettingsView: View {
                     Button("Done") { dismiss() }
                 }
             }
+            .sheet(isPresented: $showPlans) { PaywallView() }
+            .manageSubscriptionsSheet(isPresented: $manage)
+            .refundRequestSheet(for: refundFor ?? 0, isPresented: Binding(
+                get: { refundFor != nil }, set: { if !$0 { refundFor = nil } }))
+            .task { await store.refreshEntitlement() }
             .confirmationDialog("Delete your account and all progress?", isPresented: $confirmDelete,
                                 titleVisibility: .visible) {
                 Button("Delete account", role: .destructive) { delete() }
@@ -78,4 +105,4 @@ struct SettingsView: View {
     }
 }
 
-#Preview { SettingsView().environment(AppModel.preview()) }
+#Preview { SettingsView().environment(AppModel.preview()).environment(StoreModel()) }

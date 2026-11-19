@@ -5,6 +5,7 @@ import HandspanCore
 struct HandspanApp: App {
     @State private var model = AppModel.live()
     @State private var audio = AudioInput()
+    @State private var store = StoreModel()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -12,6 +13,11 @@ struct HandspanApp: App {
             RootView()
                 .environment(model)
                 .environment(audio)
+                .environment(store)
+                .task {
+                    store.syncToServer = { [model] jws in await model.syncSubscription(jws) }
+                    await store.refreshEntitlement()
+                }
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active { Task { await model.sync() } }
                 }
@@ -44,8 +50,8 @@ enum DeviceWord {
     }
 }
 
-/// Prices shown in copy. Proposed in replica/launch/pricing.md, not confirmed yet.
-/// Replace with StoreKit's `Product.displayPrice` when the paywall (S05) is built.
+/// The price in onboarding copy, before StoreKit has loaded (pricing.md, not confirmed).
+/// The paywall shows StoreKit's `displayPrice` in the user's own currency.
 enum PriceCopy {
     static let monthly = "$9.99"
 }

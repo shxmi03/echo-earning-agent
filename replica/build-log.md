@@ -12,16 +12,16 @@ The iOS app lives in `replica/app/` (see its README). Built from `recon.md`, `ar
 | S02 instrument | 2026-11-19 | done | MIDI as a choice (S24) | |
 | S03 experience and goal | 2026-11-19 | done | the placement test (fix 5); the goal is stored but not used yet | |
 | S04 sound check | 2026-11-19 | partial | latency calibration (play along to a click) | AVAudioEngine taps trap under Swift 6 if the tap closure is created on the main actor; the mic pipeline is a separate non-isolated class for that reason |
-| S05 paywall | | not started | everything: StoreKit 2, plans, restore | |
+| S05 paywall | 2026-11-19 | partial | the products in App Store Connect (yours to create); entry from locked content (there is none yet: the paywall opens from Settings › See plans) | the free week is one per Apple Account per group, so eligibility is read from StoreKit, not assumed |
 | S06 sign in | 2026-11-19 | partial | Sign in with Apple (needs a team and the capability) | Supabase answers the same error for a wrong and an expired code; the app tells them apart by the code's age. An account that already has a profile skips the name step and gets its progress back |
 | S07 home | 2026-11-19 | partial | the course row for more than one course; streak (S19) | |
 | S09 course path | 2026-11-19 | partial | song nodes and star gates | |
 | S10 concept card | 2026-11-19 | done | short animations | |
 | S11 static exercise | 2026-11-19 | done | MIDI input; the "I played it right" taps are counted but not uploaded | the staff is drawn by hand in Canvas; the treble clef is the Unicode glyph, check that it renders on device |
-| S12 moving stage | 2026-11-20 | partial | a backing track (needs recorded audio), falling back a few bars after many mistakes, a piano sound for "Listen" (the sampler plays a plain tone) | one clock for everything: clicks are scheduled on the audio host clock, which is the clock behind `systemUptime`; output latency is taken off each click and a fixed input latency (about 65 ms plus the hardware's) off each heard note, until S04 calibration measures it per device |
-| S13 pause menu | 2026-11-20 | partial | the song variant (hands, wait mode, metronome, finger numbers) comes with songs | a running stage can't resume mid-bar: Resume starts the exercise again from the count-in |
-| S14 result | 2026-11-20 | done | "new best" badge | |
-| Settings (part of S23) | 2026-11-19 | partial | manage subscription, privacy and terms links | |
+| S12 moving stage | 2026-11-19 | partial | a backing track (needs recorded audio), falling back a few bars after many mistakes, a piano sound for "Listen" (the sampler plays a plain tone) | one clock for everything: clicks are scheduled on the audio host clock, which is the clock behind `systemUptime`; output latency is taken off each click and a fixed input latency (about 65 ms plus the hardware's) off each heard note, until S04 calibration measures it per device |
+| S13 pause menu | 2026-11-19 | partial | the song variant (hands, wait mode, metronome, finger numbers) comes with songs | a running stage can't resume mid-bar: Resume starts the exercise again from the count-in |
+| S14 result | 2026-11-19 | done | "new best" badge | |
+| Settings (part of S23) | 2026-11-19 | partial | the privacy policy link (no URL yet) | manage and cancel in one tap, request a refund, see plans |
 
 ## The vertical slice
 
@@ -45,4 +45,4 @@ Pass on the CI Mac (2026-11-19): about 50 cases across pitch names and staff pos
 
 1. Install on an iPhone (TestFlight once there is an Apple Developer account), play the first lesson on a real piano, save screenshots to `replica/clone-screens/`.
 2. ~~`/replica-backend`~~ done 2026-11-19: see `backend.md`. Left for the dashboard: the code email template.
-3. ~~S12 moving stage and S13 pause menu~~ first pass 2026-11-20. Next: S05 paywall with StoreKit 2.
+3. ~~S12 moving stage and S13 pause menu~~ first pass 2026-11-19. S05 paywall first pass 2026-11-19 (App Store Connect setup is yours, see `backend.md`).

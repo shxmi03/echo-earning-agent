@@ -205,6 +205,11 @@ public actor SupabaseBackend: Backend {
         return inserted
     }
 
+    public func syncSubscription(signedTransaction: String, session: Session) async throws {
+        _ = try await authed(post: "functions/v1/appstore/sync",
+                             body: ["signedTransaction": signedTransaction], session: session)
+    }
+
     public func deleteAccount(session: Session) async throws {
         _ = try await authed(post: "functions/v1/delete-account", body: [String: String](), session: session)
         store(nil)
