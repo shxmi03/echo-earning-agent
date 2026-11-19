@@ -50,6 +50,7 @@ struct LessonFlowView: View {
             if session.phase == .exercise { startListeningIfNeeded() }
         }
         .onDisappear {
+            session.stopAll()
             audio.onNote = nil
             audio.stop()
         }
@@ -60,11 +61,12 @@ struct LessonFlowView: View {
             audio.stop()
             return
         }
-        audio.onNote = { [session] pitch in session.play(pitch) }
+        audio.onNote = { [session] pitch, heardAt in session.play(pitch, at: heardAt) }
         Task { await audio.start() }
     }
 
     private func close() {
+        session.stopAll()
         audio.stop()
         dismiss()
     }

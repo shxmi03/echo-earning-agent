@@ -9,27 +9,38 @@ public struct ExerciseNote: Codable, Sendable, Hashable {
     public let pitch: Pitch
     public let hand: Hand
     public let finger: Int
+    /// Length in beats, for timed exercises (S12). Absent means one beat.
+    public let beats: Double?
 
-    public init(pitch: Pitch, hand: Hand = .right, finger: Int) {
+    public init(pitch: Pitch, hand: Hand = .right, finger: Int, beats: Double? = nil) {
         self.pitch = pitch
         self.hand = hand
         self.finger = finger
+        self.beats = beats
     }
+
+    public var duration: Double { beats ?? 1 }
 }
 
-/// A static exercise (S11): read each note and play it, no clock.
+/// An exercise. Without a tempo it is static (S11): read each note and play it, no
+/// clock. With a tempo it runs on the moving stage (S12): in time with a click.
 public struct Exercise: Codable, Sendable, Identifiable, Hashable {
     public let id: String
     public let prompt: String
     public let clef: Clef
     public let notes: [ExerciseNote]
+    /// Beats per minute at 100%. Present only on timed exercises.
+    public let tempo: Int?
 
-    public init(id: String, prompt: String, clef: Clef, notes: [ExerciseNote]) {
+    public init(id: String, prompt: String, clef: Clef, notes: [ExerciseNote], tempo: Int? = nil) {
         self.id = id
         self.prompt = prompt
         self.clef = clef
         self.notes = notes
+        self.tempo = tempo
     }
+
+    public var isTimed: Bool { tempo != nil }
 }
 
 /// The short theory card before the exercises (S10). Fix 6: teach the why.

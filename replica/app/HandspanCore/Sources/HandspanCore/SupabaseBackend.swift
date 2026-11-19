@@ -360,6 +360,7 @@ public actor SupabaseBackend: Backend {
         let lesson_id: String
         let content_version: Int
         let accuracy: Int
+        let timing: Int?
         let stars: Int
         let input_mode: String
         let tempo_pct: Int
@@ -373,6 +374,7 @@ public actor SupabaseBackend: Backend {
             lesson_id = a.lessonId.lowercased()
             content_version = a.contentVersion
             accuracy = a.accuracy
+            timing = a.timing
             stars = a.stars
             input_mode = a.inputMode.rawValue
             tempo_pct = a.tempoPct

@@ -102,8 +102,8 @@ final class AudioInput {
     /// Goes up by one per note, so the same key twice is still a change to observe.
     private(set) var notesHeard = 0
 
-    /// Called on the main actor for every new note.
-    @ObservationIgnored var onNote: ((Pitch) -> Void)?
+    /// Called on the main actor for every new note, with the uptime it was detected at.
+    @ObservationIgnored var onNote: ((Pitch, TimeInterval) -> Void)?
     @ObservationIgnored private let pipeline = MicPipeline()
     @ObservationIgnored private var observers: [NSObjectProtocol] = []
 
@@ -148,7 +148,7 @@ final class AudioInput {
         if let note = frame.note {
             lastHeard = note.pitch
             notesHeard += 1
-            onNote?(note.pitch)
+            onNote?(note.pitch, note.time)
         }
     }
 

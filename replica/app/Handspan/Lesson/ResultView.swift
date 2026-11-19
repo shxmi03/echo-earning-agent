@@ -25,7 +25,10 @@ struct ResultView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityAddTraits(.isHeader)
             }
-            AccuracyBar(accuracy: result.accuracy)
+            AccuracyBar(title: "Right the first time", value: result.accuracy, tint: Palette.success)
+            if let timing = result.timing {
+                AccuracyBar(title: "In time", value: timing, tint: Palette.tint)
+            }
             if result.passed, let next {
                 Text("Next: \(next.title)")
                     .font(TextStyle.subheadline)
@@ -55,20 +58,23 @@ struct ResultView: View {
     }
 }
 
+/// One labelled percentage: accuracy or timing (components.md: Result, accuracy and timing bars).
 struct AccuracyBar: View {
-    let accuracy: Int
+    let title: String
+    let value: Int
+    var tint: Color = Palette.success
 
     var body: some View {
         VStack(alignment: .leading, spacing: Space.xs) {
             HStack {
-                Text("Right the first time")
+                Text(title)
                 Spacer()
-                Text("\(accuracy)%").monospacedDigit()
+                Text(verbatim: "\(value)%").monospacedDigit()
             }
             .font(TextStyle.subheadline)
             .foregroundStyle(Palette.text)
-            ProgressView(value: Double(accuracy), total: 100)
-                .tint(Palette.success)
+            ProgressView(value: Double(value), total: 100)
+                .tint(tint)
         }
         .padding(Layout.cardPadding)
         .background(RoundedRectangle(cornerRadius: Radius.inner, style: .continuous).fill(Palette.surface))
@@ -78,7 +84,7 @@ struct AccuracyBar: View {
 
 #Preview("Passed") {
     ResultView(lesson: try! SeedContent.firstCourse().lessons[1],
-               result: LessonResult(results: [ExerciseResult(exerciseIndex: 0, total: 10, firstTryHits: 9, missedPitches: [Pitch(62)])]),
+               result: LessonResult(results: [ExerciseResult(exerciseIndex: 0, total: 10, firstTryHits: 9, missedPitches: [Pitch(62)], timing: 84)]),
                next: nil, tryAgain: {}, close: {})
 }
 

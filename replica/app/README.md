@@ -11,7 +11,7 @@ replica/app/
     Design/               Tokens.swift and Components.swift (the live copy; see below)
     Onboarding/           S01 welcome, price, S02 instrument, S03 experience and goal, S04 sound check, S06 sign in
     Home/                 S07 home, S09 course path, Settings with account deletion
-    Lesson/               S10 concept card, S11 exercise with the staff, S14 result
+    Lesson/               S10 concept card, S11 exercise with the staff, S12 moving stage, S13 pause menu, S14 result
   HandspanCore/           Swift package, no UIKit: pitch detection, note tracking, scoring,
                           lesson content, data layer, local store. Has the unit tests.
 ```
