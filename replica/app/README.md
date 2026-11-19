@@ -32,6 +32,8 @@ cd replica/app/HandspanCore && swift test
 
 or Product › Test (⌘U) in Xcode: the shared `Handspan` scheme runs the HandspanCore tests.
 
+No Mac that runs Xcode 26? `.github/workflows/ios.yml` builds the app for the iOS Simulator and runs `swift test` on a GitHub-hosted Mac (`macos-26`) on every push that touches `replica/app/`. The results show on the pull request; a failed build uploads its log.
+
 ## Where things stand
 
 - **Not compiled yet.** This was written in a Linux container with no Swift toolchain. Expect a few compile errors on the first build; they are small and get fixed on the Mac. The pitch detector's algorithm was checked separately against synthetic piano tones (C2 to C7, weak fundamentals, 44.1 and 48 kHz): no octave errors.
