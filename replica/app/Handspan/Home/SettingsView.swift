@@ -8,6 +8,7 @@ struct SettingsView: View {
     @Environment(AppModel.self) private var model
     @Environment(StoreModel.self) private var store
     @State private var showPlans = false
+    @State private var checkTiming = false
     @State private var manage = false
     @State private var refundFor: UInt64?
     @Environment(\.dismiss) private var dismiss
@@ -28,6 +29,9 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.inline)
                     .labelsHidden()
+                    if model.inputMode == .mic {
+                        Button("Check timing") { checkTiming = true }
+                    }
                 }
 
                 Section {
@@ -78,6 +82,7 @@ struct SettingsView: View {
                 }
             }
             .sheet(isPresented: $showPlans) { PaywallView() }
+            .sheet(isPresented: $checkTiming) { TimingCheckView() }
             .manageSubscriptionsSheet(isPresented: $manage)
             .refundRequestSheet(for: refundFor ?? 0, isPresented: Binding(
                 get: { refundFor != nil }, set: { if !$0 { refundFor = nil } }))
@@ -105,4 +110,4 @@ struct SettingsView: View {
     }
 }
 
-#Preview { SettingsView().environment(AppModel.preview()).environment(StoreModel()) }
+#Preview { SettingsView().environment(AppModel.preview()).environment(StoreModel()).environment(AudioInput()) }

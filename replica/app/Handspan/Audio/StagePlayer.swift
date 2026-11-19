@@ -35,9 +35,10 @@ final class StagePlayer: @unchecked Sendable {
     }
 
     /// Seconds between a key sounding and the detector reporting it: the analysis window
-    /// plus the confirming frame, plus the input path. A fixed estimate until the latency
-    /// calibration in S04 measures it per device.
+    /// plus the confirming frame, plus the input path. Measured by "Check timing" for the
+    /// current microphone when the learner has run it; otherwise an estimate.
     var inputLatency: TimeInterval {
+        if let measured = LatencyStore.saved { return measured }
         let s = AVAudioSession.sharedInstance()
         return s.inputLatency + s.ioBufferDuration + 0.065
     }
@@ -115,5 +116,22 @@ final class StagePlayer: @unchecked Sendable {
             data[i] = gain * Float(sin(2 * .pi * frequency * t) * envelope)
         }
         return buffer
+    }
+}
+
+/// The measured input delay, one per kind of microphone (built-in, headset, USB), since
+/// each has its own path. Kept on the device only.
+enum LatencyStore {
+    private static var key: String {
+        let port = AVAudioSession.sharedInstance().currentRoute.inputs.first?.portType.rawValue ?? "none"
+        return "inputDelay.\(port)"
+    }
+
+    static var saved: TimeInterval? {
+        UserDefaults.standard.object(forKey: key) as? Double
+    }
+
+    static func save(_ delay: TimeInterval?) {
+        if let delay { UserDefaults.standard.set(delay, forKey: key) } else { UserDefaults.standard.removeObject(forKey: key) }
     }
 }
