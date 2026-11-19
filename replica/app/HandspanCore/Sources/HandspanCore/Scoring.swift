@@ -164,8 +164,8 @@ public struct LessonRun: Sendable {
     /// Starts the current timed exercise (or the next drill pass): the count-in's first
     /// click is at `start`.
     public mutating func startTimed(at start: TimeInterval, tempoPct: Int = 100) {
-        if drill != nil {
-            drill?.run = TimedExerciseRun(drill!.exercise, start: start, tempoPct: BarDrill.tempo(for: tempoPct))
+        if let exercise = drill?.exercise {
+            drill?.run = TimedExerciseRun(exercise, start: start, tempoPct: BarDrill.tempo(for: tempoPct))
             return
         }
         guard let exercise = currentExercise, exercise.isTimed else { return }
