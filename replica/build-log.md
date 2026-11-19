@@ -13,7 +13,7 @@ The iOS app lives in `replica/app/` (see its README). Built from `recon.md`, `ar
 | S03 experience and goal | 2026-11-19 | done | the placement test (fix 5); the goal is stored but not used yet | |
 | S04 sound check | 2026-11-19 | partial | latency calibration (play along to a click) | AVAudioEngine taps trap under Swift 6 if the tap closure is created on the main actor; the mic pipeline is a separate non-isolated class for that reason |
 | S05 paywall | | not started | everything: StoreKit 2, plans, restore | |
-| S06 sign in | 2026-11-19 | partial | Sign in with Apple (needs a team and the capability); the real Supabase OTP | |
+| S06 sign in | 2026-11-19 | partial | Sign in with Apple (needs a team and the capability) | Supabase answers the same error for a wrong and an expired code; the app tells them apart by the code's age. An account that already has a profile skips the name step and gets its progress back |
 | S07 home | 2026-11-19 | partial | the course row for more than one course; streak (S19) | |
 | S09 course path | 2026-11-19 | partial | song nodes and star gates | |
 | S10 concept card | 2026-11-19 | done | short animations | |
@@ -29,7 +29,7 @@ Hear a note → mark it right → save it, end to end:
 - **Mark:** `LessonRun` waits for the right key. A wrong key never moves on and gets a hint ("That was E4. Aim two keys lower."). Stars come from notes right the first time: 90% → 3, 70% → 2, 40% → 1.
 - **Save:** the attempt goes to the local store first, then uploads through `Backend.recordAttempts`, which is idempotent by `client_attempt_id`. Failed uploads wait on the device and the home screen says so.
 
-Done when (from `architecture.md`): a real piano in a normal room passes the five-note exercise, the attempt appears in Postgres and a replay doesn't duplicate it. The first part needs the Mac and a piano; the Postgres part needs `/replica-backend`.
+Done when (from `architecture.md`): a real piano in a normal room passes the five-note exercise, the attempt appears in Postgres and a replay doesn't duplicate it. The first part needs a device and a piano; the Postgres part is in place (`backend.md`).
 
 ## Tests (HandspanCore)
 
@@ -42,5 +42,5 @@ Pass on the CI Mac (2026-11-19): about 50 cases across pitch names and staff pos
 ## Next
 
 1. Install on an iPhone (TestFlight once there is an Apple Developer account), play the first lesson on a real piano, save screenshots to `replica/clone-screens/`.
-2. `/replica-backend`: Supabase from `schema.sql`, the real OTP sign-in, `record_attempts`, `delete-account`.
+2. ~~`/replica-backend`~~ done 2026-11-19: see `backend.md`. Left for the dashboard: the code email template.
 3. S12 moving stage and S13 pause menu, then S05 paywall with StoreKit 2.

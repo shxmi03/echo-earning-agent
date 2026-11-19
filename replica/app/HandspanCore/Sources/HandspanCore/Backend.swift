@@ -2,7 +2,8 @@ import Foundation
 
 // The data layer. Screens talk to `Backend` only. `FakeBackend` keeps everything in
 // memory with the same signatures as the Supabase calls in architecture.md, so the real
-// one (/replica-backend) replaces it without touching screen code.
+// one (`SupabaseBackend`) replaces it without touching screen code. The app picks the
+// fake when `SupabaseConfig` is empty, and in previews.
 
 public enum InputMode: String, Codable, Sendable { case mic, midi, touch }
 public enum Experience: String, Codable, Sendable, CaseIterable { case beginner, some, advanced }
@@ -83,7 +84,13 @@ public protocol Backend: Sendable {
     func sendCode(to email: String) async throws
     /// auth.verifyOtp
     func verify(email: String, code: String) async throws -> Session
+    /// The account's first learner profile, if it already has one (a reinstall or a
+    /// second device). nil for a new account.
+    func existingProfile(session: Session) async throws -> Profile?
     func createProfile(_ profile: Profile, session: Session) async throws -> Profile
+    /// lesson_progress for one profile, keyed by lesson id. Rebuilds the course map on
+    /// a new device.
+    func lessonProgress(profileId: UUID, session: Session) async throws -> [String: LessonProgress]
     /// rpc record_attempts: returns how many were new. Replays are ignored.
     func recordAttempts(_ attempts: [Attempt], session: Session) async throws -> Int
     /// functions/v1/delete-account
@@ -110,6 +117,7 @@ public actor FakeBackend: Backend {
     public private(set) var deletedAccounts: Set<UUID> = []
     public var isOffline = false
     private var accounts: [String: UUID] = [:]
+    private var profileOwners: [UUID: UUID] = [:]
     private var wrongTries = 0
 
     public init() {}
@@ -137,10 +145,31 @@ public actor FakeBackend: Backend {
         return Session(accountId: id, email: key)
     }
 
+    public func existingProfile(session: Session) async throws -> Profile? {
+        guard !isOffline else { throw AuthError.offline }
+        return profileOwners.first { $0.value == session.accountId }.flatMap { profiles[$0.key] }
+    }
+
     public func createProfile(_ profile: Profile, session: Session) async throws -> Profile {
         guard !isOffline else { throw AuthError.offline }
+        // Same rule as the profiles_cap trigger: one profile without a plan.
+        guard !profileOwners.values.contains(session.accountId) else { throw BackendError.profileLimitReached }
         profiles[profile.id] = profile
+        profileOwners[profile.id] = session.accountId
         return profile
+    }
+
+    public func lessonProgress(profileId: UUID, session: Session) async throws -> [String: LessonProgress] {
+        guard !isOffline else { throw AuthError.offline }
+        guard profileOwners[profileId] == session.accountId else { return [:] }
+        var out: [String: LessonProgress] = [:]
+        for a in attempts.values where a.profileId == profileId {
+            var p = out[a.lessonId] ?? LessonProgress()
+            p.bestStars = max(p.bestStars, a.stars)
+            if a.stars > 0, !p.done { p.done = true; p.completedAt = a.finishedAt }
+            out[a.lessonId] = p
+        }
+        return out
     }
 
     public func recordAttempts(_ batch: [Attempt], session: Session) async throws -> Int {
@@ -156,6 +185,11 @@ public actor FakeBackend: Backend {
     public func deleteAccount(session: Session) async throws {
         guard !isOffline else { throw AuthError.offline }
         deletedAccounts.insert(session.accountId)
+        for (pid, owner) in profileOwners where owner == session.accountId {
+            profileOwners[pid] = nil
+            profiles[pid] = nil
+            attempts = attempts.filter { $0.value.profileId != pid }
+        }
         accounts = accounts.filter { $0.value != session.accountId }
     }
 }

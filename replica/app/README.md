@@ -22,7 +22,7 @@ replica/app/
 2. Pick your team under Signing & Capabilities (the project ships with none) and, if you like, change the bundle id `app.handspan.ios`.
 3. Run on an iPhone or iPad. The simulator works too, using the Mac's microphone, or choose "No piano yet" to play on the screen.
 
-Sign-in uses a fake backend for now: any email, and any 6-digit code. `000000` shows the wrong-code state and `999999` the expired one.
+Sign-in goes to the real Supabase project "handspan" (`Handspan/App/SupabaseSettings.swift`, see `replica/backend.md`): a 6-digit code arrives by email. To try every screen without email, launch with the environment variable `HANDSPAN_FAKE_BACKEND=1` (Edit Scheme › Run › Arguments): then any 6-digit code works, `000000` shows the wrong-code state and `999999` the expired one.
 
 ## Test it
 
@@ -37,7 +37,7 @@ No Mac that runs Xcode 26? `.github/workflows/ios.yml` builds the app for the iO
 ## Where things stand
 
 - **Builds and tests pass on CI** (GitHub `macos-26`, Xcode 26.6). Not yet tried on a device or a real piano. The pitch detector passes on synthetic piano tones (C2 to C7, weak fundamentals, 44.1 and 48 kHz) with no octave errors.
-- **The backend is fake** (`FakeBackend` in HandspanCore). `/replica-backend` swaps in Supabase behind the same `Backend` protocol, so no screen changes.
+- **The backend is Supabase** (`SupabaseBackend` in HandspanCore, plain URLSession). `FakeBackend` stays for previews, tests and `HANDSPAN_FAKE_BACKEND=1`. Schema, functions and tests: `replica/supabase/`.
 - **Design files.** `Handspan/Design/` started as a copy of `replica/design/swift/`. Edit the app copy from now on and keep `tokens.json` in step.
 
 See `replica/build-log.md` for screen by screen status.
