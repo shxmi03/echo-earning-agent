@@ -2,11 +2,11 @@ feature,area,priority,original,clone,notes
 Onboarding questions (instrument type experience goal),onboarding,must,yes,yes,"S02 S03; S02 S03 built: instrument, experience, goal"
 Microphone permission and sound check,onboarding,must,yes,yes,"S04; S04 built: ask, listening meter, heard, nothing heard, denied"
 Email sign-in with a one-time code (no password),account,must,yes,partial,4-digit code per help center; S06 built with 6-digit code; fake backend until /replica-backend
-Free starter course without a subscription,monetisation,must,yes,partial,Piano Basics is free in the original; 5 lessons / 19 exercises written; ~12 lessons and a finished song planned
+Free starter course without a subscription,monetisation,must,yes,partial,"Piano Basics is free in the original; 5 lessons / 19 exercises written; ~12 lessons and a finished song planned; lesson 6 is the first song (Morning Steps, original, 16 bars)"
 Subscription paywall with a free trial,monetisation,must,yes,partial,"original: trial only on yearly; fix candidate; S05 built: StoreKit 2, 7-day trial on every plan, server check; needs App Store Connect setup"
 Restore purchases on a new device,monetisation,must,yes,yes,S05: Restore purchases on the paywall (AppStore.sync)
 Course map with progress per course,courses,must,yes,partial,S07; Home focus card + progress for the one course; no course row yet
-Lesson path with lessons songs and gates in order,courses,must,yes,partial,S09; S09 lessons in order with stars; no songs or gates yet
+Lesson path with lessons songs and gates in order,courses,must,yes,partial,S09; S09 lessons in order with stars; no songs or gates yet; song node at the end of the first course
 Concept lesson intro (explain a new note or chord),courses,must,yes,yes,"S10 own text and visuals; S10 concept card, own text, keyboard picture, tip"
 Static exercise: read a note and play it,player,must,yes,yes,"S11; S11 staff in Canvas, waits for the right key"
 Moving stage: play in time with a scrolling staff and cursor,player,must,yes,no,S12
@@ -46,7 +46,7 @@ Bundle with guitar / sing / draw apps,monetisation,skip,yes,skip,their other pro
 Trinity College certificates,partners,skip,yes,skip,partner deal
 Reseller and gift codes (Sweetwater),partners,skip,yes,skip,partner deal; plain gift codes could come later
 XR / Vision Pro version,platform,skip,yes,skip,out of scope for the MVP
-Whole first course free to a finished song; paywall never interrupts a lesson,monetisation,must,no,partial,fix 1: early paywall 44 reviews; no paywall exists yet; the song is not written
+Whole first course free to a finished song; paywall never interrupts a lesson,monetisation,must,no,partial,fix 1: early paywall 44 reviews; no paywall exists yet; the song is not written; the free course now ends on a finished song; the paywall opens only from Settings
 Price and trial terms shown before onboarding questions,monetisation,must,no,yes,fix 1: 'set up everything before asking you to pay'; second screen of onboarding
 Monthly plan with the same free trial as yearly,monetisation,should,no,no,fix 2: billing 31 reviews / 3 sources
 Push reminder 2 days before a trial converts,monetisation,must,no,yes,fix 2; local notification at 10:00 two days before the trial ends

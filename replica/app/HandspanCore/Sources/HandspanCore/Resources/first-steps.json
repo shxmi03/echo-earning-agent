@@ -2,8 +2,8 @@
   "id": "d4d397f6-e393-5d7e-a830-239b9a8c6949",
   "title": "First steps",
   "isFree": true,
-  "contentVersion": 2,
-  "summary": "Find your way around the keys, read your first notes and play five-note tunes with your right hand.",
+  "contentVersion": 3,
+  "summary": "Find your way around the keys, read your first notes and play your first song with your right hand.",
   "lessons": [
     {
       "id": "a0709ee4-87f0-5519-a787-e7004b828ec9",
@@ -903,6 +903,555 @@
               "hand": "right",
               "finger": 1,
               "beats": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a9d032ab-362f-5115-b815-72c26246d782",
+      "title": "Your first song: Morning Steps",
+      "summary": "Everything from this course in one tune: four lines, then the whole song in time.",
+      "kind": "song",
+      "minutes": 10,
+      "concept": {
+        "title": "Four lines make a song",
+        "paragraphs": [
+          "Most tunes are built from short lines, a few bars each. This one has four.",
+          "Lines 1, 2 and 4 start the same way: C, E, then a long G. Once you know that start, you know half the song.",
+          "You will learn each line on its own, then play the whole song with the click."
+        ],
+        "keys": [
+          60,
+          62,
+          64,
+          65,
+          67
+        ],
+        "tip": "Count the long notes out loud: one, two. Holding them for their full length is what makes it sound like music."
+      },
+      "exercises": [
+        {
+          "id": "6c5a5272-ece3-525d-8195-fda0760f92d3",
+          "prompt": "Line 1: up to G and settle on D.",
+          "clef": "treble",
+          "tempo": 66,
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2.0
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2,
+              "beats": 2.0
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2,
+              "beats": 4.0
+            }
+          ]
+        },
+        {
+          "id": "52e9499f-cffa-5ff9-8594-5a3eddfd96a3",
+          "prompt": "Line 2: the same start, home to C.",
+          "clef": "treble",
+          "tempo": 66,
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2.0
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1,
+              "beats": 4.0
+            }
+          ]
+        },
+        {
+          "id": "c11a1945-64da-5640-8748-33facd6029fb",
+          "prompt": "Line 3: the middle, starting high on G.",
+          "clef": "treble",
+          "tempo": 66,
+          "notes": [
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2.0
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3,
+              "beats": 2.0
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4,
+              "beats": 2.0
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2,
+              "beats": 2.0
+            }
+          ]
+        },
+        {
+          "id": "50216638-b3a2-5815-be16-1b665af98b9c",
+          "prompt": "Line 4: back to the start, and home.",
+          "clef": "treble",
+          "tempo": 66,
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2.0
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2,
+              "beats": 2.0
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1,
+              "beats": 4.0
+            }
+          ]
+        },
+        {
+          "id": "3512a7a4-93c3-55b7-8d67-09a10cf3144c",
+          "prompt": "The whole song, start to finish.",
+          "clef": "treble",
+          "tempo": 72,
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2.0
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2,
+              "beats": 2.0
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2,
+              "beats": 4.0
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2.0
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1,
+              "beats": 4.0
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2.0
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3,
+              "beats": 2.0
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4,
+              "beats": 2.0
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2,
+              "beats": 2.0
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5,
+              "beats": 2.0
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2,
+              "beats": 2.0
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1,
+              "beats": 4.0
             }
           ]
         }

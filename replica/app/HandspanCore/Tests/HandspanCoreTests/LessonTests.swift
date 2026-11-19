@@ -112,3 +112,21 @@ private func lesson(_ exercises: [[Int]]) -> Lesson {
         }
     }
 }
+
+@Suite struct FirstSongTests {
+    @Test func theFirstCourseEndsOnASong() throws {
+        let course = try SeedContent.firstCourse()
+        let song = try #require(course.lessons.last)
+        #expect(song.kind == .song)
+        let whole = try #require(song.exercises.last)
+        #expect(whole.isTimed)
+        // The lines, played in order, are exactly the whole song.
+        let lines = song.exercises.dropLast().flatMap { $0.notes }
+        #expect(lines == whole.notes)
+        // Every bar is full: 4/4 all the way through.
+        let beats = whole.notes.reduce(0.0) { $0 + $1.duration }
+        #expect(beats == 64)
+        let barCount = whole.bars().count
+        #expect(barCount == 16)
+    }
+}
