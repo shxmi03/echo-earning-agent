@@ -1,0 +1,709 @@
+{
+  "id": "d4d397f6-e393-5d7e-a830-239b9a8c6949",
+  "title": "First steps",
+  "isFree": true,
+  "contentVersion": 1,
+  "summary": "Find your way around the keys, read your first notes and play five-note tunes with your right hand.",
+  "lessons": [
+    {
+      "id": "a0709ee4-87f0-5519-a787-e7004b828ec9",
+      "title": "Find middle C",
+      "summary": "Find your way around the keys by their black-key groups, then play your first note.",
+      "kind": "concept",
+      "minutes": 5,
+      "concept": {
+        "title": "The black keys are your map",
+        "paragraphs": [
+          "The black keys come in groups of two and three, all the way up the piano. That pattern is how pianists find any note without looking for labels.",
+          "C is the white key just to the left of every group of two black keys.",
+          "Middle C is the C nearest the middle of your piano. On most pianos it sits close to the maker's name. On the staff it gets its own short line, just below the five lines."
+        ],
+        "keys": [
+          60
+        ],
+        "tip": "Sit so your elbows are level with the keys and your feet are flat on the floor."
+      },
+      "exercises": [
+        {
+          "id": "33fd84ec-8fa6-5ec1-8fc5-f09cf08e81d7",
+          "prompt": "Play middle C with your right thumb.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "29e40a2b-ade2-5eef-8572-9c0d4a6d4de6",
+          "prompt": "Middle C, three times. Lift your thumb between each one.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ba403960-5ae3-547c-9466-3822d8cf0528",
+      "title": "C, D and E",
+      "summary": "Three neighbours: D sits between the two black keys, E just after them.",
+      "kind": "concept",
+      "minutes": 6,
+      "concept": {
+        "title": "Three fingers, three keys",
+        "paragraphs": [
+          "D is the white key between the two black keys. E is the white key just to the right of them.",
+          "Fingers are numbered from the thumb: thumb is 1, index is 2, middle is 3. Put 1 on C, 2 on D and 3 on E, and leave them resting there.",
+          "Going up the keyboard, notes go up the staff. C sits on its short line, D hangs just under the staff, and E sits on the bottom line."
+        ],
+        "keys": [
+          60,
+          62,
+          64
+        ],
+        "tip": "Curve your fingers as if you were holding a small ball. Play with the tips, not the flat pads."
+      },
+      "exercises": [
+        {
+          "id": "d780e34a-1c69-5374-b60f-e60a2c345b6a",
+          "prompt": "Walk up: C, D, E.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            }
+          ]
+        },
+        {
+          "id": "3fdeb14d-b72f-5026-8b58-6aeadd1651fe",
+          "prompt": "And back down.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "88e0a05a-eff3-522a-9c82-41204446564f",
+          "prompt": "Skip over D and come back.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "a3a3b26c-9d05-5b54-9304-070b40681dcc",
+          "prompt": "Two Ds, then home.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bf772433-e1a6-506e-92cc-6ef59543e75f",
+      "title": "Steps on the staff",
+      "summary": "Read where each note sits before you play it.",
+      "kind": "concept",
+      "minutes": 6,
+      "concept": {
+        "title": "Lines and spaces",
+        "paragraphs": [
+          "Each line and each space of the staff is one white key. Moving from a line to the next space is one step up the keyboard.",
+          "When the next note is one step higher, the next finger plays it. When it is two steps higher, a finger is skipped.",
+          "Read the next note while you play the current one. That habit is most of sight reading."
+        ],
+        "keys": [
+          60,
+          62,
+          64
+        ],
+        "tip": null
+      },
+      "exercises": [
+        {
+          "id": "d2557777-b457-571e-8567-c6de14f3fa0d",
+          "prompt": "Read, then play.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "dedcfab2-85a7-56b2-ad7e-7a85927a478d",
+          "prompt": "Up and down.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "50d4fe97-2fe4-5482-bc1e-305a5cae6e4a",
+          "prompt": "Watch the skip.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            }
+          ]
+        },
+        {
+          "id": "d5f8f1b7-ba5d-518e-9e9e-a39a548f7281",
+          "prompt": "One more.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4eb18dd9-6443-5620-9f55-ed8e203c1cce",
+      "title": "F and G",
+      "summary": "Two more keys, beside the group of three black keys. Your whole hand is now in place.",
+      "kind": "concept",
+      "minutes": 7,
+      "concept": {
+        "title": "A hand in five-finger position",
+        "paragraphs": [
+          "F is the white key just to the left of a group of three black keys. G is the next white key up.",
+          "With 1 on C, your fingers 4 and 5 land on F and G. One finger per key, five keys in a row: that is five-finger position.",
+          "On the staff, F sits in the bottom space and G on the second line."
+        ],
+        "keys": [
+          60,
+          62,
+          64,
+          65,
+          67
+        ],
+        "tip": "Fingers 4 and 5 are the weakest. Keep them curved and let the weight of your arm do the work."
+      },
+      "exercises": [
+        {
+          "id": "bf5c42ce-2fb4-5f3a-aa25-6e12b8e23480",
+          "prompt": "All five, up.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            }
+          ]
+        },
+        {
+          "id": "6a5c1a85-cadf-5f4e-bed6-d94652a30ecd",
+          "prompt": "All five, down.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "0af164a3-b430-5247-a664-94f1b1c73a6b",
+          "prompt": "Skip every other key.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "66074336-0a08-5662-8719-4ff70deac18f",
+          "prompt": "The top three.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3f3816f1-9889-5161-be50-ecdb80e69c8e",
+      "title": "Five notes, right hand",
+      "summary": "Longer lines that use everything so far. Take your time; there is no clock.",
+      "kind": "exercise_set",
+      "minutes": 8,
+      "concept": null,
+      "exercises": [
+        {
+          "id": "ebd9c0f4-0649-5136-aa4b-3ecc1093afb0",
+          "prompt": "Up and back home.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "2b9b0205-e9d0-56b7-8884-1c0bb66c6c68",
+          "prompt": "Down from G.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 65,
+              "hand": "right",
+              "finger": 4
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        },
+        {
+          "id": "2eed768d-5dc5-58ee-b8d2-d60ef0ea2cf1",
+          "prompt": "A short tune.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            }
+          ]
+        },
+        {
+          "id": "ea4aee39-1a4e-56d2-a921-d12118de3666",
+          "prompt": "Answer it.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            },
+            {
+              "pitch": 67,
+              "hand": "right",
+              "finger": 5
+            }
+          ]
+        },
+        {
+          "id": "bd90ecf1-8b3a-50ad-bf05-8ab9a91e42d5",
+          "prompt": "Finish on C.",
+          "clef": "treble",
+          "notes": [
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 64,
+              "hand": "right",
+              "finger": 3
+            },
+            {
+              "pitch": 62,
+              "hand": "right",
+              "finger": 2
+            },
+            {
+              "pitch": 60,
+              "hand": "right",
+              "finger": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

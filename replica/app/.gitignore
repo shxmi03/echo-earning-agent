@@ -1,0 +1,6 @@
+xcuserdata/
+*.xcuserstate
+DerivedData/
+HandspanCore/.build/
+HandspanCore/.swiftpm/
+.DS_Store

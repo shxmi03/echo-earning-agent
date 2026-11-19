@@ -1,0 +1,55 @@
+# Builds the Handspan iOS app and runs its tests on a GitHub-hosted Mac.
+# No Mac with Xcode 26 is needed locally: results show on the pull request.
+name: iOS build and tests
+
+on:
+  push:
+    branches: [main]   # branches with a PR are built by the pull_request event only, so each push runs once
+    paths: ["replica/app/**", ".github/workflows/ios.yml"]
+  pull_request:
+    paths: ["replica/app/**", ".github/workflows/ios.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core-tests:
+    name: HandspanCore tests
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: xcodebuild -version && swift --version
+      - name: swift test
+        working-directory: replica/app/HandspanCore
+        run: swift test
+
+  app-build:
+    name: App build (iOS Simulator)
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: xcodebuild -version
+      - name: Build
+        working-directory: replica/app
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project Handspan.xcodeproj \
+            -scheme Handspan \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            | tee build.log | grep -E "error:|warning: .*(Sendable|isolat)|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" build.log
+      - name: Upload the build log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: replica/app/build.log
