@@ -34,6 +34,11 @@ public struct Profile: Codable, Sendable, Equatable, Identifiable {
 public struct Session: Codable, Sendable, Equatable {
     public let accountId: UUID
     public let email: String
+
+    public init(accountId: UUID, email: String) {
+        self.accountId = accountId
+        self.email = email
+    }
 }
 
 /// One finished lesson attempt. Field names follow the `attempts` table.

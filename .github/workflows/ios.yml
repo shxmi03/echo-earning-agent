@@ -4,6 +4,7 @@ name: iOS build and tests
 
 on:
   push:
+    branches: [main]   # branches with a PR are built by the pull_request event only, so each push runs once
     paths: ["replica/app/**", ".github/workflows/ios.yml"]
   pull_request:
     paths: ["replica/app/**", ".github/workflows/ios.yml"]

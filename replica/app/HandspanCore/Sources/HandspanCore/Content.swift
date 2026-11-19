@@ -23,6 +23,13 @@ public struct Exercise: Codable, Sendable, Identifiable, Hashable {
     public let prompt: String
     public let clef: Clef
     public let notes: [ExerciseNote]
+
+    public init(id: String, prompt: String, clef: Clef, notes: [ExerciseNote]) {
+        self.id = id
+        self.prompt = prompt
+        self.clef = clef
+        self.notes = notes
+    }
 }
 
 /// The short theory card before the exercises (S10). Fix 6: teach the why.
@@ -33,6 +40,13 @@ public struct ConceptCard: Codable, Sendable, Hashable {
     public let keys: [Pitch]
     /// An optional tip about posture or fingering.
     public let tip: String?
+
+    public init(title: String, paragraphs: [String], keys: [Pitch], tip: String?) {
+        self.title = title
+        self.paragraphs = paragraphs
+        self.keys = keys
+        self.tip = tip
+    }
 }
 
 public struct Lesson: Codable, Sendable, Identifiable, Hashable {
@@ -43,6 +57,17 @@ public struct Lesson: Codable, Sendable, Identifiable, Hashable {
     public let minutes: Int
     public let concept: ConceptCard?
     public let exercises: [Exercise]
+
+    public init(id: String, title: String, summary: String, kind: LessonKind, minutes: Int,
+                concept: ConceptCard?, exercises: [Exercise]) {
+        self.id = id
+        self.title = title
+        self.summary = summary
+        self.kind = kind
+        self.minutes = minutes
+        self.concept = concept
+        self.exercises = exercises
+    }
 }
 
 public struct Course: Codable, Sendable, Identifiable, Hashable {
@@ -52,6 +77,15 @@ public struct Course: Codable, Sendable, Identifiable, Hashable {
     public let isFree: Bool
     public let contentVersion: Int
     public let lessons: [Lesson]
+
+    public init(id: String, title: String, summary: String, isFree: Bool, contentVersion: Int, lessons: [Lesson]) {
+        self.id = id
+        self.title = title
+        self.summary = summary
+        self.isFree = isFree
+        self.contentVersion = contentVersion
+        self.lessons = lessons
+    }
 
     public func lesson(after id: String) -> Lesson? {
         guard let i = lessons.firstIndex(where: { $0.id == id }), i + 1 < lessons.count else { return nil }
