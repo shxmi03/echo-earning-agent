@@ -28,13 +28,19 @@ final class AppModel {
         syncStatus = state.pendingAttempts.isEmpty ? .synced : .pending
     }
 
-    /// The real app. The backend is the in-memory fake until /replica-backend lands.
+    /// The real app: Supabase when `SupabaseSettings` is filled in, else the in-memory fake.
     static func live() -> AppModel {
         let course: Course
         do { course = try SeedContent.firstCourse() } catch {
             fatalError("The bundled first course is missing or broken: \(error)")
         }
-        return AppModel(backend: FakeBackend(), store: try? LocalStore.standard(), course: course)
+        let backend: any Backend
+        if let config = SupabaseSettings.config {
+            backend = SupabaseBackend(config: config, tokenStore: KeychainTokenStore())
+        } else {
+            backend = FakeBackend()
+        }
+        return AppModel(backend: backend, store: try? LocalStore.standard(), course: course)
     }
 
     /// For SwiftUI previews: nothing touches the disk.
@@ -64,6 +70,28 @@ final class AppModel {
     // MARK: Onboarding
 
     var inputMode: InputMode { state.profile?.inputMode ?? draftInputMode }
+
+    /// Right after the code is accepted. An account that already has a profile (a
+    /// reinstall, a second device, "I already have an account") is restored with its
+    /// progress and skips the name step: returns true. A new account returns false.
+    func restoreAccount(session: Session) async throws -> Bool {
+        guard let profile = try await backend.existingProfile(session: session) else { return false }
+        let remote = (try? await backend.lessonProgress(profileId: profile.id, session: session)) ?? [:]
+        // Keep the better of each lesson, the same rule as the server's greatest(best_stars).
+        for (lessonId, theirs) in remote {
+            var mine = state.progress[lessonId] ?? LessonProgress()
+            mine.bestStars = max(mine.bestStars, theirs.bestStars)
+            if theirs.done, !mine.done { mine.done = true; mine.completedAt = theirs.completedAt }
+            state.progress[lessonId] = mine
+        }
+        state.session = session
+        state.profile = profile
+        if state.goal == nil { state.goal = draftGoal }
+        state.onboarded = true
+        save()
+        Task { await sync() }
+        return true
+    }
 
     func finishOnboarding(session: Session, name: String) async throws {
         let profile = Profile(name: name, inputMode: draftInputMode, experience: draftExperience)

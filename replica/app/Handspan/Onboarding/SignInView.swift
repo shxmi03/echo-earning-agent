@@ -128,7 +128,9 @@ struct SignInView: View {
                     phase = .code
                     focus = .code
                 case .code:
-                    session = try await model.backend.verify(email: email.trimmingCharacters(in: .whitespaces), code: code)
+                    let verified = try await model.backend.verify(email: email.trimmingCharacters(in: .whitespaces), code: code)
+                    session = verified
+                    if try await model.restoreAccount(session: verified) { return }
                     phase = .name
                     focus = .name
                 case .name:
@@ -138,6 +140,10 @@ struct SignInView: View {
             } catch let authError as AuthError {
                 error = message(for: authError)
                 if authError == .wrongCode { code = "" }
+            } catch BackendError.notSignedIn {
+                phase = .email
+                code = ""
+                self.error = "Your sign-in ran out. Enter your email again."
             } catch {
                 self.error = "Something went wrong on our side. Try again in a moment."
             }

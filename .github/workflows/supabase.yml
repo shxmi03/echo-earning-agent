@@ -1,0 +1,32 @@
+# Applies every Supabase migration to a throwaway Postgres and runs the access-rule
+# checks (a second account must see nothing of the first). Needs no Supabase account.
+name: Database migrations and access rules
+
+on:
+  push:
+    branches: [main]
+    paths: ["replica/supabase/**", ".github/workflows/supabase.yml"]
+  pull_request:
+    paths: ["replica/supabase/**", ".github/workflows/supabase.yml"]
+  workflow_dispatch:
+
+jobs:
+  db-tests:
+    name: Migrations + RLS tests (Postgres 17)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+        run: replica/supabase/tests/run.sh

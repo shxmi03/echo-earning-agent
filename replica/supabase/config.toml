@@ -1,0 +1,38 @@
+# Supabase CLI settings for local development (`supabase start`). The hosted project
+# needs the same auth settings set in the dashboard: see ../backend.md.
+project_id = "handspan"
+
+[api]
+schemas = ["public"]
+
+[db]
+major_version = 17
+
+[auth]
+site_url = "app.handspan.ios://auth"
+enable_signup = true
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+otp_length = 6
+otp_expiry = 600
+max_frequency = "30s"
+
+# The app signs in with a 6-digit code, never a link: the email must show {{ .Token }}.
+[auth.email.template.magic_link]
+subject = "Your Handspan code"
+content_path = "./supabase/templates/code.html"
+
+[auth.email.template.confirmation]
+subject = "Your Handspan code"
+content_path = "./supabase/templates/code.html"
+
+[auth.rate_limit]
+email_sent = 30
+token_verifications = 30
+
+[functions.delete-account]
+verify_jwt = true
