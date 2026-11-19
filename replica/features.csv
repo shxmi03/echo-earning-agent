@@ -1,7 +1,7 @@
 feature,area,priority,original,clone,notes
 Onboarding questions (instrument type experience goal),onboarding,must,yes,yes,"S02 S03; S02 S03 built: instrument, experience, goal"
 Microphone permission and sound check,onboarding,must,yes,yes,"S04; S04 built: ask, listening meter, heard, nothing heard, denied"
-Email sign-in with a one-time code (no password),account,must,yes,partial,4-digit code per help center; S06 built with 6-digit code; fake backend until /replica-backend
+Email sign-in with a one-time code (no password),account,must,yes,yes,S06: 6-digit email code through Supabase Auth (GoTrue); code template set in the dashboard
 Free starter course without a subscription,monetisation,must,yes,partial,"Piano Basics is free in the original; 5 lessons / 19 exercises written; ~12 lessons and a finished song planned; lesson 6 is the first song (Morning Steps, original, 16 bars)"
 Subscription paywall with a free trial,monetisation,must,yes,partial,"original: trial only on yearly; fix candidate; S05 built: StoreKit 2, 7-day trial on every plan, server check; needs App Store Connect setup"
 Restore purchases on a new device,monetisation,must,yes,yes,S05: Restore purchases on the paywall (AppStore.sync)
@@ -14,8 +14,8 @@ Live note recognition from the microphone (single notes),player,must,yes,partial
 Instant right/wrong feedback with a key hint,player,must,yes,yes,grey heard / yellow target in original; pick your own colours; colour + symbol on staff and keys; 'Aim two keys lower'
 Pause menu: resume restart listen exit,player,must,yes,partial,S13; S11 has leave with confirmation only; full menu comes with S12
 Result screen with 0-3 stars,player,must,yes,yes,"S14; S14 with stars, accuracy, try again always visible"
-Save progress to the account and sync across devices,account,must,yes,partial,local store + idempotent upload queue; server is fake
-Account deletion in the app,account,must,yes,partial,Apple requirement; Settings > Delete account wipes device + calls backend (fake for now)
+Save progress to the account and sync across devices,account,must,yes,yes,"local store + idempotent upload queue to Supabase (record_attempts), progress restored on sign-in"
+Account deletion in the app,account,must,yes,yes,Apple requirement; Settings > Delete account wipes the device and calls the delete-account edge function
 MIDI keyboard input (USB and Bluetooth),player,should,yes,no,S24
 Chord recognition from the microphone,player,should,yes,no,original is weak here
 Song library browse by level and genre,songs,should,yes,no,S15 own catalogue
@@ -51,7 +51,7 @@ Price and trial terms shown before onboarding questions,monetisation,must,no,yes
 Monthly plan with the same free trial as yearly,monetisation,should,no,no,fix 2: billing 31 reviews / 3 sources
 Push reminder 2 days before a trial converts,monetisation,must,no,yes,fix 2; local notification at 10:00 two days before the trial ends
 No ads or cross-promotion for anyone,monetisation,must,no,yes,fix 2; none in the app
-Per-piano mic calibration and octave-correct detection tested on real pianos,player,must,no,no,fix 3: recognition 21 reviews / 3 sources
+Per-piano mic calibration and octave-correct detection tested on real pianos,player,must,no,partial,"fix 3: recognition 21 reviews / 3 sources; Settings › Check timing measures the mic delay per input (8 notes on 8 clicks, median, outliers dropped); octave check on real pianos still to do"
 A wrong note never counts even if the right one is also played,player,must,no,partial,fix 3: random-notes false pass; single notes: a wrong note never advances; chords not yet
 One-tap 'I played that right' report,player,could,no,partial,fix 3: logged for tuning the detector; button counts the note and is counted locally; not uploaded yet
 Loop only the bar that went wrong instead of restarting the section,player,must,no,yes,fix 4: harsh restarts 12 (thin) + drill-the-hard-part 3; after a timed exercise with misses: Practise bar N loops just that bar at 85% tempo; the first pass keeps its result

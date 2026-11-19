@@ -11,7 +11,7 @@ The iOS app lives in `replica/app/` (see its README). Built from `recon.md`, `ar
 | price notice (fix 1) | 2026-11-19 | done | the price comes from a constant ($9.99, proposed in `launch/pricing.md`, not confirmed) until StoreKit gives the real one | |
 | S02 instrument | 2026-11-19 | done | MIDI as a choice (S24) | |
 | S03 experience and goal | 2026-11-19 | done | the placement test (fix 5); the goal is stored but not used yet | |
-| S04 sound check | 2026-11-19 | partial | latency calibration (play along to a click) | AVAudioEngine taps trap under Swift 6 if the tap closure is created on the main actor; the mic pipeline is a separate non-isolated class for that reason |
+| S04 sound check | 2026-11-19 | partial | octave check on real pianos (needs a person at a piano) | latency is measured in Settings › Check timing: eight notes on eight clicks, the median gap after dropping the extremes, saved per kind of microphone; AVAudioEngine taps trap under Swift 6 if the tap closure is created on the main actor; the mic pipeline is a separate non-isolated class for that reason |
 | S05 paywall | 2026-11-19 | partial | the products in App Store Connect (yours to create); entry from locked content (there is none yet: the paywall opens from Settings › See plans) | the free week is one per Apple Account per group, so eligibility is read from StoreKit, not assumed |
 | S06 sign in | 2026-11-19 | partial | Sign in with Apple (needs a team and the capability) | Supabase answers the same error for a wrong and an expired code; the app tells them apart by the code's age. An account that already has a profile skips the name step and gets its progress back |
 | S07 home | 2026-11-19 | partial | the course row for more than one course; streak (S19) | |
