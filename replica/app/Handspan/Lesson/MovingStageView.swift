@@ -6,6 +6,7 @@ import HandspanCore
 /// the same uptime clock as the clicks and the scoring, never from a SwiftUI animation.
 struct MovingStageView: View {
     let session: LessonSession
+    var showFingers = true
 
     private let lowest = -6
     private let highest = 13
@@ -104,6 +105,12 @@ struct MovingStageView: View {
                     stem.addLine(to: CGPoint(x: x - headWidth / 2 + 0.6, y: ny + gap * 3.5))
                 }
                 context.stroke(stem, with: .color(color), lineWidth: 1.4)
+            }
+            if showFingers {
+                let label = Text("\(note.finger)")
+                    .font(.system(size: gap * 0.95, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Palette.textMuted)
+                context.draw(context.resolve(label), at: CGPoint(x: x, y: y(12)), anchor: .center)
             }
             if let symbol = state.symbol {
                 var image = context.resolve(Image(systemName: symbol))

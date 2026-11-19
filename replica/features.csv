@@ -24,7 +24,7 @@ Slow down / speed up tempo,songs,should,yes,partial,tempo 50-100% from the pause
 Practise left hand right hand or both,songs,should,yes,no,
 Practice (wait) mode: song waits for the right note,songs,should,yes,no,
 Metronome instead of backing track,songs,should,yes,partial,the click track is the only accompaniment for now; backing tracks need recordings
-Finger numbers on or off,songs,should,yes,no,
+Finger numbers on or off,songs,should,yes,yes,over each note on the static and moving staff; toggle in the pause menu and Settings (on by default)
 Scrub back and forth in a song,songs,should,yes,no,
 Backing tracks under moving stages,player,should,yes,no,needs own recordings
 Star-level gates (earn N stars to continue),courses,should,yes,no,S09 gate fraction

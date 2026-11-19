@@ -6,6 +6,7 @@ import HandspanCore
 /// States: waiting (target), correct, wrong (with a hint), not heard, mic off; on the
 /// stage also ready, count-in, playing and paused (S13 menu).
 struct ExerciseView: View {
+    @AppStorage("showFingers") private var showFingers = true
     @Environment(AppModel.self) private var model
     @Environment(AudioInput.self) private var audio
     let session: LessonSession
@@ -24,9 +25,9 @@ struct ExerciseView: View {
 
                 Group {
                     if exercise.isTimed {
-                        MovingStageView(session: session)
+                        MovingStageView(session: session, showFingers: showFingers)
                     } else {
-                        StaffView(exercise: exercise, states: session.noteStates)
+                        StaffView(exercise: exercise, states: session.noteStates, showFingers: showFingers)
                     }
                 }
                     .frame(minHeight: 180, maxHeight: 260)
