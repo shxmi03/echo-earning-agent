@@ -8,6 +8,8 @@ The iOS app lives in `replica/app/` (see its README). Built from `recon.md`, `ar
 | --- | --- | --- | --- | --- |
 | shell | 2026-11-19 | done | a tab bar (only one main screen so far) | Xcode project written by hand: folder-synced groups and a local Swift package, so it stays small and readable |
 | S01 welcome | 2026-11-19 | done | the logo (still a brief) | |
+| app icon | 2026-11-20 | placeholder | the real logo (brief in `brand.md`) | drawn by `design/make_app_icon.py`: a flat arc spanning a row of keys, in light, dark and tinted; the first two tries read as headphones (an arc over two separate shapes always does) |
+| legal links | 2026-11-20 | done | the custom domain | privacy and terms from the landing site, on the paywall and in Settings › About; one constant (`LegalLinks.site`) to change when the domain is bought |
 | price notice (fix 1) | 2026-11-19 | done | the price comes from a constant ($9.99, proposed in `launch/pricing.md`, not confirmed) until StoreKit gives the real one | |
 | S02 instrument | 2026-11-19 | done | MIDI as a choice (S24) | |
 | S03 experience and goal | 2026-11-19 | done | the placement test (fix 5); the goal is stored but not used yet | |
