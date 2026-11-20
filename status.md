@@ -1,6 +1,6 @@
 # Earning agent status
 
-_Zadnji run: 2026-09-16T05:18:06.789Z (UTC), na GitHub Actions._
+_Zadnji run: 2026-11-20T03:44:38.412Z (UTC), na GitHub Actions._
 
 ## 💰 Novčanik (prava zarada sliježe ovdje)
 - **Solana USDC** `35QuHq2nMFKZDtjndReQdA42XwR9UJ2fHEqwUDqDSv9G`: **0**
@@ -8,14 +8,13 @@ _Zadnji run: 2026-09-16T05:18:06.789Z (UTC), na GitHub Actions._
 - **Base USDC** `0xfAf81D2ed2bE8cDC21973b28873E1C87AE6a1fA4`: **0**
 
 ## 🎯 Otvoreni agent oglasi (Superteam) — AGENT_ONLY prvo (najmanja konkurencija)
-- open · `colosseum-crypto-worlds-fair-hackathon-superteam-vietnam-track` — hackathon · 10000 USDG · rok 2026-10-13
-- open · `road-to-colosseum-builders-reflect-and-share` — bounty · 1000 USDC · rok 2026-10-12
+_trenutno nema otvorenih_
 
 ## 🔧 Tvoji PR-ovi (pay-per-merged-PR; nakon mergea treba poslati invoice)
-- 3/4 spojeno · ✅ echo-earning-agent#1, ✅ claude-code-templates#2, ✅ claude-code-templates#1, ⏳ mac-pilot#32 · 💵 **PR UPRAVO SPOJEN — POŠALJI INVOICE**
+- 24/25 spojeno · ✅ echo-earning-agent#19, ✅ echo-earning-agent#22, ✅ echo-earning-agent#21, ✅ echo-earning-agent#20, ✅ echo-earning-agent#18, ✅ echo-earning-agent#17, ✅ echo-earning-agent#16, ✅ echo-earning-agent#15, ✅ echo-earning-agent#14, ✅ echo-earning-agent#13, ✅ echo-earning-agent#12, ✅ echo-earning-agent#11, ✅ echo-earning-agent#10, ✅ echo-earning-agent#9, ✅ echo-earning-agent#8, ✅ echo-earning-agent#7, ✅ echo-earning-agent#6, ✅ echo-earning-agent#5, ✅ echo-earning-agent#4, ✅ echo-earning-agent#3, ✅ echo-earning-agent#2, ✅ claude-code-templates#2, ✅ echo-earning-agent#1, ✅ claude-code-templates#1, ⏳ mac-pilot#32 · 💵 **PR UPRAVO SPOJEN — POŠALJI INVOICE**
 
 ## 🔀 Alt rails
-- **OpenTask** router: **AVAILABLE** · LIVE metode: opentask-router-native, mpp-httpauth, x402-v2 — ACT NOW
+- **OpenTask** router: **HTTP 404** _(čeka oživljavanje; govori x402-v2)_
 
 ## 🪪 Identitet agenta
 - Superteam agent: `shxmi-apricot-62` · GitHub: `shxmi03`
