@@ -108,6 +108,31 @@ do $$ begin
   end;
 end $$;
 
+-- ---- waitlist: visitors can add an email and nothing else
+do $$ begin
+  insert into waitlist (email) values ('visitor@example.com');
+  begin
+    insert into waitlist (email) values ('VISITOR@example.com');
+    raise exception 'the same address twice must be refused';
+  exception when unique_violation then null;
+  end;
+  begin
+    insert into waitlist (email) values ('not an email');
+    raise exception 'a malformed address must be refused';
+  exception when check_violation then null;
+  end;
+  begin
+    perform count(*) from waitlist;
+    raise exception 'visitors must not read the waitlist';
+  exception when insufficient_privilege then null;
+  end;
+  begin
+    delete from waitlist;
+    raise exception 'visitors must not delete from the waitlist';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+
 -- ---- delete-account: removing the auth user removes everything
 reset role;
 do $$ begin
@@ -119,6 +144,7 @@ do $$ begin
   assert (select count(*) from attempts) = 0, 'attempts gone';
   assert (select count(*) from lesson_progress) = 0, 'progress gone';
   assert (select count(*) from streaks) = 0, 'streak gone';
+  assert (select count(*) from waitlist) = 1, 'one waitlist row from the visitor';
 end $$;
 
 \echo 'All database checks passed.'
