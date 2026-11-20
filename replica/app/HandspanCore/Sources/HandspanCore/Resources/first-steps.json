@@ -2,7 +2,7 @@
   "id": "d4d397f6-e393-5d7e-a830-239b9a8c6949",
   "title": "First steps",
   "isFree": true,
-  "contentVersion": 3,
+  "contentVersion": 4,
   "summary": "Find your way around the keys, read your first notes and play your first song with your right hand.",
   "lessons": [
     {
@@ -1456,6 +1456,14 @@
           ]
         }
       ]
+    }
+  ],
+  "gates": [
+    {
+      "id": "3485bb09-53e1-5cdc-b4f7-bad8d5004c61",
+      "title": "Ready for the song",
+      "before": "a9d032ab-362f-5115-b815-72c26246d782",
+      "starsRequired": 10
     }
   ]
 }

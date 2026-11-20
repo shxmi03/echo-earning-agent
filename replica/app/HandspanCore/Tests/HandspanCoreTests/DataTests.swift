@@ -126,3 +126,93 @@ private func attempt(lesson: String, stars: Int, profile: UUID = UUID(), at: Dat
         #expect(store.load() == LocalState())
     }
 }
+
+@Suite struct StarGateTests {
+    let course: Course
+
+    init() throws { course = try SeedContent.firstCourse() }
+
+    private var gate: StarGate { course.gates[0] }
+    private var song: Lesson { course.lessons.last! }
+    private var beforeSong: [Lesson] { Array(course.lessons.dropLast()) }
+
+    @Test func firstCourseHasOneGateBeforeTheSong() throws {
+        #expect(course.gates.count == 1)
+        #expect(gate.before == song.id)
+        #expect(song.kind == .song)
+        #expect(course.lessons(countingToward: gate).map(\.id) == beforeSong.map(\.id))
+        // Reachable, and not a formality: more than one star per lesson, less than three.
+        let most = beforeSong.count * 3
+        #expect(gate.starsRequired > beforeSong.count && gate.starsRequired < most)
+        #expect(course.gates.allSatisfy { UUID(uuidString: $0.id) != nil })
+    }
+
+    @Test func gateLockedUntilTheLessonsBeforeItAreDone() {
+        var state = LocalState()
+        #expect(state.state(of: gate, in: course) == .locked(.init(earned: 0, required: gate.starsRequired)))
+        state.record(attempt(lesson: beforeSong[0].id, stars: 3))
+        if case .locked(let p) = state.state(of: gate, in: course) { #expect(p.earned == 3) } else { Issue.record("expected locked") }
+        #expect(state.state(of: song, in: course) == .locked)
+    }
+
+    @Test func shortOfStarsNamesTheLessonToReplay() {
+        var state = LocalState()
+        for (i, lesson) in beforeSong.enumerated() {
+            state.record(attempt(lesson: lesson.id, stars: i == 2 ? 1 : 2))   // 2+2+1+2+2 = 9
+        }
+        let p = state.progress(of: gate, in: course)
+        #expect(p.earned == 9 && !p.isOpen && p.missing == 1)
+        #expect(state.state(of: gate, in: course) == .current(p))
+        #expect(state.nextLesson(in: course) == nil)
+        #expect(state.state(of: song, in: course) == .locked)
+        #expect(state.nextStep(in: course) == .gate(gate, p, replay: beforeSong[2]))   // the 1-star lesson
+    }
+
+    @Test func replayingOpensTheGate() {
+        var state = LocalState()
+        for lesson in beforeSong { state.record(attempt(lesson: lesson.id, stars: 2)) }
+        if gate.starsRequired > beforeSong.count * 2 {
+            state.record(attempt(lesson: beforeSong[0].id, stars: 3))
+        }
+        #expect(state.progress(of: gate, in: course).isOpen)
+        #expect(state.state(of: gate, in: course) == .open)
+        #expect(state.nextLesson(in: course)?.id == song.id)
+        #expect(state.state(of: song, in: course) == .current)
+        #expect(state.nextStep(in: course) == .lesson(song))
+        state.record(attempt(lesson: song.id, stars: 1))
+        #expect(state.nextStep(in: course) == .finished)
+    }
+
+    @Test func tiesReplayTheEarliestLesson() {
+        var state = LocalState()
+        for lesson in beforeSong { state.record(attempt(lesson: lesson.id, stars: 1)) }
+        guard case .gate(_, _, let replay) = state.nextStep(in: course) else { Issue.record("expected a gate"); return }
+        #expect(replay.id == beforeSong[0].id)
+    }
+
+    @Test func contentWithoutGatesStillDecodes() throws {
+        let data = try JSONEncoder().encode(course)
+        guard var object = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            Issue.record("the course didn't encode to a JSON object")
+            return
+        }
+        object.removeValue(forKey: "gates")
+        let old = try JSONDecoder().decode(Course.self, from: JSONSerialization.data(withJSONObject: object))
+        #expect(old.gates.isEmpty)
+        var state = LocalState()
+        for lesson in old.lessons.dropLast() { state.record(attempt(lesson: lesson.id, stars: 1)) }
+        #expect(state.nextLesson(in: old)?.id == old.lessons.last?.id)   // no gate in the way
+    }
+
+    @Test func gatesRoundTrip() throws {
+        let again = try JSONDecoder().decode(Course.self, from: JSONEncoder().encode(course))
+        #expect(again == course)
+    }
+
+    @Test func comingSoonCourses() throws {
+        let soon = try SeedContent.comingSoon()
+        #expect(!soon.isEmpty)
+        #expect(soon.allSatisfy { UUID(uuidString: $0.id) != nil && $0.id != course.id })
+        #expect(Set(soon.map(\.id)).count == soon.count)
+    }
+}

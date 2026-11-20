@@ -21,7 +21,8 @@ struct HomeView: View {
                         SyncBanner()
                     }
 
-                    if let lesson = model.nextLesson {
+                    switch model.nextStep {
+                    case .lesson(let lesson):
                         FocusCard(
                             courseTitle: model.course.title,
                             courseProgress: model.state.completion(of: model.course),
@@ -32,25 +33,25 @@ struct HomeView: View {
                             upNext: model.course.lesson(after: lesson.id)?.title ?? "The end of the course",
                             start: { activeLesson = lesson }
                         )
-                    } else {
+                    case .gate(let gate, let progress, let replay):
+                        // Fix 4: never a dead end. Name the lesson with the most to gain.
+                        FocusCard(
+                            courseTitle: model.course.title,
+                            courseProgress: model.state.completion(of: model.course),
+                            eyebrow: "Checkpoint · \(progress.earned) of \(progress.required) stars",
+                            title: gate.title,
+                            summary: "\(progress.missing) more \(progress.missing == 1 ? "star" : "stars") from \(model.lessonRange(for: gate)) "
+                                + "opens the next lesson. \(replay.title) has the most to gain.",
+                            duration: "\(replay.minutes) min",
+                            upNext: model.course.lessons.first { $0.id == gate.before }?.title ?? "The next lesson",
+                            actionTitle: "Replay lesson \(model.lessonNumber(replay))",
+                            start: { activeLesson = replay }
+                        )
+                    case .finished:
                         CourseDoneCard()
                     }
 
-                    Button {
-                        showPath = true
-                    } label: {
-                        HStack {
-                            Label("All lessons in \(model.course.title)", systemImage: "list.bullet")
-                            Spacer()
-                            Image(systemName: "chevron.right").foregroundStyle(Palette.textMuted)
-                        }
-                        .font(TextStyle.headline)
-                        .foregroundStyle(Palette.text)
-                        .padding(Layout.cardPadding)
-                        .frame(minHeight: Layout.minTarget)
-                        .frostedCard(radius: Radius.inner)
-                    }
-                    .buttonStyle(.plain)
+                    CourseRow(openCourse: { showPath = true })
 
                     VStack(alignment: .leading, spacing: Space.sm) {
                         if let line = model.streak?.line {

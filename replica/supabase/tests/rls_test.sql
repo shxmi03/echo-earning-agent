@@ -13,7 +13,9 @@ select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111
 
 do $$ begin
   assert (select count(*) from courses) = 1, 'signed-in users see the published course';
-  assert (select count(*) from lessons) = 6, 'and its six lessons (five and the first song)';
+  assert (select count(*) from lessons) = 7, 'and its seven rows (five lessons, a star gate, the first song)';
+  assert (select position from lessons where kind = 'star_gate') = 6
+     and (select position from lessons where kind = 'song') = 7, 'the gate stands right before the song';
 end $$;
 
 insert into profiles (id, account_id, name, input_mode, experience)
