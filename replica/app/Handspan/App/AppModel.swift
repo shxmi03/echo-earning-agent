@@ -47,7 +47,12 @@ final class AppModel {
         } else {
             backend = FakeBackend()
         }
-        return AppModel(backend: backend, store: try? LocalStore.standard(), course: course)
+        let store = try? LocalStore.standard()
+        #if DEBUG
+        // UI tests (HandspanUITests) start every run from a fresh install's state.
+        if ProcessInfo.processInfo.environment["HANDSPAN_RESET_STATE"] == "1" { try? store?.erase() }
+        #endif
+        return AppModel(backend: backend, store: store, course: course)
     }
 
     /// For SwiftUI previews: nothing touches the disk.

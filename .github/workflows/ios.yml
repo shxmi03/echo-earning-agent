@@ -53,3 +53,50 @@ jobs:
         with:
           name: xcodebuild-log
           path: replica/app/build.log
+
+  ui-tests:
+    name: UI tests (iOS Simulator)
+    runs-on: macos-26
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pick the newest iPhone simulator
+        id: sim
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, subprocess
+          devices = json.loads(subprocess.check_output(
+              ["xcrun", "simctl", "list", "devices", "available", "--json"]))["devices"]
+          best = None
+          for runtime, devs in devices.items():
+              if ".iOS-" not in runtime:
+                  continue
+              version = tuple(int(x) for x in runtime.split(".iOS-")[1].split("-"))
+              for dev in devs:
+                  if dev["name"].startswith("iPhone") and (best is None or version > best[0]):
+                      best = (version, dev["udid"], dev["name"])
+          print("udid=" + best[1])
+          print("name=" + best[2])
+          PY
+          cat "$GITHUB_OUTPUT"
+      - name: Test
+        working-directory: replica/app
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project Handspan.xcodeproj \
+            -scheme Handspan \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -only-testing:HandspanUITests \
+            -derivedDataPath build \
+            -resultBundlePath UITests.xcresult \
+            | tee test.log | grep -E "Test Case|error:|\*\* TEST (SUCCEEDED|FAILED)" || true
+          grep -q "\*\* TEST SUCCEEDED" test.log
+      - name: Upload the test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-tests
+          path: |
+            replica/app/UITests.xcresult
+            replica/app/test.log
