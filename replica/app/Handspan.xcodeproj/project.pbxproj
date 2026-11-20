@@ -10,14 +10,30 @@
 		EA4403162BA0E46348D999AC /* HandspanCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4E951F745C4A21D54DE9175C /* HandspanCore */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		82FC8094E25A5B36CDE43FB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6439CF22188FA14BBD363342;
+			remoteInfo = Handspan;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		7BCCADA3021C07D12E775CB5 /* Handspan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Handspan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		751B7814242D0F719F1E4CD3 /* HandspanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HandspanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FFD2720C740B436F7714AF22 /* Handspan */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Handspan;
+			sourceTree = "<group>";
+		};
+		338B6CD8E7EF4AAC566B56F7 /* HandspanUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HandspanUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -31,6 +47,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2F021462C547E1D8D15CFA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -38,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				FFD2720C740B436F7714AF22 /* Handspan */,
+				338B6CD8E7EF4AAC566B56F7 /* HandspanUITests */,
 				BF7A2D27A78D590BDEF15AF2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				7BCCADA3021C07D12E775CB5 /* Handspan.app */,
+				751B7814242D0F719F1E4CD3 /* HandspanUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,6 +101,29 @@
 			productReference = 7BCCADA3021C07D12E775CB5 /* Handspan.app */;
 			productType = "com.apple.product-type.application";
 		};
+		0BF6E2E4D6EF8D1911A1248E /* HandspanUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6239DB5A3DB549C9D73616E2 /* Build configuration list for PBXNativeTarget "HandspanUITests" */;
+			buildPhases = (
+				3B6D48223A93368E4489F93E /* Sources */,
+				B2F021462C547E1D8D15CFA4 /* Frameworks */,
+				4674A634A0472B45944F2F29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8B6CB1001706F0A635A35AD2 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				338B6CD8E7EF4AAC566B56F7 /* HandspanUITests */,
+			);
+			name = HandspanUITests;
+			packageProductDependencies = (
+			);
+			productName = HandspanUITests;
+			productReference = 751B7814242D0F719F1E4CD3 /* HandspanUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -88,6 +136,10 @@
 				TargetAttributes = {
 					6439CF22188FA14BBD363342 = {
 						CreatedOnToolsVersion = 26.0;
+					};
+					0BF6E2E4D6EF8D1911A1248E = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 6439CF22188FA14BBD363342;
 					};
 				};
 			};
@@ -109,12 +161,20 @@
 			projectRoot = "";
 			targets = (
 				6439CF22188FA14BBD363342 /* Handspan */,
+				0BF6E2E4D6EF8D1911A1248E /* HandspanUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		55B558C7EF820E6E00E5993B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4674A634A0472B45944F2F29 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -131,7 +191,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3B6D48223A93368E4489F93E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8B6CB1001706F0A635A35AD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6439CF22188FA14BBD363342 /* Handspan */;
+			targetProxy = 82FC8094E25A5B36CDE43FB4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		EC86DC4F4B4C60C3EC031655 /* Debug */ = {
@@ -262,6 +337,44 @@
 			};
 			name = Release;
 		};
+		D7AF210356C1574A1CA47126 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.handspan.ios.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Handspan;
+			};
+			name = Debug;
+		};
+		3289BD8E8F567FF7FC42E682 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.handspan.ios.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Handspan;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -279,6 +392,15 @@
 			buildConfigurations = (
 				8CBC338D09B9279147FBD852 /* Debug */,
 				C286FC8B91125F435CB47F15 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6239DB5A3DB549C9D73616E2 /* Build configuration list for PBXNativeTarget "HandspanUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D7AF210356C1574A1CA47126 /* Debug */,
+				3289BD8E8F567FF7FC42E682 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

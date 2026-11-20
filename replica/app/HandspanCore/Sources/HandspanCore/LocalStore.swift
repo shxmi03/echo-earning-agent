@@ -65,14 +65,69 @@ public struct LocalState: Codable, Sendable, Equatable {
 
     public enum LessonState: Equatable, Sendable { case done(stars: Int), current, locked }
 
-    /// Lessons open in order: the first one not done is current, the rest are locked.
+    /// Lessons open in order: the first one not done is current, the rest are locked. A
+    /// lesson behind a star gate that isn't open yet stays locked.
     public func state(of lesson: Lesson, in course: Course) -> LessonState {
         if let p = progress[lesson.id], p.done { return .done(stars: p.bestStars) }
         return nextLesson(in: course)?.id == lesson.id ? .current : .locked
     }
 
+    /// The next lesson to play in order, or nil when the course is done or a gate is
+    /// in the way (then `nextStep` names the lesson to replay).
     public func nextLesson(in course: Course) -> Lesson? {
-        course.lessons.first { progress[$0.id]?.done != true }
+        guard let lesson = course.lessons.first(where: { progress[$0.id]?.done != true }) else { return nil }
+        if let gate = course.gate(before: lesson.id), !progress(of: gate, in: course).isOpen { return nil }
+        return lesson
+    }
+
+    // MARK: Star gates (S09)
+
+    public struct GateProgress: Equatable, Sendable {
+        public let earned: Int
+        public let required: Int
+        public var isOpen: Bool { earned >= required }
+        public var missing: Int { max(0, required - earned) }
+    }
+
+    public enum GateState: Equatable, Sendable {
+        /// Enough stars: the lesson behind it is open.
+        case open
+        /// Every lesson before it is done, but short of stars: replay one.
+        case current(GateProgress)
+        /// Lessons before it still to play.
+        case locked(GateProgress)
+    }
+
+    /// Stars earned toward a gate: the best result of each lesson that counts.
+    public func progress(of gate: StarGate, in course: Course) -> GateProgress {
+        let earned = course.lessons(countingToward: gate).reduce(0) { $0 + (progress[$1.id]?.bestStars ?? 0) }
+        return GateProgress(earned: earned, required: gate.starsRequired)
+    }
+
+    public func state(of gate: StarGate, in course: Course) -> GateState {
+        let p = progress(of: gate, in: course)
+        if p.isOpen { return .open }
+        let counted = course.lessons(countingToward: gate)
+        return counted.allSatisfy({ progress[$0.id]?.done == true }) ? .current(p) : .locked(p)
+    }
+
+    /// What Home offers next (S07).
+    public enum NextStep: Equatable, Sendable {
+        case lesson(Lesson)
+        /// A gate to open: replay `replay`, the counted lesson with the most stars to gain.
+        case gate(StarGate, GateProgress, replay: Lesson)
+        case finished
+    }
+
+    public func nextStep(in course: Course) -> NextStep {
+        if let lesson = nextLesson(in: course) { return .lesson(lesson) }
+        guard let blocked = course.lessons.first(where: { progress[$0.id]?.done != true }),
+              let gate = course.gate(before: blocked.id) else { return .finished }
+        let counted = course.lessons(countingToward: gate)
+        // The first lesson with the fewest stars: the most to gain, earliest in the course.
+        guard let replay = counted.min(by: { (progress[$0.id]?.bestStars ?? 0) < (progress[$1.id]?.bestStars ?? 0) })
+        else { return .finished }
+        return .gate(gate, progress(of: gate, in: course), replay: replay)
     }
 
     /// Share of the course's lessons done, 0...1.

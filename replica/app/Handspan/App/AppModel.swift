@@ -11,6 +11,8 @@ final class AppModel {
     let backend: any Backend
     private let store: LocalStore?
     let course: Course
+    /// Courses on the course map (S07) that have no lessons yet.
+    let comingSoon: [CourseAnnouncement]
 
     private(set) var state: LocalState
     private(set) var syncStatus: SyncStatus = .synced
@@ -23,10 +25,12 @@ final class AppModel {
     var draftExperience: Experience = .beginner
     var draftGoal: Goal?
 
-    init(backend: any Backend, store: LocalStore?, course: Course) {
+    init(backend: any Backend, store: LocalStore?, course: Course,
+         comingSoon: [CourseAnnouncement] = (try? SeedContent.comingSoon()) ?? []) {
         self.backend = backend
         self.store = store
         self.course = course
+        self.comingSoon = comingSoon
         self.state = store?.load() ?? LocalState()
         syncStatus = state.pendingAttempts.isEmpty ? .synced : .pending
     }
@@ -43,7 +47,12 @@ final class AppModel {
         } else {
             backend = FakeBackend()
         }
-        return AppModel(backend: backend, store: try? LocalStore.standard(), course: course)
+        let store = try? LocalStore.standard()
+        #if DEBUG
+        // UI tests (HandspanUITests) start every run from a fresh install's state.
+        if ProcessInfo.processInfo.environment["HANDSPAN_RESET_STATE"] == "1" { try? store?.erase() }
+        #endif
+        return AppModel(backend: backend, store: store, course: course)
     }
 
     /// For SwiftUI previews: nothing touches the disk.
@@ -117,6 +126,17 @@ final class AppModel {
     // MARK: Lessons
 
     var nextLesson: Lesson? { state.nextLesson(in: course) }
+
+    /// What Home offers: the next lesson, a star gate to open, or the end of the course.
+    var nextStep: LocalState.NextStep { state.nextStep(in: course) }
+
+    /// "lessons 1 to 5": the lessons counting toward a gate, by number.
+    func lessonRange(for gate: StarGate) -> String {
+        let counted = course.lessons(countingToward: gate)
+        guard let first = counted.first, let last = counted.last else { return "the lessons before it" }
+        let a = lessonNumber(first), b = lessonNumber(last)
+        return a == b ? "lesson \(a)" : "lessons \(a) to \(b)"
+    }
 
     func lessonNumber(_ lesson: Lesson) -> Int {
         (course.lessons.firstIndex(of: lesson) ?? 0) + 1

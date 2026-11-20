@@ -183,6 +183,7 @@ struct FocusCard: View {
     let summary: String
     let duration: String
     let upNext: String
+    var actionTitle = "Start lesson"
     var start: () -> Void
 
     var body: some View {
@@ -212,7 +213,7 @@ struct FocusCard: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: Space.xl)
                 HStack {
-                    Button("Start lesson", action: start).buttonStyle(.primary)
+                    Button(actionTitle, action: start).buttonStyle(.primary)
                     Spacer()
                     Label(duration, systemImage: "clock")
                         .font(TextStyle.footnote).foregroundStyle(Palette.textMuted)

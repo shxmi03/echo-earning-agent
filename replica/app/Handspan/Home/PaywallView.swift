@@ -97,9 +97,7 @@ struct PaywallView: View {
             HStack(spacing: Space.lg) {
                 Button("Restore purchases") { restore() }
                 Link("Terms of Use", destination: LegalLinks.terms)
-                if let privacy = LegalLinks.privacy {
-                    Link("Privacy", destination: privacy)
-                }
+                Link("Privacy", destination: LegalLinks.privacy)
             }
             .font(TextStyle.footnote)
         }
@@ -182,9 +180,11 @@ struct PlanCard: View {
     }
 }
 
-/// Apple's standard licence until our own terms exist; the privacy policy is a launch
-/// blocker (launch/launch-plan.md) and its link appears once it has a URL.
+/// The terms and the privacy policy live on the landing site (`replica/launch/site/`).
+/// App Review 3.1.2 wants both linked from the paywall. When the domain is bought, change
+/// `site` and nothing else.
 enum LegalLinks {
-    static let terms = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
-    static let privacy: URL? = nil
+    static let site = URL(string: "https://handspan.vercel.app")!
+    static let terms = site.appending(path: "terms.html")
+    static let privacy = site.appending(path: "privacy.html")
 }

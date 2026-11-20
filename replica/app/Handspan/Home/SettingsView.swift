@@ -85,6 +85,11 @@ struct SettingsView: View {
                     }
                 }
 
+                Section("About") {
+                    Link("Privacy policy", destination: LegalLinks.privacy)
+                    Link("Terms of use", destination: LegalLinks.terms)
+                }
+
                 Section {
                     Button(role: .destructive) {
                         confirmDelete = true
