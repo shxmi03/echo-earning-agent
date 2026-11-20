@@ -54,6 +54,45 @@ jobs:
           name: xcodebuild-log
           path: replica/app/build.log
 
+  device-build:
+    # An unsigned build for a real iPhone. Download the "Handspan-iphone" artifact,
+    # unzip it and run `xtool install Handspan.app`: xtool signs it with your own
+    # Apple ID (a free one works, for 7 days) and installs it over USB.
+    # Steps in Croatian: replica/app/INSTALL-IPHONE.md
+    name: App build (iPhone, unsigned)
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        working-directory: replica/app
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project Handspan.xcodeproj \
+            -scheme Handspan \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            | tee build.log | grep -E "error:|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" build.log
+      - name: Zip the app
+        working-directory: replica/app/build/Build/Products/Release-iphoneos
+        run: ditto -c -k --keepParent Handspan.app "$GITHUB_WORKSPACE/Handspan-iphone.zip"
+      - name: Upload the app
+        uses: actions/upload-artifact@v4
+        with:
+          name: Handspan-iphone
+          path: Handspan-iphone.zip
+          retention-days: 14
+      - name: Upload the build log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-device-log
+          path: replica/app/build.log
+
   ui-tests:
     name: UI tests (iOS Simulator)
     runs-on: macos-26
