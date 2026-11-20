@@ -58,10 +58,11 @@ final class HandspanUITests: XCTestCase {
         let app = launch()
         onboard(app)
         tap(app.buttons.matching(label: "Settings"), "Settings")
-        XCTAssertTrue(element(app, startingWith: "Privacy policy").waitForExistence(timeout: 5))
-        XCTAssertTrue(element(app, startingWith: "Terms of use").exists)
+        // Settings is a Form: rows below the fold aren't in the hierarchy until scrolled to.
+        XCTAssertTrue(scroll(app, to: element(app, startingWith: "Privacy policy")), "Privacy policy in Settings")
+        XCTAssertTrue(scroll(app, to: element(app, startingWith: "Terms of use")), "Terms of use in Settings")
 
-        app.swipeUp()
+        XCTAssertTrue(scroll(app, to: app.buttons.matching(label: "Delete account").firstMatch), "Delete account")
         tap(app.buttons.matching(label: "Delete account"), "Delete account")
         // The confirmation dialog repeats the same title; the last match is its button.
         tap(app.buttons.matching(label: "Delete account"), "Delete account (confirm)")
@@ -128,6 +129,16 @@ final class HandspanUITests: XCTestCase {
             pause(0.25)
         } while Date() < deadline
         XCTFail("Couldn't tap \(what)", file: file, line: line)
+    }
+
+    /// Swipes up until `target` is on screen (at most `swipes` times). True if it got there.
+    @MainActor
+    private func scroll(_ app: XCUIApplication, to target: XCUIElement, swipes: Int = 8) -> Bool {
+        for _ in 0...swipes {
+            if target.waitForExistence(timeout: 1), target.isHittable { return true }
+            app.swipeUp()
+        }
+        return target.exists && target.isHittable
     }
 
     /// Types into the text field that's on screen.
