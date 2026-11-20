@@ -39,6 +39,16 @@
                ReferencedContainer = "container:HandspanCore">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0BF6E2E4D6EF8D1911A1248E"
+               BuildableName = "HandspanUITests.xctest"
+               BlueprintName = "HandspanUITests"
+               ReferencedContainer = "container:Handspan.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
