@@ -85,4 +85,8 @@ To do before it can take real money, all in App Store Connect and all yours (it 
 - [x] uploads: none
 - [x] no user data in URLs or logs: profile id in a query string only, the edge function logs no email or id
 - [x] dependencies: none in the app; the edge function uses `@supabase/supabase-js@2` only
-- [ ] privacy policy lists every processor: Supabase (database, auth), later Resend, Apple. Write it before TestFlight
+- [x] privacy policy lists every processor (Supabase, Resend, Apple, Vercel): `launch/site/privacy.html`, live at https://handspan.vercel.app/privacy.html. Contact email still to add
+
+## Waitlist (2026-11-20)
+
+`public.waitlist` (migration `20261120000200_waitlist.sql`, applied to the hosted project). Visitors can insert `email` and `source` with the publishable key and nothing else: no select, update or delete. One row per address, case-insensitive (a repeat returns 409, which the landing page treats as success). Read the list in the dashboard Table Editor or with the service role. Tested in `supabase/tests/rls_test.sql`.

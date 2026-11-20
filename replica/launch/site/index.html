@@ -212,8 +212,9 @@
     <div class="wrap">
       <h2>Ten minutes a day, on your own piano.</h2>
       <p>Start the free course. You'll know within a week if it's for you.</p>
-      <!-- Set data-endpoint to your waitlist form URL (for example a Supabase edge function or a form service). Until then the form says so. -->
-      <form class="wl" data-endpoint="" novalidate>
+      <!-- Posts to the Supabase waitlist table (insert-only for visitors, see supabase/migrations/20261120000200_waitlist.sql).
+           The publishable key is public by design, the same one that ships in the app. -->
+      <form class="wl" data-endpoint="https://ypvscfhwywxjnjzhcmqq.supabase.co/rest/v1/waitlist" data-key="sb_publishable_H0Tsfl0OOXE5Fm0ogy1AmA_hiyJF4vd" novalidate>
         <label class="sr" for="email">Email</label>
         <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
         <button class="btn" type="submit">Join the waitlist</button>
@@ -225,7 +226,7 @@
 
 <footer>
   <div class="wrap">
-    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:support@example.com">Support</a></nav>
+    <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
     <p>© 2026 Handspan (working name). Not affiliated with any other piano app.</p>
   </div>
 </footer>
@@ -241,8 +242,13 @@
       var url = form.getAttribute('data-endpoint');
       if (!url) { msg.textContent = 'The waitlist opens soon. Nothing was sent.'; return; }
       msg.textContent = 'Sending…';
-      fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-        .then(function (r) { msg.textContent = r.ok ? "You're on the list. We'll write once, when it's ready." : 'That didn’t go through. Try again in a minute.'; })
+      var key = form.getAttribute('data-key');
+      fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': key, 'Prefer': 'return=minimal' }, body: JSON.stringify({ email: email, source: 'landing' }) })
+        .then(function (r) {
+          // 409 means the address is already on the list, which is fine.
+          if (r.ok || r.status === 409) { msg.textContent = "You're on the list. We'll write once, when it's ready."; form.reset(); }
+          else { msg.textContent = 'That didn’t go through. Try again in a minute.'; }
+        })
         .catch(function () { msg.textContent = 'No connection. Try again in a minute.'; });
     });
   })();
